@@ -1,0 +1,6 @@
+[package]
+name = "swc_macro_condition_transform"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]

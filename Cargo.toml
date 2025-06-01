@@ -1,6 +1,10 @@
-[package]
-name = "swc_macro_sys"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+members = ["crates/*"]
 
-[dependencies]
+[workspace.dependencies]
+regex = "1.11.1"
+swc_core = { version = "26.0.0", features = [
+    "ecma_ast",
+    "ecma_parser",
+    "common",
+] }
