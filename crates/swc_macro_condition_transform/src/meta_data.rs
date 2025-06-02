@@ -10,6 +10,7 @@ use swc_core::{
 
 pub trait Metadata {
     fn query(&self, path: &str) -> Option<&Value>;
+    fn evaluate_bool(&self, path: &str) -> bool;
 }
 
 impl Metadata for Value {
@@ -19,6 +20,20 @@ impl Metadata for Value {
             v = v?.get(seg);
         }
         v
+    }
+
+    fn evaluate_bool(&self, path: &str) -> bool {
+        let Some(value) = self.query(path) else {
+            return false;
+        };
+
+        // For simplication, we only evaluate values of bool type.
+        // We may evaluate other types like javascript
+        if let Some(bool) = value.as_bool() {
+            return bool;
+        }
+
+        false
     }
 }
 

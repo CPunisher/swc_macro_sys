@@ -57,8 +57,7 @@ pub fn main() {
                 },
                 "featureFlags": {
                     "newMobileUI": true,
-                    "enableFeatureA": true,
-                    "enableFeatureB": false,
+                    "enableNewFeature": false,
                     "newUserProfile": false
                 }
             }),

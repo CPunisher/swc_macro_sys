@@ -24,17 +24,14 @@ impl MacroParser {
         MacroParser { namespace }
     }
 
-    pub fn parse(&self, swc_comments: &SingleThreadedComments) -> HashMap<BytePos, Vec<MacroNode>> {
+    pub fn parse(&self, swc_comments: &SingleThreadedComments) -> Vec<(BytePos, MacroNode)> {
         let (mut leading, mut trailing) = swc_comments.borrow_all_mut();
 
-        let mut macros = HashMap::new();
+        let mut macros = Vec::new();
         for (ast_pos, comments) in leading.iter_mut().chain(trailing.iter_mut()) {
             comments.retain(|comment| {
                 if let Some(macro_node) = self.parse_macro(comment) {
-                    macros
-                        .entry(*ast_pos)
-                        .or_insert_with(Vec::new)
-                        .push(macro_node);
+                    macros.push((*ast_pos, macro_node));
                     return false;
                 }
                 true
