@@ -24,23 +24,27 @@ impl MacroParser {
         MacroParser { namespace }
     }
 
-    pub fn parse(&self, swc_comments: &SingleThreadedComments) -> Vec<MacroNode> {
-        let (leading, trailing) = swc_comments.borrow_all();
+    pub fn parse(&self, swc_comments: &SingleThreadedComments) -> HashMap<BytePos, Vec<MacroNode>> {
+        let (mut leading, mut trailing) = swc_comments.borrow_all_mut();
 
-        let mut macros = Vec::new();
-        for (ast_pos, comments) in leading.iter().chain(trailing.iter()) {
-            for comment in comments {
-                if let Some(macro_node) = self.parse_macro(*ast_pos, comment) {
-                    macros.push(macro_node);
+        let mut macros = HashMap::new();
+        for (ast_pos, comments) in leading.iter_mut().chain(trailing.iter_mut()) {
+            comments.retain(|comment| {
+                if let Some(macro_node) = self.parse_macro(comment) {
+                    macros
+                        .entry(*ast_pos)
+                        .or_insert_with(Vec::new)
+                        .push(macro_node);
+                    return false;
                 }
-            }
+                true
+            });
         }
 
-        macros.sort_by_key(|m| m.span);
         macros
     }
 
-    fn parse_macro(&self, ast_pos: BytePos, comment: &Comment) -> Option<MacroNode> {
+    fn parse_macro(&self, comment: &Comment) -> Option<MacroNode> {
         let caps = MACRO_REGEX.captures_iter(&comment.text).next()?;
         let namespace = caps.name("namespace")?;
         if namespace.as_str() != self.namespace {
@@ -70,7 +74,6 @@ impl MacroParser {
 
         let macro_node = MacroNode {
             span: comment.span,
-            ast_pos: ast_pos,
             namespace: namespace.as_str().to_owned(),
             directive: directive.as_str().to_owned(),
             attrs,
@@ -80,10 +83,10 @@ impl MacroParser {
     }
 }
 
+/// Flatten untyped ast node
 #[derive(Debug)]
 pub struct MacroNode {
     pub span: Span,
-    pub ast_pos: BytePos,
     pub namespace: String,
     pub directive: String,
     pub attrs: HashMap<String, String>,

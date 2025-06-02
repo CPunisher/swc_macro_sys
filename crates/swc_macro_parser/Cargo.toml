@@ -5,4 +5,8 @@ edition = "2024"
 
 [dependencies]
 regex = { workspace = true }
-swc_core = { workspace = true }
+swc_core = { workspace = true, features = [
+    "ecma_ast",
+    "ecma_parser",
+    "common",
+] }
