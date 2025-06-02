@@ -4,3 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+serde_json = { workspace = true }
+swc_core = { workspace = true, features = ["ecma_ast", "ecma_visit"] }
+
+swc_macro_parser = { workspace = true }
+
+[dev-dependencies]
+swc_core = { workspace = true, features = ["ecma_codegen"] }

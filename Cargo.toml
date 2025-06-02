@@ -3,8 +3,8 @@ members = ["crates/*"]
 
 [workspace.dependencies]
 regex = "1.11.1"
-swc_core = { version = "26.0.0", features = [
-    "ecma_ast",
-    "ecma_parser",
-    "common",
-] }
+serde_json = "1.0.140"
+swc_core = { version = "26.0.0" }
+
+swc_macro_condition_transform = { path = "./crates/swc_macro_condition_transform" }
+swc_macro_parser = { path = "./crates/swc_macro_parser" }
