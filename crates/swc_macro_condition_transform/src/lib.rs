@@ -25,7 +25,7 @@ pub fn condition_transform(
 ) -> VisitMutPass<RemoveReplaceTransformer> {
     macros.sort_by_key(|m| m.0);
 
-    // parse untyped macro nodes to directives
+    // Parse untyped macro nodes to directives
     let mut directives = Vec::new();
     let mut if_stack = Vec::new();
     for (ast_pos, macro_node) in macros {
@@ -58,7 +58,7 @@ pub fn condition_transform(
         }
     }
 
-    // evaluate directives and generate an remove/replace list
+    // Evaluate directives and generate an remove/replace list
     let mut remove_list = HashSet::new();
     let mut replace_expr_list = Vec::new();
     for directive in directives {
@@ -85,8 +85,15 @@ pub fn condition_transform(
     })
 }
 
+/// Remove or replace the ast nodes by traversing the ast.
+/// We only focus on three types of ast: `ModuleItem`, `Stmt` and `Expr`, which convers most use cases.
+/// But I'm not sure whether it's complete.
 pub struct RemoveReplaceTransformer {
+    /// `remove_list` contains a set of ranges.
+    /// If an visited ast are in one of the ranges, it will be removed.
     remove_list: HashSet<Span>,
+    /// `replace_expr_list` contains a position and a replacement.
+    /// If the start of a ast node is on the position, it will be replaced.
     replace_expr_list: Vec<(BytePos, Expr)>,
 }
 

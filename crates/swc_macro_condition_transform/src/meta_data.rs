@@ -8,8 +8,13 @@ use swc_core::{
     },
 };
 
+/// This trait provides some utilities for `serde_json::Value` to handle external metadata
 pub trait Metadata {
+    /// Query with JSONPath splitted by dot
+    ///
+    /// For example: `v.query("a.b.c")`
     fn query(&self, path: &str) -> Option<&Value>;
+    /// Evaluate bool value with JSONPath splitted by dot
     fn evaluate_bool(&self, path: &str) -> bool;
 }
 
@@ -27,7 +32,7 @@ impl Metadata for Value {
             return false;
         };
 
-        // For simplication, we only evaluate values of bool type.
+        // For simplification, we only evaluate values of bool type.
         // We may evaluate other types like javascript
         if let Some(bool) = value.as_bool() {
             return bool;

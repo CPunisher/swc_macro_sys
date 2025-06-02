@@ -6,15 +6,19 @@ use swc_core::common::{
     comments::{Comment, SingleThreadedComments},
 };
 
+/// @namespace:directive[key1="value1",key2="value2"]
 static MACRO_REGEX: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"@(?P<namespace>[^:]+):(?P<directive>[^\s\[]+)(?:\s*\[(?P<attrs>[^\]]*)\])?")
         .expect("should construct the regex")
 });
 
+/// key="value"
 static ATTR_REGEX: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r#"(?P<key>[^=\s]+)\s*=\s*"(?P<value>[^"]*)"#).expect("should construct the regex")
 });
 
+/// `MacroParser` is a regex-based parser that parses the macros in the comments.
+/// It only focus on the macros with specified namespace for performance.
 pub struct MacroParser {
     namespace: &'static str,
 }
