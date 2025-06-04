@@ -2,7 +2,7 @@ use std::fs;
 
 use serde_json::json;
 use swc_core::{
-    common::{FileName, SourceMap, comments::SingleThreadedComments, sync::Lrc},
+    common::{FileName, SourceMap, comments::SingleThreadedComments, sync::Lrc, Mark},
     ecma::{
         codegen::{
             self, Emitter, Node,
@@ -12,6 +12,8 @@ use swc_core::{
         visit::VisitMutWith,
     },
 };
+use swc_ecma_minifier::{optimize, option::{ExtraOptions, MinifyOptions}};
+use swc_ecma_transforms_base::resolver;
 use swc_macro_condition_transform::condition_transform;
 use swc_macro_parser::MacroParser;
 
@@ -64,7 +66,30 @@ pub fn main() {
             macros,
         );
         program.visit_mut_with(&mut transformer);
-        program
+        
+        // Apply resolver and optimization
+        swc_common::GLOBALS.set(&Default::default(), || {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+            let program = program.apply(resolver(unresolved_mark, top_level_mark, false));
+            
+            optimize(
+                program,
+                cm.clone(),
+                None,
+                None,
+                &MinifyOptions {
+                    compress: Some(Default::default()),
+                    mangle: None,
+                    ..Default::default()
+                },
+                &ExtraOptions {
+                    unresolved_mark,
+                    top_level_mark,
+                    mangle_name_cache: None,
+                },
+            )
+        })
     };
 
     let ret = {
