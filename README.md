@@ -23,14 +23,14 @@ Check `crates/swc_macro_condition_transform` to see how this crate works to hand
 Run `cargo run --example transform` with the following input javascript code:
 
 ```js
-/* @swc:if [condition="featureFlags.enableNewFeature"] */
+/* @common:if [condition="featureFlags.enableNewFeature"] */
 export function newFeature() {
   return "New feature is enabled!";
 }
-/* @swc:endif */
+/* @common:endif */
 
 const buildTarget =
-  /* @swc:define-inline [value="build.target" default="development"] */ "development";
+  /* @common:define-inline [value="build.target" default="development"] */ "development";
 ```
 
 The expected output is:

@@ -34,7 +34,7 @@ pub fn optimize(source: String, config: &str) -> String {
     };
 
     let macros = {
-        let parser = MacroParser::new("swc");
+        let parser = MacroParser::new("common");
 
         parser.parse(&comments)
     };

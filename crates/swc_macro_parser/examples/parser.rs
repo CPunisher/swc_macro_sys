@@ -24,7 +24,7 @@ pub fn main() {
         (program, comments)
     };
 
-    let parser = MacroParser::new("swc");
+    let parser = MacroParser::new("common");
     let macros = parser.parse(&comments);
     println!("{:?}", macros);
 }
