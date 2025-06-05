@@ -2,9 +2,11 @@
 name = "swc_macro_parser"
 version = "0.1.0"
 edition = "2024"
+publish = false
 
 [dependencies]
 regex = { workspace = true }
+rustc-hash = "2.1.1"
 swc_core = { workspace = true, features = [
     "ecma_ast",
     "ecma_parser",

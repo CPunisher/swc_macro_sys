@@ -1,5 +1,4 @@
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use swc_core::common::util::take::Take;
 use swc_core::ecma::ast::ModuleItem;
 use swc_core::{
@@ -59,7 +58,7 @@ pub fn condition_transform(
     }
 
     // Evaluate directives and generate an remove/replace list
-    let mut remove_list = HashSet::new();
+    let mut remove_list = FxHashSet::default();
     let mut replace_expr_list = Vec::new();
     for directive in directives {
         match directive {
@@ -91,7 +90,7 @@ pub fn condition_transform(
 pub struct RemoveReplaceTransformer {
     /// `remove_list` contains a set of ranges.
     /// If an visited ast are in one of the ranges, it will be removed.
-    remove_list: HashSet<Span>,
+    remove_list: FxHashSet<Span>,
     /// `replace_expr_list` contains a position and a replacement.
     /// If the start of a ast node is on the position, it will be replaced.
     replace_expr_list: Vec<(BytePos, Expr)>,

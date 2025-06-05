@@ -1,17 +1,13 @@
 [package]
-name = "swc_macro_condition_transform"
+name = "swc_macro_wasm"
 version = "0.1.0"
 edition = "2024"
 publish = false
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
-rustc-hash = "2.1.1"
-serde_json = { workspace = true }
-swc_core = { workspace = true, features = ["ecma_ast", "ecma_visit", "swc_ecma_ast"] }
-
-swc_macro_parser = { workspace = true }
-
-[dev-dependencies]
 swc_common = "11.0.3"
 swc_core = { workspace = true, features = ["ecma_codegen"] }
 swc_ecma_ast = "11.0.0"
@@ -19,3 +15,8 @@ swc_ecma_codegen = "13.2.0"
 swc_ecma_parser = "14.0.1"
 swc_ecma_transforms_base = "15.1.0"
 swc_ecma_transforms_optimization = "16.0.0"
+wasm-bindgen = "0.2.100"
+serde_json = { workspace = true }
+
+swc_macro_condition_transform = { workspace = true }
+swc_macro_parser = { workspace = true }
