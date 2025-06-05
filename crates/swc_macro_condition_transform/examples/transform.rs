@@ -37,7 +37,7 @@ pub fn main() {
     };
 
     let macros = {
-        let parser = MacroParser::new("swc");
+        let parser = MacroParser::new("common");
 
         parser.parse(&comments)
     };
