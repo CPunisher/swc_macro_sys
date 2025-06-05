@@ -22,7 +22,7 @@ function getFeatureConfig() {
   };
 }
 
-/* @swc:if [condition="featureFlags.enableNewFeature"] */
+/* @common:if [condition="featureFlags.enableNewFeature"] */
 export function newFeature() {
   // This function references the utility functions above
   if (!validateFeature()) {
@@ -40,10 +40,10 @@ export function newFeature() {
     timestamp: new Date().toISOString()
   };
 }
-/* @swc:endif */
+/* @common:endif */
 
 // Another conditional block with different condition
-/* @swc:if [condition="featureFlags.newMobileUI"] */
+/* @common:if [condition="featureFlags.newMobileUI"] */
 function mobileUIHelper() {
   return "Mobile UI is active";
 }
@@ -51,7 +51,7 @@ function mobileUIHelper() {
 export function getMobileUI() {
   return mobileUIHelper();
 }
-/* @swc:endif */
+/* @common:endif */
 
 // Always present code
 export function alwaysPresent() {
@@ -59,12 +59,12 @@ export function alwaysPresent() {
 }
 
 const buildTarget =
-  /* @swc:define-inline [value="build.target" default="development"] */ "development";
+  /* @common:define-inline [value="build.target" default="development"] */ "development";
 
 const apiEndpoint = 
-  /* @swc:define-inline [value="api.endpoint" default="http://localhost:3000"] */ "http://localhost:3000";
+  /* @common:define-inline [value="api.endpoint" default="http://localhost:3000"] */ "http://localhost:3000";
 
-/* @swc:if [condition="user.isLoggedIn"] */
+/* @common:if [condition="user.isLoggedIn"] */
 function getUserData() {
   return { id: 1, name: "John Doe" };
 }
@@ -73,6 +73,6 @@ export function getWelcomeMessage() {
   const user = getUserData();
   return `Welcome back, ${user.name}!`;
 }
-/* @swc:endif */
+/* @common:endif */
 
 export { buildTarget, apiEndpoint };
