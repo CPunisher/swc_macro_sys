@@ -1322,6 +1322,19 @@ dependencies = [
 [[package]]
 name = "swc_macro_wasm"
 version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "swc_common",
+ "swc_core",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_transforms_optimization",
+ "swc_macro_condition_transform",
+ "swc_macro_parser",
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "swc_macros_common"
