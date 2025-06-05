@@ -1,21 +1,19 @@
 use std::fs;
 
 use serde_json::json;
+use swc_common::pass::Repeated;
 use swc_core::{
     common::{FileName, Mark, SourceMap, comments::SingleThreadedComments, sync::Lrc},
     ecma::{
         codegen::{
-            self, Emitter, Node,
+            self, Emitter,
             text_writer::{self, WriteJs},
         },
         parser::{EsSyntax, Parser, StringInput, Syntax},
         visit::VisitMutWith,
     },
 };
-use swc_ecma_minifier::{
-    optimize,
-    option::{CompressOptions, ExtraOptions, MinifyOptions},
-};
+use swc_ecma_ast::Program;
 use swc_ecma_transforms_base::resolver;
 use swc_macro_condition_transform::condition_transform;
 use swc_macro_parser::MacroParser;
@@ -40,8 +38,8 @@ pub fn main() {
 
     let macros = {
         let parser = MacroParser::new("swc");
-        let macros = parser.parse(&comments);
-        macros
+
+        parser.parse(&comments)
     };
 
     let program = {
@@ -74,27 +72,11 @@ pub fn main() {
         swc_common::GLOBALS.set(&Default::default(), || {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-            let program = program.apply(resolver(unresolved_mark, top_level_mark, false));
+            let mut program = program.apply(resolver(unresolved_mark, top_level_mark, false));
 
-            optimize(
-                program,
-                cm.clone(),
-                None,
-                None,
-                &MinifyOptions {
-                    compress: Some(CompressOptions {
-                        module: true,
-                        ..Default::default()
-                    }),
-                    mangle: None,
-                    ..Default::default()
-                },
-                &ExtraOptions {
-                    unresolved_mark,
-                    top_level_mark,
-                    mangle_name_cache: None,
-                },
-            )
+            perform_dce(&mut program, unresolved_mark);
+
+            program
         })
     };
 
@@ -108,11 +90,33 @@ pub fn main() {
             cm: cm.clone(),
             wr,
         };
-        program.emit_with(&mut emitter).unwrap();
+        emitter.emit_program(&program).unwrap();
         drop(emitter);
 
         unsafe { String::from_utf8_unchecked(buf) }
     };
 
     println!("{}", ret);
+}
+
+fn perform_dce(m: &mut Program, unresolved_mark: Mark) {
+    let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+        swc_ecma_transforms_optimization::simplify::dce::Config {
+            module_mark: None,
+            top_level: true,
+            top_retain: Default::default(),
+            preserve_imports_with_side_effects: true,
+        },
+        unresolved_mark,
+    );
+
+    loop {
+        m.visit_mut_with(&mut visitor);
+
+        if !visitor.changed() {
+            break;
+        }
+
+        visitor.reset();
+    }
 }
