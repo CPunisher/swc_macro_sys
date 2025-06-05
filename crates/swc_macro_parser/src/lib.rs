@@ -1,6 +1,7 @@
-use std::{collections::HashMap, sync::LazyLock};
+use std::sync::LazyLock;
 
 use regex::Regex;
+use rustc_hash::FxHashMap;
 use swc_core::common::{
     BytePos, Span,
     comments::{Comment, SingleThreadedComments},
@@ -56,7 +57,7 @@ impl MacroParser {
         let attrs = caps
             .name("attrs")
             .map(|attrs| {
-                let mut attr_map = HashMap::new();
+                let mut attr_map = FxHashMap::default();
                 let caps = ATTR_REGEX.captures_iter(attrs.as_str());
                 for cap in caps {
                     let Some(key) = cap.name("key") else {
@@ -90,5 +91,5 @@ pub struct MacroNode {
     pub span: Span,
     pub namespace: String,
     pub directive: String,
-    pub attrs: HashMap<String, String>,
+    pub attrs: FxHashMap<String, String>,
 }
