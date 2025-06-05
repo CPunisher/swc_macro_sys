@@ -2,6 +2,7 @@
 name = "swc_macro_condition_transform"
 version = "0.1.0"
 edition = "2024"
+publish = false
 
 [dependencies]
 rustc-hash = "2.1.1"
