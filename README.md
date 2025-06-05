@@ -4,6 +4,18 @@ This crate is a macro system implementation for [swc macro proposal](https://git
 
 **Warning: This crate is not recommented to use now**
 
+## Wasm binding
+
+```sh
+# Once
+rustup target add wasm32-unknown-unknown
+
+# Build the wasm binding
+(cd crates/swc_macro_wasm && wasm-pack build --release)
+
+# Your wasm file will be in `target/wasm32-unknown-unknown/release/swc_macro_wasm.wasm`
+```
+
 ## Examples
 
 Check `crates/swc_macro_condition_transform` to see how this crate works to handle the macro annotations.
@@ -26,3 +38,5 @@ The expected output is:
 ```js
 const buildTarget = "production";
 ```
+
+
