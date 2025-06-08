@@ -8,6 +8,7 @@ publish = false
 rustc-hash = "2.1.1"
 serde_json = { workspace = true }
 swc_core = { workspace = true, features = ["ecma_ast", "ecma_visit", "swc_ecma_ast"] }
+web-sys = { version = "0.3", features = ["console"] }
 
 swc_macro_parser = { workspace = true }
 
