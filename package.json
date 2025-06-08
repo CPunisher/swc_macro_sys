@@ -1,0 +1,16 @@
+{
+  "name": "swc-macro-wasm-example",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Example usage of SWC Macro WASM bindings",
+  "main": "example_wasm_usage.js",
+  "scripts": {
+    "start": "node example_wasm_usage.js",
+    "build-wasm": "cd crates/swc_macro_wasm && wasm-pack build --release"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
