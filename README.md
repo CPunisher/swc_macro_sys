@@ -36,7 +36,25 @@ rustup target add wasm32-unknown-unknown
 
 ## Examples
 
-### Rust Examples
+### Tree-Shaking Demo
+
+Test conditional compilation and tree-shaking with a webpack bundle:
+
+```sh
+# Build WASM module first
+(cd crates/swc_macro_wasm && wasm-pack build --release)
+
+# Run tree-shaking test on bundler output
+node --experimental-wasm-modules test-tree-shaking.mjs
+```
+
+This demonstrates:
+- **Conditional compilation** - Code blocks removed based on feature flags
+- **Bundle optimization** - Minification and dead code elimination  
+- **Multiple configurations** - Tests different feature flag combinations
+- **Size analysis** - Shows bundle size reduction for each configuration
+
+### Rust Transform Example
 
 Check `crates/swc_macro_condition_transform` to see how this crate works to handle the macro annotations.
 
