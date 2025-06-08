@@ -27,7 +27,7 @@ Test conditional compilation and tree-shaking with a webpack bundle:
 (cd crates/swc_macro_wasm && wasm-pack build --release)
 
 # Run tree-shaking test on bundler output
-node --experimental-wasm-modules test-tree-shaking.js
+node --experimental-wasm-modules test-tree-shaking.mjs
 ```
 
 This demonstrates:
