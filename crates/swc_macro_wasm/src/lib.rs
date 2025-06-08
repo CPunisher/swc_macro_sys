@@ -63,7 +63,7 @@ pub fn optimize(source: String, config: &str) -> String {
         let wr = Box::new(text_writer::JsWriter::new(cm.clone(), "\n", &mut buf, None))
             as Box<dyn WriteJs>;
         let mut emitter = Emitter {
-            cfg: codegen::Config::default().with_minify(true),
+            cfg: codegen::Config::default().with_minify(false),
             comments: Some(&comments),
             cm: cm.clone(),
             wr,
