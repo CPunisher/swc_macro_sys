@@ -32,13 +32,15 @@ impl Metadata for Value {
             return false;
         };
 
-        // For simplification, we only evaluate values of bool type.
-        // We may evaluate other types like javascript
-        if let Some(bool) = value.as_bool() {
-            return bool;
+        // Use JavaScript-style truthiness evaluation for all value types
+        match value {
+            Value::Bool(b) => *b,
+            Value::String(s) => !s.is_empty(),
+            Value::Number(n) => n.as_f64().unwrap_or(0.0) != 0.0,
+            Value::Array(arr) => !arr.is_empty(),
+            Value::Object(obj) => !obj.is_empty(),
+            Value::Null => false,
         }
-
-        false
     }
 }
 
