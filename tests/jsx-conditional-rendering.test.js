@@ -81,7 +81,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'user.type === \'premium\'');
+      validateMacroRemoval(optimized, 'user.isPremium');
       
       saveSnapshot('jsx-enterprise-user', source, optimized, analysis);
     });
@@ -105,7 +105,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'user.type === \'enterprise\'');
+      validateMacroRemoval(optimized, 'user.isEnterprise');
       
       saveSnapshot('jsx-premium-user', source, optimized, analysis);
     });
@@ -128,7 +128,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'user.type === \'enterprise\'');
+      validateMacroRemoval(optimized, 'user.isEnterprise');
       
       saveSnapshot('jsx-free-user', source, optimized, analysis);
     });
@@ -154,7 +154,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'abTests.dashboardLayout === \'list\'');
+      validateMacroRemoval(optimized, 'abTests.isListLayout');
       
       saveSnapshot('jsx-grid-layout', source, optimized, analysis);
     });
@@ -177,7 +177,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'abTests.dashboardLayout === \'grid\'');
+      validateMacroRemoval(optimized, 'abTests.isGridLayout');
       
       saveSnapshot('jsx-list-layout', source, optimized, analysis);
     });
@@ -203,7 +203,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'featureFlags.desktop-shortcuts');
+      validateMacroRemoval(optimized, 'featureFlags.hasDesktopShortcuts');
       
       saveSnapshot('jsx-mobile-premium-camera', source, optimized, analysis);
     });
@@ -244,7 +244,7 @@ describe('JSX Conditional Rendering', () => {
       
       expect(analysis.sizes.reduction).toBeGreaterThan(0);
       
-      validateMacroRemoval(optimized, 'featureFlags.advanced-analytics');
+      validateMacroRemoval(optimized, 'featureFlags.hasAdvancedAnalytics');
       
       saveSnapshot('jsx-minimal-config', source, optimized, analysis);
     });
