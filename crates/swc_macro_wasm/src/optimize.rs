@@ -73,8 +73,8 @@ pub fn optimize(source: String, config: serde_json::Value) -> String {
 }
 
 fn perform_dce(m: &mut Program, unresolved_mark: Mark) {
-    let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
-        swc_ecma_transforms_optimization::simplify::dce::Config {
+    let mut visitor = crate::dce::dce(
+        crate::dce::Config {
             module_mark: None,
             top_level: true,
             top_retain: Default::default(),
