@@ -7,7 +7,8 @@ use petgraph::{Directed, Direction::Incoming, algo::tarjan_scc, prelude::GraphMa
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{Atom, atom};
 use swc_common::{
-    DUMMY_SP, Mark, SyntaxContext,
+    DUMMY_SP, Mark, Spanned, SyntaxContext,
+    comments::{Comments, SingleThreadedComments},
     pass::{CompilerPass, Repeated},
     util::take::Take,
 };
@@ -22,10 +23,12 @@ use swc_ecma_visit::{
 use tracing::{Level, debug, span};
 
 pub fn dce(
+    comments: SingleThreadedComments,
     config: Config,
     unresolved_mark: Mark,
 ) -> impl Pass + VisitMut + Repeated + CompilerPass {
     visit_mut_pass(TreeShaker {
+        comments,
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
             is_unresolved_ref_safe: false,
@@ -76,6 +79,7 @@ impl Default for Config {
 
 struct TreeShaker {
     expr_ctx: ExprCtx,
+    comments: SingleThreadedComments,
 
     config: Config,
     changed: bool,
@@ -771,7 +775,7 @@ impl VisitMut for TreeShaker {
         if let Some(id) = n.left.as_ident() {
             // TODO: `var`
             if self.can_drop_assignment_to(id.to_id(), false)
-                && !n.right.may_have_side_effects(self.expr_ctx)
+                && !may_have_side_effects(&self.comments, &n.right, self.expr_ctx)
             {
                 self.changed = true;
                 debug!("Dropping an assignment to `{}` because it's not used", id);
@@ -809,31 +813,27 @@ impl VisitMut for TreeShaker {
             }
             Decl::Class(c) => {
                 if self.can_drop_binding(c.ident.to_id(), false)
-                    && c.class
-                        .super_class
-                        .as_deref()
-                        .map_or(true, |e| !e.may_have_side_effects(self.expr_ctx))
+                    && c.class.super_class.as_deref().map_or(true, |e| {
+                        !may_have_side_effects(&self.comments, e, self.expr_ctx)
+                    })
                     && c.class.body.iter().all(|m| match m {
                         ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
                         ClassMember::ClassProp(m) => {
                             !matches!(m.key, PropName::Computed(..))
-                                && !m
-                                    .value
-                                    .as_deref()
-                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
+                                && !m.value.as_deref().is_some_and(|e| {
+                                    may_have_side_effects(&self.comments, e, self.expr_ctx)
+                                })
                         }
                         ClassMember::AutoAccessor(m) => {
                             !matches!(m.key, Key::Public(PropName::Computed(..)))
-                                && !m
-                                    .value
-                                    .as_deref()
-                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
+                                && !m.value.as_deref().is_some_and(|e| {
+                                    may_have_side_effects(&self.comments, e, self.expr_ctx)
+                                })
                         }
 
-                        ClassMember::PrivateProp(m) => !m
-                            .value
-                            .as_deref()
-                            .is_some_and(|e| e.may_have_side_effects(self.expr_ctx)),
+                        ClassMember::PrivateProp(m) => !m.value.as_deref().is_some_and(|e| {
+                            may_have_side_effects(&self.comments, e, self.expr_ctx)
+                        }),
 
                         ClassMember::StaticBlock(_) => false,
 
@@ -1165,7 +1165,7 @@ impl VisitMut for TreeShaker {
 
         if let Pat::Ident(i) = &v.name {
             let can_drop = if let Some(init) = &v.init {
-                !init.may_have_side_effects(self.expr_ctx)
+                !may_have_side_effects(&self.comments, init, self.expr_ctx)
             } else {
                 true
             };
@@ -1196,6 +1196,14 @@ impl VisitMut for TreeShaker {
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
     }
+}
+
+fn may_have_side_effects(comments: &dyn Comments, e: &Expr, expr_ctx: ExprCtx) -> bool {
+    let span = e.span();
+    if span.lo.is_pure() || comments.has_flag(span.lo, "PURE") {
+        return false;
+    }
+    e.may_have_side_effects(expr_ctx)
 }
 
 impl Scope<'_> {

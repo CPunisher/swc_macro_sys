@@ -45,7 +45,7 @@ pub fn optimize(source: String, config: serde_json::Value) -> String {
 
             program.mutate(resolver(unresolved_mark, top_level_mark, false));
 
-            perform_dce(&mut program, unresolved_mark);
+            perform_dce(&mut program, comments.clone(), unresolved_mark);
 
             program.mutate(fixer(Some(&comments)));
 
@@ -72,8 +72,9 @@ pub fn optimize(source: String, config: serde_json::Value) -> String {
     ret
 }
 
-fn perform_dce(m: &mut Program, unresolved_mark: Mark) {
+fn perform_dce(m: &mut Program, comments: SingleThreadedComments, unresolved_mark: Mark) {
     let mut visitor = crate::dce::dce(
+        comments,
         crate::dce::Config {
             module_mark: None,
             top_level: true,
