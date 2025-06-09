@@ -22,17 +22,17 @@ function getFeatureConfig() {
   };
 }
 
-/* @common:if [condition="featureFlags.enableNewFeature"] */
-export function newFeature() {
+/* @common:if [condition="featureFlags.enableExpensiveFeature"] */
+export function useExpensiveFeature() {
   // This function references the utility functions above
   if (!validateFeature()) {
     return null;
   }
   
   const config = getFeatureConfig();
-  const message = formatMessage(`New feature v${config.version} is enabled!`);
+  const message = formatMessage(`Expensive feature v${config.version} is enabled!`);
   
-  logFeatureUsage("newFeature");
+  logFeatureUsage("expensiveFeature");
   
   return {
     message,
@@ -42,27 +42,34 @@ export function newFeature() {
 }
 /* @common:endif */
 
-// Another conditional block with different condition
-/* @common:if [condition="featureFlags.newMobileUI"] */
-function mobileUIHelper() {
-  return "Mobile UI is active";
-}
-
-export function getMobileUI() {
-  return mobileUIHelper();
+/* @common:if [condition="featureFlags.enableDebugMode"] */
+export function useDebugFeature() {
+  console.log('Debug mode is active');
+  return { debug: true, mode: 'development' };
 }
 /* @common:endif */
+
+/* @common:if [condition="featureFlags.enableExperimentalFeature"] */
+export function useExperimentalFeature() {
+  return { experimental: true, warning: 'Use at your own risk' };
+}
+/* @common:endif */
+
+// Base functionality that should always be present
+export function baseFeature() {
+  return "Base functionality always available";
+}
 
 // Always present code
 export function alwaysPresent() {
   return "This function is always present";
 }
 
-const buildTarget =
-  /* @common:define-inline [value="build.target" default="development"] */ "development";
+const buildMode =
+  /* @common:define-inline [value="build.mode" default="development"] */ "development";
 
-const apiEndpoint = 
-  /* @common:define-inline [value="api.endpoint" default="http://localhost:3000"] */ "http://localhost:3000";
+const apiUrl = 
+  /* @common:define-inline [value="api.url" default="http://localhost:3000"] */ "http://localhost:3000";
 
 /* @common:if [condition="user.isLoggedIn"] */
 function getUserData() {
@@ -75,4 +82,4 @@ export function getWelcomeMessage() {
 }
 /* @common:endif */
 
-export { buildTarget, apiEndpoint };
+export { buildMode, apiUrl };
