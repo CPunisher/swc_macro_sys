@@ -1,0 +1,23 @@
+[package]
+name = "webpack_graph"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = "1.0"
+rustc-hash = "2.1.1"
+regex = { workspace = true }
+
+# SWC dependencies for JavaScript AST parsing
+swc_core = { workspace = true, features = [
+    "ecma_ast",
+    "ecma_parser", 
+    "ecma_visit",
+    "common",
+] }
+
+[dev-dependencies]
+tokio-test = "0.4" 

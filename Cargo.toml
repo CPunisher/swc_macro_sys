@@ -8,3 +8,4 @@ swc_core = { version = "26.0.0" }
 
 swc_macro_condition_transform = { path = "./crates/swc_macro_condition_transform" }
 swc_macro_parser = { path = "./crates/swc_macro_parser" }
+webpack_graph = { path = "./crates/webpack_graph" }

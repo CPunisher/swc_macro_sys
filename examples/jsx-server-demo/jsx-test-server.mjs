@@ -377,7 +377,7 @@ function transformJSX(code) {
 async function optimizeWithWasm(code, config) {
   console.log('🚀 Optimizing with WASM macro processor...');
   
-  const wasmModulePath = '../crates/swc_macro_wasm/pkg/swc_macro_wasm.js';
+  const wasmModulePath = '../../crates/swc_macro_wasm/pkg/swc_macro_wasm.js';
   const wasmModuleUrl = `file://${process.cwd()}/${wasmModulePath}`;
   const wasmModule = await import(wasmModuleUrl);
   
