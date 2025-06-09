@@ -1,10 +1,8 @@
 use rustc_hash::FxHashSet;
-use swc_core::common::util::take::Take;
-use swc_core::ecma::ast::ModuleItem;
+use swc_core::ecma::ast::{ModuleItem, Expr, Stmt};
 use swc_core::{
     common::{BytePos, Span, Spanned},
     ecma::{
-        ast::{Expr, Stmt},
         visit::{VisitMut, VisitMutPass, VisitMutWith, visit_mut_pass},
     },
 };
@@ -98,22 +96,25 @@ pub fn condition_transform(
 }
 
 /// Remove or replace the ast nodes by traversing the ast.
-/// We only focus on three types of ast: `ModuleItem`, `Stmt` and `Expr`, which convers most use cases.
-/// But I'm not sure whether it's complete.
+/// We only focus on three types of ast: `ModuleItem`, `Stmt` and `Expr`, which covers most use cases.
 pub struct RemoveReplaceTransformer {
     /// `remove_list` contains a set of ranges.
-    /// If an visited ast are in one of the ranges, it will be removed.
+    /// If a visited ast is in one of the ranges, it will be removed.
     remove_list: FxHashSet<Span>,
     /// `replace_expr_list` contains a position and a replacement.
-    /// If the start of a ast node is on the position, it will be replaced.
+    /// If the start of an ast node is on the position, it will be replaced.
     replace_expr_list: Vec<(BytePos, Expr)>,
 }
 
 impl VisitMut for RemoveReplaceTransformer {
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
+        // Check if this node should be removed
         for remove in self.remove_list.iter() {
             if remove.contains(node.span()) {
-                node.take();
+                // Replace with an empty export statement instead of invalid token
+                *node = ModuleItem::Stmt(Stmt::Empty(swc_core::ecma::ast::EmptyStmt {
+                    span: swc_core::common::DUMMY_SP,
+                }));
                 return;
             }
         }
@@ -122,9 +123,13 @@ impl VisitMut for RemoveReplaceTransformer {
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
+        // Check if this statement should be removed
         for remove in self.remove_list.iter() {
             if remove.contains(node.span()) {
-                node.take();
+                // Create an empty statement instead of invalid token
+                *node = Stmt::Empty(swc_core::ecma::ast::EmptyStmt {
+                    span: swc_core::common::DUMMY_SP,
+                });
                 return;
             }
         }
@@ -133,16 +138,21 @@ impl VisitMut for RemoveReplaceTransformer {
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        for remove in self.remove_list.iter() {
-            if remove.contains(node.span()) {
-                node.take();
+        // Check if this expression should be replaced first
+        for (pos, replacement) in self.replace_expr_list.iter() {
+            if node.span_lo() == *pos {
+                *node = replacement.clone();
                 return;
             }
         }
 
-        for (pos, replacement) in self.replace_expr_list.iter() {
-            if node.span_lo() == *pos {
-                *node = replacement.clone();
+        // Check if this expression should be removed
+        for remove in self.remove_list.iter() {
+            if remove.contains(node.span()) {
+                // Replace with a null literal instead of invalid token
+                *node = Expr::Lit(swc_core::ecma::ast::Lit::Null(swc_core::ecma::ast::Null {
+                    span: swc_core::common::DUMMY_SP,
+                }));
                 return;
             }
         }

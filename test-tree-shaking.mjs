@@ -210,7 +210,14 @@ async function testTreeShaking() {
       console.log(`   📄 Optimized output (${test.name}):`);
       console.log('   ==================================================');
       // Show a condensed version of the output
-      console.log(optimizedCode)
+      const lines = optimizedCode.split('\n');
+      if (lines.length > 50) {
+        console.log(lines.slice(0, 25).join('\n'));
+        console.log('   ... (truncated) ...');
+        console.log(lines.slice(-25).join('\n'));
+      } else {
+        console.log(optimizedCode);
+      }
       console.log('   ==================================================');
       console.log('--------------------------------------------------');
     }
