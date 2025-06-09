@@ -6,10 +6,24 @@
   "main": "example_wasm_usage.js",
   "scripts": {
     "start": "node example_wasm_usage.js",
-    "build-wasm": "cd crates/swc_macro_wasm && wasm-pack build --release"
+    "build-wasm": "cd crates/swc_macro_wasm && wasm-pack build --release",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.3.0",
+    "@vitest/coverage-v8": "^1.0.4",
+    "@vitest/ui": "^1.0.4",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "vite-plugin-wasm": "^3.4.1",
+    "vitest": "^1.0.4"
+  },
   "engines": {
     "node": ">=16.0.0"
   }
