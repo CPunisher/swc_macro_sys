@@ -40,7 +40,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
       ) : (
         <div style={{ fontSize: '14px', color: '#6c757d' }}>
           <>🖥️ Desktop Interface Active</>
-          {/* @common:if [condition="platform.isDesktop"] */}
+          {/* @common:if [condition="featureFlags.hasDesktopShortcuts"] */}
           {isDesktop && (
             <span style={{ marginLeft: '10px', color: '#007bff' }}>
               ⌨️ Keyboard shortcuts enabled
@@ -60,7 +60,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
         Dashboard ({abTestVariant} layout)
       </h3>
       
-      {/* @common:if [condition="abTests.dashboardLayout === 'grid'"] */}
+      {/* @common:if [condition="abTests.isGridLayout"] */}
       {abTestVariant === "grid" ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
           <div style={{ padding: '10px', backgroundColor: '#e3f2fd', borderRadius: '6px' }}>
@@ -71,12 +71,12 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
             <strong>Grid Item 2</strong>
             <p style={{ fontSize: '12px', margin: '5px 0' }}>Optimized for desktop</p>
           </div>
-          {/* @common:if [condition="featureFlags.advanced-analytics"] */}
+          {/* @common:if [condition="featureFlags.hasAdvancedAnalytics"] */}
           {hasAdvancedAnalytics && (
             <div style={{ padding: '10px', backgroundColor: '#e8f5e8', borderRadius: '6px' }}>
               <strong>Analytics Panel</strong>
               <p style={{ fontSize: '12px', margin: '5px 0' }}>Premium analytics enabled</p>
-              {/* @common:if [condition="featureFlags.3d-visualization"] */}
+              {/* @common:if [condition="featureFlags.has3dVisualization"] */}
               {has3DVisualization && (
                 <div style={{ marginTop: '8px', fontSize: '11px', color: '#28a745' }}>
                   🎯 3D visualization ready
@@ -88,7 +88,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           {/* @common:endif */}
         </div>
       ) : (
-        /* @common:if [condition="abTests.dashboardLayout === 'list'"] */
+        /* @common:if [condition="abTests.isListLayout"] */
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ padding: '12px', backgroundColor: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '6px' }}>
             <strong>List Item 1</strong> - Linear layout active
@@ -96,7 +96,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           <div style={{ padding: '12px', backgroundColor: '#d1ecf1', border: '1px solid #bee5eb', borderRadius: '6px' }}>
             <strong>List Item 2</strong> - Mobile-optimized
           </div>
-          {/* @common:if [condition="featureFlags.advanced-analytics"] */}
+          {/* @common:if [condition="featureFlags.hasAdvancedAnalytics"] */}
           {hasAdvancedAnalytics && (
             <div style={{ padding: '12px', backgroundColor: '#d4edda', border: '1px solid #c3e6cb', borderRadius: '6px' }}>
               <strong>Analytics List View</strong> - Premium features
@@ -118,7 +118,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
         <div style={{ padding: '15px', backgroundColor: '#f8d7da', border: '1px solid #f5c6cb', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 10px 0', color: '#721c24' }}>📱 Mobile Features</h4>
           
-          {/* @common:if [condition="featureFlags.mobile-camera"] */}
+          {/* @common:if [condition="featureFlags.hasMobileCamera"] */}
           {hasMobileCamera && (
             <div style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#d1ecf1', borderRadius: '4px' }}>
               📷 Camera access enabled
@@ -136,7 +136,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           {/* @common:if [condition="platform.hasDeviceOrientation"] */}
           {deviceCapabilities.orientation && (
             <div style={{ padding: '8px', backgroundColor: '#fff3cd', borderRadius: '4px' }}>
-              🧭 Device orientation: {/* @common:define-inline [value="device.orientation" default="portrait"] */"portrait"}
+              🧭 Device orientation: portrait
             </div>
           )}
           {/* @common:endif */}
@@ -146,7 +146,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
         <div style={{ padding: '15px', backgroundColor: '#d4edda', border: '1px solid #c3e6cb', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 10px 0', color: '#155724' }}>🖥️ Desktop Features</h4>
           
-          {/* @common:if [condition="featureFlags.desktop-shortcuts"] */}
+          {/* @common:if [condition="featureFlags.hasDesktopShortcuts"] */}
           {hasDesktopShortcuts && (
             <div style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#e2e3e5', borderRadius: '4px' }}>
               ⌨️ Keyboard shortcuts active
@@ -161,7 +161,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           )}
           {/* @common:endif */}
           
-          {/* @common:if [condition="featureFlags.advanced-analytics"] */}
+          {/* @common:if [condition="featureFlags.hasAdvancedAnalytics"] */}
           {hasAdvancedAnalytics && (
             <div style={{ padding: '8px', backgroundColor: '#cce5ff', borderRadius: '4px' }}>
               📊 Desktop analytics dashboard
@@ -178,16 +178,16 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
   // User-specific features  
   const UserFeatures = () => (
     <div style={{ marginBottom: '20px' }}>
-      {/* @common:if [condition="user.type === 'enterprise'"] */}
+      {/* @common:if [condition="user.isEnterprise"] */}
       {userType === "enterprise" ? (
         <div style={{ padding: '15px', backgroundColor: '#e7f3ff', border: '1px solid #b3d9ff', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 10px 0', color: '#004085' }}>🏢 Enterprise Features</h4>
           
-          {/* @common:if [condition="featureFlags.real-time-collaboration"] */}
+          {/* @common:if [condition="featureFlags.hasCollaboration"] */}
           {hasCollaboration && (
             <div style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#d1f2eb', borderRadius: '4px' }}>
               👥 Real-time collaboration enabled
-              {/* @common:if [condition="featureFlags.video-calling"] */}
+              {/* @common:if [condition="featureFlags.hasVideoCalling"] */}
               {true && (
                 <div style={{ fontSize: '12px', color: '#0e6655', marginTop: '4px' }}>
                   📹 Video calling available
@@ -198,7 +198,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           )}
           {/* @common:endif */}
           
-          {/* @common:if [condition="featureFlags.advanced-analytics"] */}
+          {/* @common:if [condition="featureFlags.hasAdvancedAnalytics"] */}
           {hasAdvancedAnalytics && (
             <div style={{ padding: '8px', backgroundColor: '#fff2cc', borderRadius: '4px' }}>
               📈 Enterprise analytics & reporting
@@ -207,11 +207,11 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           {/* @common:endif */}
         </div>
       ) : userType === "premium" ? (
-        /* @common:if [condition="user.type === 'premium'"] */
+        /* @common:if [condition="user.isPremium"] */
         <div style={{ padding: '15px', backgroundColor: '#fff0f5', border: '1px solid #ffb3d1', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 10px 0', color: '#6d1650' }}>⭐ Premium Features</h4>
           
-          {/* @common:if [condition="featureFlags.advanced-analytics"] */}
+          {/* @common:if [condition="featureFlags.hasAdvancedAnalytics"] */}
           {hasAdvancedAnalytics && (
             <div style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#e1f5fe', borderRadius: '4px' }}>
               📊 Advanced analytics
@@ -219,7 +219,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           )}
           {/* @common:endif */}
           
-          {/* @common:if [condition="featureFlags.ai-suggestions"] */}
+          {/* @common:if [condition="featureFlags.hasAiSuggestions"] */}
           <div style={{ padding: '8px', backgroundColor: '#f3e5f5', borderRadius: '4px' }}>
             🤖 AI-powered suggestions
           </div>
@@ -227,7 +227,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
         </div>
         /* @common:endif */
       ) : (
-        /* @common:if [condition="user.type === 'free'"] */
+        /* @common:if [condition="user.isFree"] */
         <div style={{ padding: '15px', backgroundColor: '#f8f9fa', border: '1px solid #dee2e6', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 10px 0', color: '#495057' }}>🆓 Free Tier</h4>
           <div style={{ padding: '8px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
@@ -271,7 +271,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
       )}
       {/* @common:endif */}
 
-      {/* @common:if [condition="featureFlags.notifications"] */}
+      {/* @common:if [condition="featureFlags.hasNotifications"] */}
       {hasNotifications && (
         <div style={{ 
           position: 'fixed', 
@@ -285,7 +285,7 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
           maxWidth: '200px'
         }}>
           🔔 Notifications enabled
-          {/* @common:if [condition="platform.isMobile && platform.hasVibration"] */}
+          {/* @common:if [condition="platform.hasVibration"] */}
           {isMobile && deviceCapabilities.vibration && (
             <div style={{ marginTop: '4px', fontSize: '10px' }}>
               📳 With haptic feedback
@@ -307,8 +307,8 @@ function ComplexAppRouter({ userType = "free", platform = "desktop", deviceCapab
         <strong>Build Configuration:</strong>
         <pre style={{ margin: '8px 0', fontSize: '10px', whiteSpace: 'pre-wrap' }}>
 {JSON.stringify({
-  timestamp: /* @common:define-inline [value="build.timestamp" default="new Date().toISOString()"] */new Date().toISOString(),
-  target: /* @common:define-inline [value="build.target" default="development"] */"development",
+  timestamp: new Date().toISOString(),
+  target: 'production',
   platform,
   userType,
   abTestVariant,
