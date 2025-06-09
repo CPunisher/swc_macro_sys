@@ -1,3 +1,4 @@
+// there is no wasm initialization error. never change the wasm implementation here.
 import { optimize } from './crates/swc_macro_wasm/pkg/swc_macro_wasm.js';
 import fs from 'fs';
 
@@ -18,6 +19,9 @@ const ALL_MODULES = {
   '78': 'heavyMathUtils',
   '812': 'networkUtils'
 };
+
+// Results tracking for summary
+const testResults = [];
 
 function getExpectedModulesForConfig(config) {
   const expectedModules = new Set();
@@ -132,6 +136,7 @@ async function testTreeShaking() {
   
   // Read the bundled code
   const originalCode = fs.readFileSync('bundler-chunk.js', 'utf8');
+  const originalSize = originalCode.length;
   
   // Analyze original bundle
   const originalStats = analyzeBundle(originalCode, 'Original Bundle');
@@ -179,14 +184,27 @@ async function testTreeShaking() {
       const optimizedCode = optimize(originalCode, JSON.stringify(configForWasm));
       const endTime = performance.now();
       
+      const optimizedSize = optimizedCode.length;
+      const sizeReduction = originalSize - optimizedSize;
+      const reductionPercent = ((sizeReduction / originalSize) * 100);
+      
       const optimizedStats = analyzeBundle(optimizedCode, `Optimized (${test.name})`, test.config);
       
       console.log('');
       console.log(`   ⚡ Optimized in ${(endTime - startTime).toFixed(2)}ms`);
+      console.log(`   📉 Size: ${originalSize} → ${optimizedSize} chars (${sizeReduction >= 0 ? '-' : '+'}${Math.abs(reductionPercent).toFixed(1)}%)`);
       
-      const sizeDiff = optimizedStats.totalSize - originalStats.totalSize;
-      const sizePercent = ((sizeDiff / originalStats.totalSize) * 100).toFixed(1);
-      console.log(`   📉 Size change: ${originalStats.totalSize} → ${optimizedStats.totalSize} chars (${sizePercent > 0 ? '+' : ''}${sizePercent}%)`);
+      // Store results for summary
+      testResults.push({
+        name: test.name,
+        description: test.description,
+        originalSize,
+        optimizedSize,
+        sizeReduction,
+        reductionPercent,
+        executionTime: endTime - startTime,
+        issues: optimizedStats.issues
+      });
       
       console.log('');
       console.log(`   📄 Optimized output (${test.name}):`);
@@ -204,13 +222,77 @@ async function testTreeShaking() {
       console.log('--------------------------------------------------');
     }
     
-    console.log('');
-    console.log('🎯 Tree Shaking Analysis Summary:');
-    console.log('✅ Conditional compilation working at entry point level');
-    console.log('❓ Module-level tree shaking needs enhancement');
+    // Print comprehensive summary
+    printFinalSummary();
+    
   } catch (error) {
     console.error('❌ Error during processing:', error);
   }
+}
+
+function printFinalSummary() {
+  console.log('');
+  console.log('📈 TREE SHAKING PERFORMANCE SUMMARY');
+  console.log('================================================================');
+  console.log(`📦 Original bundle size: ${testResults[0]?.originalSize || 'N/A'} chars`);
+  console.log('');
+  
+  console.log('🎯 Optimization Results by Scenario:');
+  console.log('┌─────────────────┬─────────────┬─────────────┬─────────────┬──────────┬─────────┐');
+  console.log('│ Scenario        │ Original    │ Optimized   │ Reduction   │ % Saved  │ Issues  │');
+  console.log('├─────────────────┼─────────────┼─────────────┼─────────────┼──────────┼─────────┤');
+  
+  testResults.forEach(result => {
+    const scenarioName = result.name.padEnd(15);
+    const originalSize = result.originalSize.toString().padStart(11);
+    const optimizedSize = result.optimizedSize.toString().padStart(11);
+    const reduction = result.sizeReduction.toString().padStart(11);
+    const percent = `${result.reductionPercent.toFixed(1)}%`.padStart(8);
+    const issues = result.issues.toString().padStart(7);
+    
+    console.log(`│ ${scenarioName} │ ${originalSize} │ ${optimizedSize} │ ${reduction} │ ${percent} │ ${issues} │`);
+  });
+  
+  console.log('└─────────────────┴─────────────┴─────────────┴─────────────┴──────────┴─────────┘');
+  console.log('');
+  
+  // Calculate average reduction
+  const avgReduction = testResults.reduce((sum, result) => sum + result.reductionPercent, 0) / testResults.length;
+  const bestReduction = Math.max(...testResults.map(r => r.reductionPercent));
+  const worstReduction = Math.min(...testResults.map(r => r.reductionPercent));
+  
+  console.log('📊 Performance Metrics:');
+  console.log(`   🏆 Best reduction: ${bestReduction.toFixed(1)}% (${testResults.find(r => r.reductionPercent === bestReduction)?.name})`);
+  console.log(`   📉 Worst reduction: ${worstReduction.toFixed(1)}% (${testResults.find(r => r.reductionPercent === worstReduction)?.name})`);
+  console.log(`   📊 Average reduction: ${avgReduction.toFixed(1)}%`);
+  
+  const avgExecutionTime = testResults.reduce((sum, result) => sum + result.executionTime, 0) / testResults.length;
+  console.log(`   ⚡ Average execution time: ${avgExecutionTime.toFixed(2)}ms`);
+  
+  const totalIssues = testResults.reduce((sum, result) => sum + result.issues, 0);
+  console.log(`   🎯 Total accuracy issues: ${totalIssues}`);
+  
+  console.log('');
+  
+  // CRITICAL: Make test fail if there are any accuracy issues
+  if (totalIssues > 0) {
+    console.log('❌ TREE SHAKING TEST FAILED!');
+    console.log(`   Found ${totalIssues} accuracy issues across test scenarios`);
+    console.log('   Expected: All modules should be correctly included/excluded based on feature flags');
+    console.log('   Actual: Some modules are incorrectly kept when they should be removed');
+    console.log('');
+    console.log('🔧 This indicates problems with:');
+    console.log('   - Conditional macro processing not removing feature-flagged code');
+    console.log('   - Tree shaking not properly detecting unused modules');
+    console.log('   - Module graph analysis missing dependency relationships');
+    console.log('');
+    process.exit(1);
+  }
+  
+  console.log('🎉 Tree Shaking Analysis Complete!');
+  console.log('✅ Conditional compilation working at entry point level');
+  console.log('✅ Advanced webpack module graph analysis operational');
+  console.log(`✅ Achieving ${avgReduction.toFixed(1)}% average bundle size reduction`);
 }
 
 testTreeShaking(); 

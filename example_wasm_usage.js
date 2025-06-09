@@ -40,11 +40,11 @@ async function processTestFile() {
         console.log(JSON.stringify(config, null, 2));
         console.log('\n');
         
-        // Import the background JS file
-        const wasmBg = await import('./crates/swc_macro_wasm/pkg/swc_macro_wasm_bg.js');
+        // Import the WASM module
+        const wasmModule = await import('./crates/swc_macro_wasm/pkg/swc_macro_wasm.js');
         
-        // Process the code using the wasm optimize function from background module
-        const optimizedCode = wasmBg.optimize(sourceCode, configString);
+        // Process the code using the wasm optimize function
+        const optimizedCode = wasmModule.optimize(sourceCode, configString);
         
         console.log('Optimized code:');
         console.log('='.repeat(50));

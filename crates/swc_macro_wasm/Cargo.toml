@@ -16,7 +16,9 @@ swc_ecma_parser = "14.0.1"
 swc_ecma_transforms_base = "15.1.0"
 swc_ecma_transforms_optimization = "16.0.0"
 wasm-bindgen = "0.2.100"
+web-sys = { version = "0.3", features = ["console"] }
 serde_json = { workspace = true }
+rustc-hash = "2.1.1"
 
 swc_macro_condition_transform = { workspace = true }
 swc_macro_parser = { workspace = true }

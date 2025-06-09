@@ -14,7 +14,12 @@ use crate::{
 };
 
 mod directive;
-mod meta_data;
+pub mod meta_data;
+pub mod webpack_module_graph;
+pub mod webpack_tree_shaker;
+pub mod mutation_tracker;
+pub mod feature_analyzer;
+pub mod optimization_pipeline;
 
 pub fn condition_transform(
     meta_data: serde_json::Value,
@@ -61,8 +66,14 @@ pub fn condition_transform(
     for directive in directives {
         match directive {
             Directive::If(if_directive) => {
-                if !meta_data.evaluate_bool(&if_directive.condition) {
+                let condition_result = meta_data.evaluate_bool(&if_directive.condition);
+                web_sys::console::log_1(&format!("🎯 Evaluating condition '{}': {}", if_directive.condition, condition_result).into());
+                
+                if !condition_result {
+                    web_sys::console::log_1(&format!("❌ Marking span for removal: {:?} (condition '{}' is false)", if_directive.range, if_directive.condition).into());
                     remove_list.insert(if_directive.range);
+                } else {
+                    web_sys::console::log_1(&format!("✅ Keeping span: {:?} (condition '{}' is true)", if_directive.range, if_directive.condition).into());
                 }
             }
             Directive::DefineInline(define_inline_directive) => {
@@ -75,6 +86,8 @@ pub fn condition_transform(
             }
         }
     }
+    
+    web_sys::console::log_1(&format!("🔧 Final remove_list has {} spans to remove", remove_list.len()).into());
 
     visit_mut_pass(RemoveReplaceTransformer {
         remove_list,
