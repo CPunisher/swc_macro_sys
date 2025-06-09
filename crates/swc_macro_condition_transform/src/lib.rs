@@ -19,6 +19,9 @@ mod directive;
 pub mod meta_data;
 pub mod webpack_module_graph;
 pub mod webpack_tree_shaker;
+pub mod mutation_tracker;
+pub mod feature_analyzer;
+pub mod optimization_pipeline;
 
 pub fn condition_transform(
     meta_data: serde_json::Value,

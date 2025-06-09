@@ -1298,6 +1298,7 @@ dependencies = [
 name = "swc_macro_condition_transform"
 version = "0.1.0"
 dependencies = [
+ "regex",
  "rustc-hash",
  "serde_json",
  "swc_common",
