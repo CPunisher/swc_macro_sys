@@ -93,26 +93,50 @@ pub fn optimize_with_modular_pipeline(source: String, config: serde_json::Value)
     }
 
     // Parse the source code into AST
+    console_log!("📝 About to parse source code into AST");
     let cm: Lrc<SourceMap> = Default::default();
+    console_log!("📝 Created source map");
     let (mut program, comments) = match parse_source_to_ast(&source, &cm) {
-        Ok((program, comments)) => (program, comments),
+        Ok((program, comments)) => {
+            console_log!("📝 Successfully parsed AST");
+            (program, comments)
+        },
         Err(e) => {
             console_log!("❌ Failed to parse source: {}", e);
             return source; // Return original on parse error
         }
     };
+    console_log!("📝 AST parsing completed");
 
     // Step 1: Apply conditional macro transformations if needed
+    console_log!("🔍 Step 1: Checking for conditional macros");
     if has_conditional_macros(&comments) {
         console_log!("🔍 Found conditional macros - applying transformations");
         if let Err(e) = apply_conditional_transformations(&mut program, &config, &comments) {
             console_log!("⚠️  Warning during conditional transformations: {}", e);
             // Continue with optimization even if this fails
         }
+    } else {
+        console_log!("📄 No conditional macros found");
     }
+    console_log!("✅ Step 1 completed");
 
-    // Step 2: Run the main optimization pipeline
+    // Step 2: Check if this is webpack code, if not use simple optimization
+    console_log!("🔍 Step 2: Checking if source contains webpack modules");
+    let has_webpack_modules = source.contains("__webpack_modules__") || 
+                             source.contains("__webpack_require__") || 
+                             source.len() > 1000; // Large files might be bundled
+    
+    if !has_webpack_modules {
+        console_log!("📄 No webpack modules detected - using simple optimization");
+        // For simple code, just return the original since there's nothing to optimize
+        return source;
+    }
+    
+    // Step 3: Run the main optimization pipeline for webpack code
+    console_log!("🚀 Step 3: Running optimization pipeline for webpack code");
     let config_str = serde_json::to_string(&config).unwrap_or_else(|_| "{}".to_string());
+    console_log!("📝 Config string: {}", config_str);
     match run_optimization_pipeline(&source, &config_str, &mut program) {
         Ok(result) => {
             console_log!("✅ Optimization pipeline completed!");
@@ -148,6 +172,47 @@ pub fn optimize_with_modular_pipeline(source: String, config: serde_json::Value)
 pub fn get_optimization_info(source: String, config: serde_json::Value) -> String {
     console_log!("📊 Getting optimization info without applying changes");
     
+    // Fast path check: if all features are enabled, return info immediately
+    if should_skip_all_transformations(&config) {
+        return serde_json::json!({
+            "original_size": source.len(),
+            "optimized_size": source.len(),
+            "size_reduction_bytes": 0,
+            "size_reduction_percent": 0.0,
+            "mutations_applied": 0,
+            "modules_eliminated": 0,
+            "imports_eliminated": 0,
+            "fast_path_used": true,
+            "execution_time_ms": 0.0,
+            "recommendations": ["Fast path used - all configuration values are truthy"]
+        }).to_string();
+    }
+    
+    // Check if this is webpack code
+    let has_webpack_modules = source.contains("__webpack_modules__") || 
+                             source.contains("__webpack_require__") || 
+                             source.len() > 1000;
+    
+    if !has_webpack_modules {
+        return serde_json::json!({
+            "original_size": source.len(),
+            "optimized_size": source.len(),
+            "size_reduction_bytes": 0,
+            "size_reduction_percent": 0.0,
+            "mutations_applied": 0,
+            "modules_eliminated": 0,
+            "imports_eliminated": 0,
+            "fast_path_used": false,
+            "execution_time_ms": 0.0,
+            "recommendations": [
+                "No webpack module structure detected",
+                "Simple code - no optimization needed",
+                "All configuration values can be used in macros"
+            ]
+        }).to_string();
+    }
+    
+    // For webpack code, try the complex pipeline but with error handling
     let cm: Lrc<SourceMap> = Default::default();
     let (mut program, _comments) = match parse_source_to_ast(&source, &cm) {
         Ok((program, comments)) => (program, comments),
@@ -173,7 +238,7 @@ pub fn get_optimization_info(source: String, config: serde_json::Value) -> Strin
             }).to_string()
         },
         Err(e) => {
-            format!("{{\"error\": \"{}\"}}", e)
+            format!("{{\"error\": \"Optimization pipeline failed: {}\"}}", e)
         }
     }
 }

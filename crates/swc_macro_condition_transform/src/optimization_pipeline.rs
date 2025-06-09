@@ -101,44 +101,110 @@ impl OptimizationPipeline {
         }
         
         // Step 2: Feature analysis
-        self.feature_config = Some(extract_feature_config(config_str)?);
+        console_log!("📊 Step 2: Feature analysis");
+        console_log!("📊 Step 2a: About to call extract_feature_config");
+        let feature_config_result = extract_feature_config(config_str);
+        console_log!("📊 Step 2b: extract_feature_config returned");
+        self.feature_config = Some(feature_config_result?);
+        console_log!("📊 Step 2c: Feature analysis completed successfully");
         
-        // Step 3: Variable usage analysis (before transformations)
+        // Step 3: Check if this looks like webpack bundle code
+        console_log!("🔍 Step 3: Checking for webpack module structure");
+        let has_webpack_modules = self.contains_webpack_modules(source);
+        
+        if !has_webpack_modules {
+            console_log!("📄 No webpack module structure detected - using simplified optimization");
+            return self.optimize_simple_code(source, start_time);
+        }
+        
+        // Step 4: Variable usage analysis (before transformations)
+        console_log!("📊 Step 4: Variable usage analysis (before)");
         let variable_usage_before = analyze_variable_usage(program);
         
-        // Step 4: Module graph construction and analysis
+        // Step 5: Module graph construction and analysis
+        console_log!("🕸️  Step 5: Module graph construction");
         let mut module_graph = WebpackModuleGraph::new();
         module_graph.hydrate_module_graph_from_chunk(program);
         
-        // Step 5: Conditional span dependency analysis
+        // Step 6: Conditional span dependency analysis
+        console_log!("🔍 Step 6: Conditional span dependency analysis");
         if let Ok(config) = serde_json::from_str::<serde_json::Value>(config_str) {
             analyze_conditional_span_dependencies(&variable_usage_before, &config, &mut self.mutation_tracker);
         }
         
-        // Step 6: Apply mutation insights to module graph
+        // Step 7: Apply mutation insights to module graph
+        console_log!("🔧 Step 7: Applying mutation insights");
         apply_mutation_insights_to_graph(&mut module_graph, &self.mutation_tracker);
         
-        // Step 7: Webpack tree shaking with module graph
+        // Step 8: Webpack tree shaking with module graph
+        console_log!("🌳 Step 8: Webpack tree shaking");
         let tree_shaking_stats = perform_webpack_tree_shaking(program);
         
-        // Step 8: Variable usage analysis (after transformations)  
+        // Step 9: Variable usage analysis (after transformations)  
+        console_log!("📊 Step 9: Variable usage analysis (after)");
         let variable_usage_after = analyze_variable_usage(program);
         
-        // Step 9: Track eliminated dependencies
+        // Step 10: Track eliminated dependencies
+        console_log!("🗑️  Step 10: Tracking eliminated dependencies");
         track_eliminated_dependencies(&variable_usage_before, &variable_usage_after, &mut self.mutation_tracker);
         
-        // Step 10: Generate optimized code
+        // Step 11: Generate optimized code
+        console_log!("📝 Step 11: Generating optimized code");
         let optimized_code = self.generate_optimized_code(program)?;
         
-        // Step 11: Update statistics
+        // Step 12: Update statistics
+        console_log!("📈 Step 12: Updating statistics");
         self.update_statistics(&optimized_code, &tree_shaking_stats);
         
-        // Step 12: Generate recommendations (clone feature_config to avoid borrow issues)
+        // Step 13: Generate recommendations
+        console_log!("💡 Step 13: Generating recommendations");
         let feature_config = self.feature_config.clone().unwrap();
         let recommendations = self.generate_recommendations(&feature_config);
         
         let execution_time = start_time.elapsed().as_millis() as f64;
         console_log!("✅ Optimization pipeline completed in {:.2}ms", execution_time);
+        
+        Ok(OptimizationResult {
+            optimized_code,
+            statistics: self.statistics.clone(),
+            recommendations,
+            execution_time_ms: execution_time,
+        })
+    }
+    
+    /// Check if source code contains webpack module structures
+    fn contains_webpack_modules(&self, source: &str) -> bool {
+        source.contains("__webpack_modules__") ||
+        source.contains("__webpack_require__") ||
+        source.contains("webpackChunkName") ||
+        (source.contains("module.exports") && source.len() > 1000) // Large files with module.exports might be bundled
+    }
+    
+    /// Simplified optimization for non-webpack code
+    fn optimize_simple_code(&mut self, source: &str, start_time: Instant) -> Result<OptimizationResult, String> {
+        console_log!("🚀 Running simplified optimization for non-webpack code");
+        
+        // For simple code, just apply basic feature analysis
+        let feature_config = self.feature_config.as_ref().unwrap();
+        
+        // Since there are no modules to eliminate, return the original code
+        // In the future, we could add other optimizations like dead code elimination
+        let optimized_code = source.to_string();
+        
+        self.statistics.finalize(optimized_code.len());
+        
+        let recommendations = vec![
+            "No webpack module structure detected".to_string(),
+            "Applied feature analysis only".to_string(),
+            if feature_config.should_optimize {
+                "Code could benefit from conditional compilation markers".to_string()
+            } else {
+                "All configuration values are truthy - no optimization needed".to_string()
+            }
+        ];
+        
+        let execution_time = start_time.elapsed().as_millis() as f64;
+        console_log!("✅ Simplified optimization completed in {:.2}ms", execution_time);
         
         Ok(OptimizationResult {
             optimized_code,

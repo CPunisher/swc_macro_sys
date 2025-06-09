@@ -38,6 +38,7 @@ pub struct ConditionalSpan {
 }
 
 /// Extract and analyze feature configuration from JSON
+/// Treats the entire configuration object as potential feature flags since all values can be used in macros
 pub fn extract_feature_config(config_str: &str) -> Result<FeatureDetectionResult, String> {
     console_log!("🔍 Extracting feature configuration...");
     
@@ -46,59 +47,76 @@ pub fn extract_feature_config(config_str: &str) -> Result<FeatureDetectionResult
     
     let mut result = FeatureDetectionResult::new();
     
-    // Extract feature flags from config - try multiple approaches
-    let mut all_features = std::collections::HashMap::new();
+    // Extract configuration values - use simpler approach like the original
+    let all_config_values = extract_config_values_simple(&config);
     
-    if let Some(config_obj) = config.as_object() {
-        // Approach 1: Look for nested feature objects (featureFlags, features, etc.)
-        for key in &["featureFlags", "features", "flags"] {
-            if let Some(nested_obj) = config_obj.get(*key).and_then(|v| v.as_object()) {
-                for (feature_key, feature_value) in nested_obj {
-                    if let Some(bool_val) = feature_value.as_bool() {
-                        all_features.insert(format!("{}.{}", key, feature_key), bool_val);
-                    }
-                }
-            }
-        }
-        
-        // Approach 2: Look for direct boolean values in the root config
-        for (key, value) in config_obj {
-            if let Some(bool_val) = value.as_bool() {
-                all_features.insert(key.clone(), bool_val);
-            }
-        }
-    }
-    
-    console_log!("📊 Found {} feature flags", all_features.len());
+    console_log!("📊 Found {} configuration values that can be used as feature flags", all_config_values.len());
         
     let mut enabled_count = 0;
-    let total_count = all_features.len();
+    let total_count = all_config_values.len();
     
-    for (key, is_enabled) in &all_features {
-        result.feature_flags.insert(key.clone(), *is_enabled);
+    for (key, value) in &all_config_values {
+        // For feature analysis, treat any truthy value as "enabled"
+        let is_enabled = is_value_truthy(value);
         
-        if *is_enabled {
+        result.feature_flags.insert(key.clone(), is_enabled);
+        
+        if is_enabled {
             result.enabled_features.insert(key.clone());
             enabled_count += 1;
-            console_log!("✅ Feature enabled: {}", key);
+            console_log!("✅ Config value enabled: {} = {:?}", key, value);
         } else {
-            console_log!("❌ Feature disabled: {}", key);
+            console_log!("❌ Config value disabled: {} = {:?}", key, value);
         }
     }
     
     if total_count == 0 {
-        console_log!("⚠️  No feature flags found in config");
-        return Err("No feature flags found in configuration".to_string());
+        console_log!("⚠️  No configuration values found");
+        return Err("No configuration values found".to_string());
     }
     
-    // Determine if all features are enabled
+    // Determine if all configuration values are enabled/truthy
     result.all_enabled = enabled_count == total_count && total_count > 0;
-    result.should_optimize = !result.all_enabled; // Only optimize if not all features are enabled
+    result.should_optimize = !result.all_enabled; // Only optimize if not all values are truthy
     
-    console_log!("📈 Feature summary: {}/{} enabled, all_enabled: {}, should_optimize: {}", 
+    console_log!("📈 Configuration summary: {}/{} enabled, all_enabled: {}, should_optimize: {}", 
                 enabled_count, total_count, result.all_enabled, result.should_optimize);
     
     Ok(result)
+}
+
+/// Extract configuration values using a simpler, safer approach
+fn extract_config_values_simple(config: &serde_json::Value) -> std::collections::HashMap<String, serde_json::Value> {
+    let mut result = std::collections::HashMap::new();
+    
+    if let Some(obj) = config.as_object() {
+        for (key, value) in obj {
+            // Add top-level values
+            result.insert(key.clone(), value.clone());
+            
+            // If it's an object, also add its direct children with dot notation
+            if let Some(nested_obj) = value.as_object() {
+                for (nested_key, nested_value) in nested_obj {
+                    let full_key = format!("{}.{}", key, nested_key);
+                    result.insert(full_key, nested_value.clone());
+                }
+            }
+        }
+    }
+    
+    result
+}
+
+/// Check if a JSON value should be considered "truthy" for feature flag purposes
+fn is_value_truthy(value: &serde_json::Value) -> bool {
+    match value {
+        serde_json::Value::Bool(b) => *b,
+        serde_json::Value::String(s) => !s.is_empty(),
+        serde_json::Value::Number(n) => n.as_f64().unwrap_or(0.0) != 0.0,
+        serde_json::Value::Array(arr) => !arr.is_empty(),
+        serde_json::Value::Object(obj) => !obj.is_empty(),
+        serde_json::Value::Null => false,
+    }
 }
 
 /// Analyze conditional spans in the source code that can be eliminated
@@ -156,46 +174,26 @@ fn should_remove_conditional_span(content: &str, feature_config: &FeatureDetecti
     false
 }
 
-/// Check if all relevant features in the configuration are enabled
+/// Check if all configuration values are enabled/truthy and transformations should be skipped
 pub fn should_skip_all_transformations(config: &serde_json::Value) -> bool {
     console_log!("🔍 Checking if all transformations should be skipped...");
     
-    // Extract feature flags from config - try multiple approaches
-    let mut all_features = std::collections::HashMap::new();
+    // Extract configuration values using the simpler approach
+    let all_config_values = extract_config_values_simple(config);
     
-    if let Some(config_obj) = config.as_object() {
-        // Approach 1: Look for nested feature objects (featureFlags, features, etc.)
-        for key in &["featureFlags", "features", "flags"] {
-            if let Some(nested_obj) = config_obj.get(*key).and_then(|v| v.as_object()) {
-                for (feature_key, feature_value) in nested_obj {
-                    if let Some(bool_val) = feature_value.as_bool() {
-                        all_features.insert(format!("{}.{}", key, feature_key), bool_val);
-                    }
-                }
-            }
-        }
-        
-        // Approach 2: Look for direct boolean values in the root config
-        for (key, value) in config_obj {
-            if let Some(bool_val) = value.as_bool() {
-                all_features.insert(key.clone(), bool_val);
-            }
-        }
-    }
-    
-    if all_features.is_empty() {
-        console_log!("⚠️  No feature flags found, proceeding with transformations");
+    if all_config_values.is_empty() {
+        console_log!("⚠️  No configuration values found, proceeding with transformations");
         return false;
     }
     
-    let all_features_enabled = all_features.values().all(|&v| v);
-    let has_features = !all_features.is_empty();
+    // Check if all configuration values are truthy
+    let all_values_enabled = all_config_values.values().all(|value| is_value_truthy(value));
     
-    let skip = all_features_enabled && has_features;
+    let skip = all_values_enabled && !all_config_values.is_empty();
     
-    console_log!("📊 Feature analysis:");
-    console_log!("  📦 Total feature flags: {}", all_features.len());
-    console_log!("  ✅ All enabled: {}", all_features_enabled);
+    console_log!("📊 Configuration analysis:");
+    console_log!("  📦 Total config values: {}", all_config_values.len());
+    console_log!("  ✅ All truthy: {}", all_values_enabled);
     console_log!("  🏃 Skip transformations: {}", skip);
     
     if skip {
