@@ -623,17 +623,38 @@ var __webpack_modules__ = ({
         assert!(!parsed_graph.modules.is_empty(), "Parser should find modules");
         assert!(!parsed_graph.entry_points.is_empty(), "Parser should find entry points");
 
-        // Check that we found a reasonable number of modules
-        // Real bundles might have different module counts due to bundling optimizations
-        // Use a dynamic threshold based on what webpack actually generated
-        let min_expected_modules = std::cmp::max(3, stats_modules.len() / 100); // At least 1% of total or 3 minimum
+        // Count valid module IDs in stats (filter out null/undefined/empty IDs)
+        let valid_stats_modules: Vec<_> = stats_modules.iter()
+            .filter(|module| {
+                if let Some(_id) = module["id"].as_u64() {
+                    true // Valid numeric ID
+                } else if let Some(id_str) = module["id"].as_str() {
+                    !id_str.trim().is_empty() // Valid non-empty string ID
+                } else {
+                    false // null, undefined, or other invalid types
+                }
+            })
+            .collect();
+        
+        let valid_stats_count = valid_stats_modules.len();
+        
+        println!("   - Valid modules with IDs in stats: {}", valid_stats_count);
+        
+        // We should parse approximately the same number of modules as stats.json has with valid IDs
+        // The stats.json "modules" section contains the actual modules in the final bundle
+        // Allow for small differences due to webpack optimizations or module types we don't parse
+        let difference = if parsed_graph.modules.len() > valid_stats_count {
+            parsed_graph.modules.len() - valid_stats_count
+        } else {
+            valid_stats_count - parsed_graph.modules.len()
+        };
+        
         assert!(
-            parsed_graph.modules.len() >= min_expected_modules,
-            "Should parse at least {} modules ({}% of {} total in stats), found: {}",
-            min_expected_modules,
-            (min_expected_modules * 100) / stats_modules.len().max(1),
-            stats_modules.len(),
-            parsed_graph.modules.len()
+            difference <= 1,
+            "Should parse approximately {} modules (same as stats.json modules with valid IDs), found: {} (difference: {})",
+            valid_stats_count,
+            parsed_graph.modules.len(),
+            difference
         );
 
         // Verify dependency relationships exist
