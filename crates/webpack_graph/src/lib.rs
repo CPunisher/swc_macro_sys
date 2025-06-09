@@ -1,10 +1,12 @@
 pub mod error;
 pub mod graph;
 pub mod parser;
+pub mod tree_shaker;
 
 pub use error::WebpackGraphError;
 pub use graph::{ModuleGraph, ModuleNode};
 pub use parser::WebpackBundleParser;
+pub use tree_shaker::TreeShaker;
 
 /// Result type for webpack graph operations
 pub type Result<T> = std::result::Result<T, WebpackGraphError>;
@@ -295,7 +297,7 @@ __webpack_require__(700);
                     assert!(!graph.modules.is_empty(), "Should find modules in {}", test_name);
                     assert!(!graph.entry_points.is_empty(), "Should find entry points in {}", test_name);
                     
-                    println!("  ✅ {} - Found {} modules, {} entry points", 
+                    println!("  {} - Found {} modules, {} entry points", 
                         test_name, graph.modules.len(), graph.entry_points.len());
                 }
                 Err(e) => {
@@ -342,7 +344,7 @@ var __webpack_modules__ = ({
             let result = parser.parse_bundle(bundle_source);
             
             assert!(result.is_err(), "Should fail for invalid format: {}", test_name);
-            println!("  ✅ {} - Correctly failed with: {:?}", test_name, result.unwrap_err());
+            println!("  {} - Correctly failed with: {:?}", test_name, result.unwrap_err());
         }
     }
 
@@ -520,7 +522,7 @@ var __webpack_modules__ = ({
         assert!(main_chain.contains(&"106".to_string()), "Chain should reach common utils");
         assert!(main_chain.contains(&"108".to_string()), "Chain should reach hash functions");
 
-        println!("✅ Complex dependency graph test passed:");
+        println!("Complex dependency graph test passed:");
         println!("   - {} modules with {} entry points", graph.modules.len(), graph.entry_points.len());
         println!("   - Verified shared dependencies and cross-module relationships");
         println!("   - Confirmed deep dependency chains and leaf node sharing");
@@ -536,20 +538,20 @@ var __webpack_modules__ = ({
         // Check if the files exist first and provide helpful error messages
         if !std::path::Path::new(bundle_path).exists() {
             panic!(
-                "❌ Bundle file not found: {}\n\
-                 📋 To fix this, build the rsbuild project first:\n\
-                 💻 cd examples/rsbuild-project && pnpm install && pnpm build\n\
-                 🔍 This test requires the built bundle to validate our parser against real webpack output.",
+                "Bundle file not found: {}\n\
+                 To fix this, build the rsbuild project first:\n\
+                 cd examples/rsbuild-project && pnpm install && pnpm build\n\
+                 This test requires the built bundle to validate our parser against real webpack output.",
                 bundle_path
             );
         }
 
         if !std::path::Path::new(bundle_stats).exists() {
             panic!(
-                "❌ Stats file not found: {}\n\
-                 📋 To fix this, build the rsbuild project first:\n\
-                 💻 cd examples/rsbuild-project && pnpm install && pnpm build\n\
-                 🔍 This test uses stats.json to validate our parser's accuracy.",
+                "Stats file not found: {}\n\
+                 To fix this, build the rsbuild project first:\n\
+                 cd examples/rsbuild-project && pnpm install && pnpm build\n\
+                 This test uses stats.json to validate our parser's accuracy.",
                 bundle_stats
             );
         }
@@ -561,8 +563,8 @@ var __webpack_modules__ = ({
         let parser = WebpackBundleParser::new().expect("Failed to create parser");
         let parsed_graph = parser.parse_bundle(&bundle_content).expect("Failed to parse real-world bundle");
 
-        println!("📊 Real-world Rsbuild Bundle Analysis:");
-        println!("🔍 PARSED from JS bundle:");
+        println!("Real-world Rsbuild Bundle Analysis:");
+        println!("PARSED from JS bundle:");
         println!("   - Total modules parsed: {}", parsed_graph.modules.len());
         println!("   - Entry points found: {} {:?}", parsed_graph.entry_points.len(), parsed_graph.entry_points);
 
@@ -590,7 +592,7 @@ var __webpack_modules__ = ({
         let stats_modules = stats["modules"].as_array()
             .expect("Stats should contain modules array");
 
-        println!("\n📋 EXPECTED from stats.json:");
+        println!("\nEXPECTED from stats.json:");
         println!("   - Total modules in stats: {}", stats_modules.len());
 
         // Extract expected dependency relationships from stats
@@ -662,7 +664,7 @@ var __webpack_modules__ = ({
             .map(|m| m.dependencies.len())
             .sum();
         
-        println!("\n🔗 DEPENDENCY COMPARISON:");
+        println!("\nDEPENDENCY COMPARISON:");
         println!("   - Parsed total dependency relationships: {}", parsed_total_deps);
         
         assert!(parsed_total_deps > 0, "Should parse some dependency relationships");
@@ -752,15 +754,13 @@ var __webpack_modules__ = ({
             "Real bundle with {} modules should have dependency chains of at least depth {} (found: {})",
             parsed_graph.modules.len(), expected_min_depth, max_depth);
 
-        println!("\n✅ Real-world bundle parsing verification passed:");
+        println!("\nReal-world bundle parsing verification passed:");
         println!("   - Successfully parsed {} modules from JS bundle", parsed_graph.modules.len());
         println!("   - Found {} entry points", parsed_graph.entry_points.len());
         println!("   - Detected {} dependency relationships", parsed_total_deps);
         println!("   - Verified {} common modules with stats ({}%)", common_modules.len(), coverage_percentage);
         println!("   - Confirmed {} shared dependencies ({}%)", shared_deps, sharing_ratio);
-        println!("   - Maximum dependency depth: {} (expected: ≥{})", max_depth, expected_min_depth);
-        println!("   - Parser correctly extracts webpack bundle structure! 🎉");
+        println!("   - Maximum dependency depth: {} (expected: >={})", max_depth, expected_min_depth);
+        println!("   - Parser correctly extracts webpack bundle structure!");
     }
-
-    
 }  
