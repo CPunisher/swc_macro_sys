@@ -1,5 +1,6 @@
 use wasm_bindgen::prelude::*;
 
+mod dce;
 pub mod optimize;
 
 #[wasm_bindgen]
