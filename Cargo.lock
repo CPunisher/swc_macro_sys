@@ -1457,6 +1457,7 @@ dependencies = [
  "swc_macro_parser",
  "tracing",
  "wasm-bindgen",
+ "webpack_graph",
 ]
 
 [[package]]

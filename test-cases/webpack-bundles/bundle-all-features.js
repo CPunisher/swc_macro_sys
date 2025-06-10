@@ -112,8 +112,8 @@ var expensiveUIUtils = {
 __webpack_require__.d(__webpack_exports__, {
   v: () => (featureA)
 });
-/* ESM import */var _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78);
-/* ESM import */var _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(418);
+/* ESM import */var _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = /*#__PURE__*/ __webpack_require__(78);
+/* ESM import */var _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__ = /*#__PURE__*/ __webpack_require__(418);
 // featureA.js - Feature A implementation that uses heavy utilities
 
 
@@ -137,8 +137,8 @@ function featureA() {
 __webpack_require__.d(__webpack_exports__, {
   S: () => (featureB)
 });
-/* ESM import */var _expensiveUIUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(803);
-/* ESM import */var _networkUtils_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(812);
+/* ESM import */var _expensiveUIUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = /*#__PURE__*/ __webpack_require__(803);
+/* ESM import */var _networkUtils_ts__WEBPACK_IMPORTED_MODULE_1__ = /*#__PURE__*/ __webpack_require__(812);
 // featureB.js - Feature B implementation that uses different heavy utilities
 
 
@@ -235,6 +235,7 @@ var networkUtils = {
 var __webpack_module_cache__ = {};
 
 // The require function
+/*#__NO_SIDE_EFFECTS__*/
 function __webpack_require__(moduleId) {
 
 // Check if module is in cache
@@ -282,9 +283,9 @@ __webpack_require__.ruid = "bundler=rspack@1.3.12";
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/* ESM import */var _featureA_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(153);
-/* ESM import */var _featureB_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(722);
-/* ESM import */var _debugUtils_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(422);
+/* ESM import */var _featureA_ts__WEBPACK_IMPORTED_MODULE_0__ = /*#__PURE__*/ __webpack_require__(153);
+/* ESM import */var _featureB_ts__WEBPACK_IMPORTED_MODULE_1__ = /*#__PURE__*/ __webpack_require__(722);
+/* ESM import */var _debugUtils_ts__WEBPACK_IMPORTED_MODULE_2__ = /*#__PURE__*/ __webpack_require__(422);
 // main.js - Entry point demonstrating conditional macro tree shaking
 
 
