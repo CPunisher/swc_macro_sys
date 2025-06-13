@@ -767,8 +767,6 @@ impl TreeShaker {
 }
 
 impl VisitMut for TreeShaker {
-    noop_visit_mut_type!();
-
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         n.visit_mut_children_with(self);
 
@@ -791,6 +789,13 @@ impl VisitMut for TreeShaker {
         self.in_block_stmt = true;
         n.visit_mut_children_with(self);
         self.in_block_stmt = old_in_block_stmt;
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        let old_in_fn = self.in_fn;
+        self.in_fn = true;
+        n.visit_mut_children_with(self);
+        self.in_fn = old_in_fn;
     }
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
@@ -1196,6 +1201,8 @@ impl VisitMut for TreeShaker {
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
     }
+
+    noop_visit_mut_type!();
 }
 
 fn may_have_side_effects(comments: &dyn Comments, e: &Expr, expr_ctx: ExprCtx) -> bool {
