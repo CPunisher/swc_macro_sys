@@ -155,25 +155,25 @@ export const TEST_CONFIGS = {
         hasWakeLock: true,
         hasDeviceOrientation: true
       },
-      device: {
-        orientation: 'portrait'
-      },
       featureFlags: {
-        'mobile-camera': true,
-        'desktop-shortcuts': false,
-        'advanced-analytics': false,
-        'real-time-collaboration': false,
-        '3d-visualization': false,
-        'notifications': true,
-        'video-calling': false,
-        'ai-suggestions': false
+        hasMobileCamera: true,
+        hasDesktopShortcuts: false,
+        hasAdvancedAnalytics: false,
+        hasCollaboration: false,
+        has3dVisualization: false,
+        hasNotifications: true,
+        hasVideoCalling: false,
+        hasAiSuggestions: false
       },
       user: {
-        type: 'free',
+        isFree: true,
+        isEnterprise: false,
+        isPremium: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'list'
+        isGridLayout: false,
+        isListLayout: true
       },
       build: {
         target: 'production',
@@ -190,21 +190,24 @@ export const TEST_CONFIGS = {
         hasWebGL: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': true,
-        'advanced-analytics': false,
-        'real-time-collaboration': false,
-        '3d-visualization': false,
-        'notifications': true,
-        'video-calling': false,
-        'ai-suggestions': false
+        hasMobileCamera: false,
+        hasDesktopShortcuts: true,
+        hasAdvancedAnalytics: false,
+        hasCollaboration: false,
+        has3dVisualization: false,
+        hasNotifications: true,
+        hasVideoCalling: false,
+        hasAiSuggestions: false
       },
       user: {
-        type: 'free',
+        isFree: true,
+        isEnterprise: false,
+        isPremium: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -220,21 +223,24 @@ export const TEST_CONFIGS = {
         hasWebGL: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': true,
-        'advanced-analytics': true,
-        'real-time-collaboration': true,
-        '3d-visualization': true,
-        'notifications': true,
-        'video-calling': true,
-        'ai-suggestions': true
+        hasMobileCamera: false,
+        hasDesktopShortcuts: true,
+        hasAdvancedAnalytics: true,
+        hasCollaboration: true,
+        has3dVisualization: true,
+        hasNotifications: true,
+        hasVideoCalling: true,
+        hasAiSuggestions: true
       },
       user: {
-        type: 'enterprise',
+        isEnterprise: true,
+        isPremium: false,
+        isFree: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -248,21 +254,24 @@ export const TEST_CONFIGS = {
         hasWebGL: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': true,
-        'advanced-analytics': true,
-        'real-time-collaboration': false,
-        '3d-visualization': true,
-        'notifications': true,
-        'video-calling': false,
-        'ai-suggestions': true
+        hasMobileCamera: false,
+        hasDesktopShortcuts: true,
+        hasAdvancedAnalytics: true,
+        hasCollaboration: false,
+        has3dVisualization: true,
+        hasNotifications: true,
+        hasVideoCalling: false,
+        hasAiSuggestions: true
       },
       user: {
-        type: 'premium',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: true,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -275,21 +284,24 @@ export const TEST_CONFIGS = {
         isDesktop: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': false,
-        'advanced-analytics': false,
-        'real-time-collaboration': false,
-        '3d-visualization': false,
-        'notifications': true,
-        'video-calling': false,
-        'ai-suggestions': false
+        hasMobileCamera: false,
+        hasDesktopShortcuts: false,
+        hasAdvancedAnalytics: false,
+        hasCollaboration: false,
+        has3dVisualization: false,
+        hasNotifications: true,
+        hasVideoCalling: false,
+        hasAiSuggestions: false
       },
       user: {
-        type: 'free',
+        isFree: true,
+        isEnterprise: false,
+        isPremium: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -304,16 +316,19 @@ export const TEST_CONFIGS = {
         isDesktop: true
       },
       featureFlags: {
-        'advanced-analytics': true,
-        '3d-visualization': true,
-        'notifications': true
+        hasAdvancedAnalytics: true,
+        has3dVisualization: true,
+        hasNotifications: true
       },
       user: {
-        type: 'premium',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: true,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -326,17 +341,20 @@ export const TEST_CONFIGS = {
         isDesktop: false
       },
       featureFlags: {
-        'advanced-analytics': true,
-        '3d-visualization': true,
-        'mobile-camera': true,
-        'notifications': true
+        hasAdvancedAnalytics: true,
+        has3dVisualization: true,
+        hasMobileCamera: true,
+        hasNotifications: true
       },
       user: {
-        type: 'premium',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: true,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'list'
+        isGridLayout: false,
+        isListLayout: true
       },
       build: {
         target: 'production',
@@ -353,25 +371,25 @@ export const TEST_CONFIGS = {
         hasWakeLock: true,
         hasDeviceOrientation: true
       },
-      device: {
-        orientation: 'portrait'
-      },
       featureFlags: {
-        'mobile-camera': true,
-        'desktop-shortcuts': false,
-        'advanced-analytics': true,
-        'real-time-collaboration': false,
-        '3d-visualization': true,
-        'notifications': true,
-        'video-calling': false,
-        'ai-suggestions': true
+        hasMobileCamera: true,
+        hasDesktopShortcuts: false,
+        hasAdvancedAnalytics: true,
+        hasCollaboration: false,
+        has3dVisualization: true,
+        hasNotifications: true,
+        hasVideoCalling: false,
+        hasAiSuggestions: true
       },
       user: {
-        type: 'premium',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: true,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'list'
+        isGridLayout: false,
+        isListLayout: true
       },
       build: {
         target: 'production',
@@ -385,21 +403,24 @@ export const TEST_CONFIGS = {
         hasWebGL: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': true,
-        'advanced-analytics': true,
-        'real-time-collaboration': true,
-        '3d-visualization': true,
-        'notifications': true,
-        'video-calling': true,
-        'ai-suggestions': true
+        hasMobileCamera: false,
+        hasDesktopShortcuts: true,
+        hasAdvancedAnalytics: true,
+        hasCollaboration: true,
+        has3dVisualization: true,
+        hasNotifications: true,
+        hasVideoCalling: true,
+        hasAiSuggestions: true
       },
       user: {
-        type: 'admin',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: false,
         isAdmin: true
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -412,21 +433,24 @@ export const TEST_CONFIGS = {
         isDesktop: true
       },
       featureFlags: {
-        'mobile-camera': false,
-        'desktop-shortcuts': false,
-        'advanced-analytics': false,
-        'real-time-collaboration': false,
-        '3d-visualization': false,
-        'notifications': false,
-        'video-calling': false,
-        'ai-suggestions': false
+        hasMobileCamera: false,
+        hasDesktopShortcuts: false,
+        hasAdvancedAnalytics: false,
+        hasCollaboration: false,
+        has3dVisualization: false,
+        hasNotifications: false,
+        hasVideoCalling: false,
+        hasAiSuggestions: false
       },
       user: {
-        type: 'free',
+        isFree: true,
+        isEnterprise: false,
+        isPremium: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -440,19 +464,19 @@ export const TEST_CONFIGS = {
         isMobile: false,
         isDesktop: true
       },
-      device: {
-        orientation: 'portrait'
-      },
       featureFlags: {
-        'advanced-analytics': true,
-        'notifications': true
+        hasAdvancedAnalytics: true,
+        hasNotifications: true
       },
       user: {
-        type: 'premium',
+        isFree: false,
+        isEnterprise: false,
+        isPremium: true,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'grid'
+        isGridLayout: true,
+        isListLayout: false
       },
       build: {
         target: 'production',
@@ -467,25 +491,25 @@ export const TEST_CONFIGS = {
         hasWakeLock: true,
         hasDeviceOrientation: true
       },
-      device: {
-        orientation: 'portrait'
-      },
       featureFlags: {
-        'mobile-camera': true,
-        'desktop-shortcuts': false,
-        'advanced-analytics': true,
-        'real-time-collaboration': true,
-        '3d-visualization': true,
-        'notifications': true,
-        'video-calling': true,
-        'ai-suggestions': true
+        hasMobileCamera: true,
+        hasDesktopShortcuts: false,
+        hasAdvancedAnalytics: true,
+        hasCollaboration: true,
+        has3dVisualization: true,
+        hasNotifications: true,
+        hasVideoCalling: true,
+        hasAiSuggestions: true
       },
       user: {
-        type: 'enterprise',
+        isFree: false,
+        isEnterprise: true,
+        isPremium: false,
         isAdmin: false
       },
       abTests: {
-        dashboardLayout: 'list'
+        isGridLayout: false,
+        isListLayout: true
       },
       build: {
         target: 'production',

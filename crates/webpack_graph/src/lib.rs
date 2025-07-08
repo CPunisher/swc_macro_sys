@@ -1,10 +1,12 @@
 pub mod error;
 pub mod graph;
 pub mod parser;
+pub mod tree_shaker;
 
 pub use error::WebpackGraphError;
 pub use graph::{ModuleGraph, ModuleNode};
 pub use parser::WebpackBundleParser;
+pub use tree_shaker::TreeShaker;
 
 /// Result type for webpack graph operations
 pub type Result<T> = std::result::Result<T, WebpackGraphError>;
@@ -295,7 +297,7 @@ __webpack_require__(700);
                     assert!(!graph.modules.is_empty(), "Should find modules in {}", test_name);
                     assert!(!graph.entry_points.is_empty(), "Should find entry points in {}", test_name);
                     
-                    println!("  ✅ {} - Found {} modules, {} entry points", 
+                    println!("  {} - Found {} modules, {} entry points", 
                         test_name, graph.modules.len(), graph.entry_points.len());
                 }
                 Err(e) => {
@@ -320,18 +322,6 @@ var webpack_modules = ({
 __webpack_require__(100);
 "#,
             ),
-            // No entry points
-            (
-                "no_entry_points",
-                r#"
-var __webpack_modules__ = ({
-  100: (function(module, exports, __webpack_require__) {
-    console.log("test");
-  }),
-});
-// No __webpack_require__ calls outside modules
-"#,
-            ),
         ];
 
         let parser = WebpackBundleParser::new().expect("Failed to create parser");
@@ -342,8 +332,33 @@ var __webpack_modules__ = ({
             let result = parser.parse_bundle(bundle_source);
             
             assert!(result.is_err(), "Should fail for invalid format: {}", test_name);
-            println!("  ✅ {} - Correctly failed with: {:?}", test_name, result.unwrap_err());
+            println!("  {} - Correctly failed with: {:?}", test_name, result.unwrap_err());
         }
+    }
+
+    #[test]
+    fn test_no_entry_points_valid() {
+        // Test that having no entry points is now valid (for tree shaking scenarios)
+        let source = r#"
+var __webpack_modules__ = ({
+  100: (function(module, exports, __webpack_require__) {
+    console.log("test");
+  }),
+});
+// No __webpack_require__ calls outside modules - this is valid for tree shaking
+"#;
+
+        let parser = WebpackBundleParser::new().expect("Failed to create parser");
+        let result = parser.parse_bundle(source).expect("No entry points should be valid");
+        
+        assert_eq!(result.modules.len(), 1, "Should parse 1 module");
+        assert_eq!(result.entry_points.len(), 0, "Should have 0 entry points");
+        
+        // All modules should be unreachable with 0 entry points
+        let unreachable = result.get_unreachable_modules();
+        assert_eq!(unreachable.len(), 1, "Module should be unreachable with no entry points");
+        
+        println!("No entry points validation passed - this enables complete tree shaking");
     }
 
     #[test]
@@ -520,7 +535,7 @@ var __webpack_modules__ = ({
         assert!(main_chain.contains(&"106".to_string()), "Chain should reach common utils");
         assert!(main_chain.contains(&"108".to_string()), "Chain should reach hash functions");
 
-        println!("✅ Complex dependency graph test passed:");
+        println!("Complex dependency graph test passed:");
         println!("   - {} modules with {} entry points", graph.modules.len(), graph.entry_points.len());
         println!("   - Verified shared dependencies and cross-module relationships");
         println!("   - Confirmed deep dependency chains and leaf node sharing");
@@ -536,20 +551,20 @@ var __webpack_modules__ = ({
         // Check if the files exist first and provide helpful error messages
         if !std::path::Path::new(bundle_path).exists() {
             panic!(
-                "❌ Bundle file not found: {}\n\
-                 📋 To fix this, build the rsbuild project first:\n\
-                 💻 cd examples/rsbuild-project && pnpm install && pnpm build\n\
-                 🔍 This test requires the built bundle to validate our parser against real webpack output.",
+                "Bundle file not found: {}\n\
+                 To fix this, build the rsbuild project first:\n\
+                 cd examples/rsbuild-project && pnpm install && pnpm build\n\
+                 This test requires the built bundle to validate our parser against real webpack output.",
                 bundle_path
             );
         }
 
         if !std::path::Path::new(bundle_stats).exists() {
             panic!(
-                "❌ Stats file not found: {}\n\
-                 📋 To fix this, build the rsbuild project first:\n\
-                 💻 cd examples/rsbuild-project && pnpm install && pnpm build\n\
-                 🔍 This test uses stats.json to validate our parser's accuracy.",
+                "Stats file not found: {}\n\
+                 To fix this, build the rsbuild project first:\n\
+                 cd examples/rsbuild-project && pnpm install && pnpm build\n\
+                 This test uses stats.json to validate our parser's accuracy.",
                 bundle_stats
             );
         }
@@ -561,8 +576,8 @@ var __webpack_modules__ = ({
         let parser = WebpackBundleParser::new().expect("Failed to create parser");
         let parsed_graph = parser.parse_bundle(&bundle_content).expect("Failed to parse real-world bundle");
 
-        println!("📊 Real-world Rsbuild Bundle Analysis:");
-        println!("🔍 PARSED from JS bundle:");
+        println!("Real-world Rsbuild Bundle Analysis:");
+        println!("PARSED from JS bundle:");
         println!("   - Total modules parsed: {}", parsed_graph.modules.len());
         println!("   - Entry points found: {} {:?}", parsed_graph.entry_points.len(), parsed_graph.entry_points);
 
@@ -590,7 +605,7 @@ var __webpack_modules__ = ({
         let stats_modules = stats["modules"].as_array()
             .expect("Stats should contain modules array");
 
-        println!("\n📋 EXPECTED from stats.json:");
+        println!("\nEXPECTED from stats.json:");
         println!("   - Total modules in stats: {}", stats_modules.len());
 
         // Extract expected dependency relationships from stats
@@ -662,7 +677,7 @@ var __webpack_modules__ = ({
             .map(|m| m.dependencies.len())
             .sum();
         
-        println!("\n🔗 DEPENDENCY COMPARISON:");
+        println!("\nDEPENDENCY COMPARISON:");
         println!("   - Parsed total dependency relationships: {}", parsed_total_deps);
         
         assert!(parsed_total_deps > 0, "Should parse some dependency relationships");
@@ -752,15 +767,190 @@ var __webpack_modules__ = ({
             "Real bundle with {} modules should have dependency chains of at least depth {} (found: {})",
             parsed_graph.modules.len(), expected_min_depth, max_depth);
 
-        println!("\n✅ Real-world bundle parsing verification passed:");
+        println!("\nReal-world bundle parsing verification passed:");
         println!("   - Successfully parsed {} modules from JS bundle", parsed_graph.modules.len());
         println!("   - Found {} entry points", parsed_graph.entry_points.len());
         println!("   - Detected {} dependency relationships", parsed_total_deps);
         println!("   - Verified {} common modules with stats ({}%)", common_modules.len(), coverage_percentage);
         println!("   - Confirmed {} shared dependencies ({}%)", shared_deps, sharing_ratio);
-        println!("   - Maximum dependency depth: {} (expected: ≥{})", max_depth, expected_min_depth);
-        println!("   - Parser correctly extracts webpack bundle structure! 🎉");
+        println!("   - Maximum dependency depth: {} (expected: >={})", max_depth, expected_min_depth);
+        println!("   - Parser correctly extracts webpack bundle structure!");
     }
 
-    
+    #[test]
+    fn test_debug_optimized_output_parsing() {
+        // This test analyzes the actual optimized.js output to understand why tree shaking isn't working
+        let optimized_content = r#"
+(()=>{
+    "use strict";
+    var __webpack_modules__ = {
+        418: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+            __webpack_require__.d(__webpack_exports__, {
+                V: ()=>dataProcessor
+            });
+            var dataProcessor = {
+                processLargeDataset (data) {
+                    console.log("Processing ".concat(data.length, " items - this is expensive data processing!"));
+                    return data.map((item)=>({
+                            id: item,
+                            processed: true,
+                            timestamp: Date.now(),
+                            metadata: {
+                                processed: true,
+                                heavy: 'computation'
+                            }
+                        }));
+                },
+                aggregateData (datasets) {
+                    console.log('Aggregating multiple datasets - heavy computation!');
+                    return datasets.reduce((acc, dataset)=>acc.concat(dataset), []);
+                },
+                transformComplexData (input) {
+                    console.log('Complex data transformation - should be tree-shaken if unused!');
+                    return {
+                        transformed: input,
+                        complexity: 'high'
+                    };
+                }
+            };
+        },
+        153: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+            __webpack_require__.d(__webpack_exports__, {
+                v: ()=>featureA
+            });
+            var _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78);
+            var _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(418);
+            function featureA() {
+                console.log('FeatureA: Using heavy math utilities...');
+                var result = _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__.D.fibonacci(10);
+                console.log('FeatureA: Processing complex data...');
+                var processedData = _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__.V.processLargeDataset([
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]);
+                return "FeatureA: Computed fibonacci(10)=".concat(result, ", processed ").concat(processedData.length, " items");
+            }
+        },
+        78: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+            __webpack_require__.d(__webpack_exports__, {
+                D: ()=>heavyMathUtils
+            });
+            var heavyMathUtils = {
+                fibonacci (n) {
+                    console.log("Computing fibonacci(".concat(n, ") - this is expensive!"));
+                    if (n <= 1) return n;
+                    return this.fibonacci(n - 1) + this.fibonacci(n - 2);
+                },
+                primeFactors (n) {
+                    console.log("Computing prime factors of ".concat(n, " - another heavy operation!"));
+                    var factors = [];
+                    for(var i = 2; i <= n; i++){
+                        while(n % i === 0){
+                            factors.push(i);
+                            n /= i;
+                        }
+                    }
+                    return factors;
+                },
+                matrixMultiply (a, b) {
+                    console.log('Performing matrix multiplication - very expensive!');
+                    return [
+                        [
+                            1,
+                            2
+                        ],
+                        [
+                            3,
+                            4
+                        ]
+                    ];
+                }
+            };
+        }
+    };
+    var __webpack_module_cache__ = {};
+    function __webpack_require__(moduleId) {
+        var cachedModule = __webpack_module_cache__[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+        var module = __webpack_module_cache__[moduleId] = {
+            exports: {}
+        };
+        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+        return module.exports;
+    }
+    (()=>{
+        __webpack_require__.d = (exports, definition)=>{
+            for(var key in definition){
+                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+                    Object.defineProperty(exports, key, {
+                        enumerable: true,
+                        get: definition[key]
+                    });
+                }
+            }
+        };
+    })();
+    (()=>{
+        __webpack_require__.o = (obj, prop)=>Object.prototype.hasOwnProperty.call(obj, prop);
+    })();
+    (()=>{
+        __webpack_require__.rv = ()=>"1.3.12";
+    })();
+    (()=>{
+        __webpack_require__.ruid = "bundler=rspack@1.3.12";
+    })();
+    (()=>{
+        console.log('=== Tree Shaking Demo ===');
+        console.log('Main application started - base functionality always included');
+    })();
+})();
+"#;
+
+        println!("\n=== DEBUGGING OPTIMIZED OUTPUT PARSING ===");
+        
+        let parser = WebpackBundleParser::new().expect("Failed to create parser");
+        let graph = parser.parse_bundle(optimized_content).expect("Failed to parse optimized bundle");
+
+        println!("PARSER RESULTS:");
+        println!("   Total modules found: {}", graph.modules.len());
+        println!("   Entry points detected: {} {:?}", graph.entry_points.len(), graph.entry_points);
+        
+        // Show all modules and their dependencies
+        println!("\nMODULE ANALYSIS:");
+        let mut modules: Vec<_> = graph.modules.iter().collect();
+        modules.sort_by_key(|(id, _)| id.parse::<u32>().unwrap_or(999));
+        
+        for (id, module) in &modules {
+            println!("   Module {}: deps={:?}, dependents={:?}", 
+                id, 
+                module.dependencies.iter().collect::<Vec<_>>(),
+                module.dependents.iter().collect::<Vec<_>>()
+            );
+        }
+        
+        // Reachability analysis
+        let reachable = graph.get_reachable_modules();
+        let mut unreachable = graph.get_unreachable_modules();
+        unreachable.sort();
+        
+        println!("\nREACHABILITY ANALYSIS:");
+        println!("   Reachable modules: {} {:?}", reachable.len(), {
+            let mut sorted: Vec<_> = reachable.iter().collect();
+            sorted.sort();
+            sorted
+        });
+        println!("   Unreachable modules: {} {:?}", unreachable.len(), unreachable);
+        
+        // This should be the key test - with 0 entry points, ALL modules should be unreachable
+        assert_eq!(graph.entry_points.len(), 0, "Should detect 0 entry points in optimized output");
+        assert_eq!(unreachable.len(), graph.modules.len(), "All modules should be unreachable with 0 entry points");
+        
+        println!("\n✓ Parser correctly identifies 0 entry points and all modules as unreachable");
+        println!("✗ But tree shaking in optimize.rs is not removing them - investigating why...\n");
+    }
 }  

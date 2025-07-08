@@ -30,8 +30,8 @@ var dataProcessor = {
 __webpack_require__.d(__webpack_exports__, {
   v: () => (featureA)
 });
-/* ESM import */var _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78);
-/* ESM import */var _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(418);
+/* ESM import */var _heavyMathUtils_ts__WEBPACK_IMPORTED_MODULE_0__ = /*#__PURE__*/ __webpack_require__(78);
+/* ESM import */var _dataProcessor_ts__WEBPACK_IMPORTED_MODULE_1__ = /*#__PURE__*/ __webpack_require__(418);
 // featureA.js - Feature A implementation that uses heavy utilities
 
 function featureA() {
@@ -74,6 +74,7 @@ var heavyMathUtils = {
 var __webpack_module_cache__ = {};
 
 // The require function
+/*#__NO_SIDE_EFFECTS__*/
 function __webpack_require__(moduleId) {
 var cachedModule = __webpack_module_cache__[moduleId];
 if (cachedModule !== undefined) {
@@ -105,7 +106,7 @@ __webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj
 /************************************************************************/
 var __webpack_exports__ = {};
 (() => {
-/* ESM import */var _featureA_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(153);
+/* ESM import */var _featureA_ts__WEBPACK_IMPORTED_MODULE_0__ = /*#__PURE__*/ __webpack_require__(153);
 // main.js - Entry point with only Feature A
 
 console.log('=== Feature A Only Demo ===');

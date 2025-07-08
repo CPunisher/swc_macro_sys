@@ -121,7 +121,8 @@ export class SWCOptimizer {
    * Count webpack modules in source
    */
   countWebpackModules(source) {
-    const moduleRegex = /\d+:\s*\(function/g;
+    // Updated regex to handle both (function and function formats
+    const moduleRegex = /\d+:\s*(?:\()?function/g;
     const matches = source.match(moduleRegex);
     return matches ? matches.length : 0;
   }

@@ -74,11 +74,8 @@ impl WebpackBundleParser {
             }
         }
 
-        if graph.entry_points.is_empty() {
-            return Err(WebpackGraphError::InvalidBundleFormat(
-                "No entry points found - __webpack_require__ calls must exist outside __webpack_modules__".to_string(),
-            ));
-        }
+        // Note: Empty entry points are allowed for tree shaking scenarios where DCE
+        // has removed all entry point imports, making all modules unreachable
 
         Ok(graph)
     }
