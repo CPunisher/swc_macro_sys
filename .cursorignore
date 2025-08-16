@@ -1,0 +1,17 @@
+# Override .gitignore for Cursor indexing
+
+# Include timestamped Vitest configs for indexing
+!**/vitest.config.*.timestamp-*.mjs
+
+# Include Playwright HTML reports for indexing
+!**/playwright-report/**
+
+# Include share-usage manifests even if under dist
+!**/share-usage.json
+
+# Include test results and dist outputs for inspection/debugging
+!test-results
+!test-results/**
+!dist/**
+!**/dist/**
+
