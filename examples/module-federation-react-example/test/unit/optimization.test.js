@@ -1,17 +1,18 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { optimize } from 'swc_macro_wasm';
+import os from 'os';
+import { optimizeChunk } from '../utils/optimization.js';
+
+// Ensure this file does not import the WASM module directly to avoid ESM/WASM loader issues in Vitest.
 
 describe('SWC Macro Optimization', () => {
   const fixturesPath = path.resolve(__dirname, '../fixtures');
   
   describe('Tree Shaking', () => {
     it('should remove unused lodash exports', () => {
-      const chunk = fs.readFileSync(
-        path.join(fixturesPath, 'lodash-chunk.js'), 
-        'utf-8'
-      );
+      const chunkPath = path.join(fixturesPath, 'lodash-chunk.js');
+      const chunk = fs.readFileSync(chunkPath, 'utf-8');
       
       const config = {
         treeShake: {
@@ -20,15 +21,15 @@ describe('SWC Macro Optimization', () => {
             uniq: true,
             map: false,
             filter: false,
-            reduce: false
+            reduce: false,
+            chunk_characteristics: {
+              entry_module_id: '../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js'
+            }
           }
-        },
-        entryModules: {
-          'lodash-es': '../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js'
         }
       };
       
-      const optimized = optimize(chunk, JSON.stringify(config));
+      const optimized = optimizeChunk(chunkPath, config);
       
       // Check that enabled exports are preserved
       expect(optimized).toContain('sortBy');
@@ -79,12 +80,9 @@ describe('SWC Macro Optimization', () => {
       const entryModuleId = shareUsage.treeShake['lodash-es'].chunk_characteristics.entry_module_id;
       
       // The treeShake config is already in the correct format
-      const config = {
-        treeShake: shareUsage.treeShake,
-        entryModules: { 'lodash-es': entryModuleId }
-      };
+      const config = { treeShake: shareUsage.treeShake };
       
-      expect(config.entryModules['lodash-es']).toBe(entryModuleId);
+      expect(config.treeShake['lodash-es'].chunk_characteristics.entry_module_id).toBe(entryModuleId);
       expect(config.treeShake['lodash-es'].sortBy).toBe(true);
       expect(config.treeShake['lodash-es'].map).toBe(false);
       expect(config.treeShake['lodash-es'].chunk_characteristics).toBeDefined();
@@ -93,7 +91,7 @@ describe('SWC Macro Optimization', () => {
   
   describe('CommonJS Split Chunks', () => {
     it('should preserve module structure in exports.modules format', () => {
-      const chunk = `
+      const chunkSource = `
         "use strict";
         exports.ids = ["vendors-lodash"];
         exports.modules = {
@@ -105,18 +103,23 @@ describe('SWC Macro Optimization', () => {
           }
         };
       `;
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mf-react-'));
+      const tmpFile = path.join(tmpDir, 'cjs-chunk.js');
+      fs.writeFileSync(tmpFile, chunkSource, 'utf8');
       
       const config = {
         treeShake: {
-          'lodash-es': { sortBy: true, map: false }
-        },
-        entryModules: {
-          'lodash-es': 'lodash/lodash.js'
+          'lodash-es': {
+            sortBy: true,
+            map: false,
+            chunk_characteristics: { entry_module_id: 'lodash/lodash.js', is_runtime_chunk: false, chunk_format: 'require' }
+          }
         }
       };
       
-      const optimized = optimize(chunk, JSON.stringify(config));
-      
+      const optimized = optimizeChunk(tmpFile, config);
+      try { fs.unlinkSync(tmpFile); } catch (_) {}
+    
       // Should maintain CommonJS structure
       expect(optimized).toContain('exports.ids');
       expect(optimized).toContain('exports.modules');
@@ -134,13 +137,18 @@ describe('SWC Macro Optimization', () => {
         /* @common:endif */
       `;
       
+      const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mf-react-'));
+      const tmpFile = path.join(tmpDir, 'macro-chunk.js');
+      fs.writeFileSync(tmpFile, chunk, 'utf8');
+      
       const config = {
         treeShake: {
           'lodash-es': { sortBy: true, map: false }
         }
       };
       
-      const optimized = optimize(chunk, JSON.stringify(config));
+      const optimized = optimizeChunk(tmpFile, config);
+      try { fs.unlinkSync(tmpFile); } catch (_) {}
       
       expect(optimized).toContain('sortBy');
       expect(optimized).not.toContain('exports.map');

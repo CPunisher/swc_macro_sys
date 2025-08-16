@@ -1,4 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
+
+test('no critical console errors during navigation (indicates no removed modules)', async ({ page, consoleErrorWatcher }) => {
+  await page.goto('/');
+  await page.click('text=Remote Components');
+  await page.waitForSelector('.remote-component-wrapper, .ant-card');
+  expect(consoleErrorWatcher.messages).toEqual([]);
+});
 
 test.describe('Module Federation Architecture', () => {
   test('should load both host and remote applications independently', async ({ browser }) => {

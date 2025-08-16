@@ -110,26 +110,8 @@ fn test_lodash_orphan_detection_with_minimal_usage() {
                 "default": true,
                 "map": false,
                 "filter": false,
-                "reduce": false,
-                "chunk_characteristics": {
-                    "is_runtime_chunk": false,
-                    "has_runtime": false,
-                    "is_entrypoint": false,
-                    "can_be_initial": false,
-                    "is_only_initial": false,
-                    "chunk_format": "async-node",
-                    "chunk_loading_type": null,
-                    "runtime_names": ["vendors-lodash"],
-                    "entry_name": null,
-                    "has_async_chunks": false,
-                    "chunk_files": ["vendors-lodash.js"],
-                    "is_shared_chunk": false,
-                    "shared_modules": []
-                }
+                "reduce": false
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -175,26 +157,8 @@ fn test_lodash_orphan_detection_with_minimal_usage() {
                 "default": true,
                 "map": false,
                 "filter": false,
-                "reduce": false,
-                "chunk_characteristics": {
-                    "is_runtime_chunk": false,
-                    "has_runtime": false,
-                    "is_entrypoint": false,
-                    "can_be_initial": false,
-                    "is_only_initial": false,
-                    "chunk_format": "async-node",
-                    "chunk_loading_type": null,
-                    "runtime_names": ["vendors-lodash"],
-                    "entry_name": null,
-                    "has_async_chunks": false,
-                    "chunk_files": ["vendors-lodash.js"],
-                    "is_shared_chunk": false,
-                    "shared_modules": []
-                }
+                "reduce": false
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -273,7 +237,6 @@ fn test_real_world_lodash_aggressive_tree_shaking() {
         println!("Original modules: {}", original_modules);
         
         // Test with absolute minimal config - only default export
-        // Create configuration via string to avoid recursion limit
         let minimal_config_str = r#"{
             "treeShake": {
                 "lodash-es": {
@@ -325,26 +288,8 @@ fn test_real_world_lodash_aggressive_tree_shaking() {
                     "without": false,
                     "zip": false,
                     "zipObject": false,
-                    "zipWith": false,
-                    "chunk_characteristics": {
-                        "is_runtime_chunk": false,
-                        "has_runtime": false,
-                        "is_entrypoint": false,
-                        "can_be_initial": false,
-                        "is_only_initial": false,
-                        "chunk_format": "async-node",
-                        "chunk_loading_type": null,
-                        "runtime_names": ["vendors-lodash"],
-                        "entry_name": null,
-                        "has_async_chunks": false,
-                        "chunk_files": ["vendors-lodash.js"],
-                        "is_shared_chunk": false,
-                        "shared_modules": []
-                    }
+                    "zipWith": false
                 }
-            },
-            "entryModules": {
-                "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
             }
         }"#;
         

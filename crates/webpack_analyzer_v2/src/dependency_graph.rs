@@ -52,7 +52,8 @@ impl DependencyGraph {
         while let Some(current) = queue.pop_front() {
             if let Some(module) = self.modules.get(&current) {
                 for dependency in &module.dependencies {
-                    if !visited.contains(dependency) {
+                    // Only traverse into dependencies that are present in the graph
+                    if self.modules.contains_key(dependency) && !visited.contains(dependency) {
                         visited.insert(dependency.clone());
                         queue.push_back(dependency.clone());
                     }

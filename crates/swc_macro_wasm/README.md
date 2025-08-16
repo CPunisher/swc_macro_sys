@@ -50,9 +50,12 @@ import { optimize } from 'swc-macro-wasm';
 
 const optimizedCode = optimize(webpackChunkSource, {
   treeShake: {
-    "lodash-es": ["debounce", "throttle"]  // Preserve only these exports
+    "lodash-es": {
+      debounce: true,
+      throttle: true,
+      chunk_characteristics: { entry_module_id: "./node_modules/lodash-es/lodash.js" }
+    }
   },
-  entryModules: ["./src/index.js"],
   chunk_characteristics: {
     chunk_type: "vendor",
     entry_module_id: "./node_modules/lodash-es/lodash.js"
@@ -67,9 +70,12 @@ use swc_macro_wasm::optimize_chunk;
 
 let config = serde_json::json!({
   "treeShake": {
-    "lodash-es": ["debounce", "throttle"]
-  },
-  "entryModules": ["./src/index.js"]
+    "lodash-es": {
+      "debounce": true,
+      "throttle": true,
+      "chunk_characteristics": { "entry_module_id": "./node_modules/lodash-es/lodash.js" }
+    }
+  }
 });
 
 let optimized = optimize_chunk(&source, &config.to_string())?;
@@ -85,10 +91,7 @@ let optimized = optimize_chunk(&source, &config.to_string())?;
     "package-name": ["export1", "export2"],  // Preserve specific exports
     "another-package": "*"                    // Preserve all exports
   },
-  "entryModules": [
-    "./src/index.js",
-    "./src/bootstrap.js"
-  ],
+  
   "chunk_characteristics": {
     "chunk_type": "vendor|shared|remote",
     "entry_module_id": "./explicit/entry/point.js",  // Required for tree shaking

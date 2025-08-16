@@ -8,14 +8,14 @@ async function runJavaScriptParityTest() {
     console.log('\n=== JAVASCRIPT PARITY TEST ===');
     console.log('Testing same optimization pipeline as build scripts vs Rust test results\n');
 
-    // Import the SWC macro WASM optimizer
+    // Import the SWC macro WASM optimizer (requires --experimental-wasm-modules)
     let swcMacro;
     try {
         swcMacro = await import('../pkg/swc_macro_wasm.js');
         console.log('✅ SWC macro WASM module loaded successfully');
     } catch (error) {
         console.error('❌ Failed to load SWC macro WASM module:', error.message);
-        console.log('Make sure to run with --experimental-wasm-modules flag');
+        console.log('Run with: node --experimental-wasm-modules crates/swc_macro_wasm/tests/javascript_parity_test.cjs');
         process.exit(1);
     }
 
@@ -38,13 +38,14 @@ async function runJavaScriptParityTest() {
 
     console.log(`Original chunk size: ${originalSize} bytes (${(originalSize/1024).toFixed(2)} KB)`);
 
-    // Load and merge usage data exactly like the optimization scripts
+    // Load usage data from fixtures in current optimizer format with chunk_characteristics
     const hostUsage = JSON.parse(fs.readFileSync(hostUsagePath, 'utf8'));
     const remoteUsage = JSON.parse(fs.readFileSync(remoteUsagePath, 'utf8'));
 
-    const hostUsed = hostUsage.consume_shared_modules['lodash-es'].used_exports;
-    const remoteUsed = remoteUsage.consume_shared_modules['lodash-es'].used_exports;
-    const unusedExports = hostUsage.consume_shared_modules['lodash-es'].unused_exports;
+    const hostCfg = hostUsage.treeShake['lodash-es'] || {};
+    const remoteCfg = remoteUsage.treeShake['lodash-es'] || {};
+    const hostUsed = Object.entries(hostCfg).filter(([k,v]) => k !== 'chunk_characteristics' && v === true).map(([k]) => k);
+    const remoteUsed = Object.entries(remoteCfg).filter(([k,v]) => k !== 'chunk_characteristics' && v === true).map(([k]) => k);
 
     console.log(`Host app uses ${hostUsed.length} lodash exports:`, hostUsed);
     console.log(`Remote app uses ${remoteUsed.length} lodash exports:`, remoteUsed);
@@ -60,10 +61,10 @@ async function runJavaScriptParityTest() {
     for (const exportName of allUsedExports) {
         treeShakeConfig[exportName] = true;
     }
-    for (const exportName of unusedExports) {
-        if (!allUsedExports.has(exportName)) {
-            treeShakeConfig[exportName] = false;
-        }
+    // Mark everything else we see in host config as false (excluding chunk_characteristics)
+    for (const [exportName, val] of Object.entries(hostCfg)) {
+        if (exportName === 'chunk_characteristics') continue;
+        if (!allUsedExports.has(exportName) && val === false) treeShakeConfig[exportName] = false;
     }
 
     console.log(`Tree shake config includes ${Object.keys(treeShakeConfig).length} exports (${allUsedExports.size} used, ${Object.keys(treeShakeConfig).length - allUsedExports.size} unused)`);
@@ -73,9 +74,17 @@ async function runJavaScriptParityTest() {
     console.log('🧪 TEST 1: Single pass optimization (replicating Rust test)');
     console.log('='.repeat(60));
 
+    const characteristics = hostCfg.chunk_characteristics || remoteCfg.chunk_characteristics;
+    if (!characteristics) {
+        console.error('❌ Missing chunk_characteristics in fixtures. Add treeShake["lodash-es"].chunk_characteristics.');
+        process.exit(1);
+    }
     const config1 = {
         treeShake: {
-            'lodash-es': treeShakeConfig
+            'lodash-es': {
+                ...treeShakeConfig,
+                chunk_characteristics: characteristics
+            }
         }
     };
 
@@ -138,7 +147,8 @@ async function runJavaScriptParityTest() {
                 'pick': true,
                 'groupBy': true,
                 'throttle': true,
-                'debounce': true
+                'debounce': true,
+                chunk_characteristics: characteristics
             }
         }
     };
@@ -162,7 +172,9 @@ async function runJavaScriptParityTest() {
 
     for (const { name, config } of progressiveConfigs) {
         const configStr = JSON.stringify(config);
-        const result = swcMacro.optimize(originalCode, configStr);
+        const cfg = name === 'Empty config' ? { treeShake: { 'lodash-es': { chunk_characteristics: characteristics } } } : JSON.parse(configStr);
+        if (!cfg.treeShake['lodash-es'].chunk_characteristics) cfg.treeShake['lodash-es'].chunk_characteristics = characteristics;
+        const result = swcMacro.optimize(originalCode, JSON.stringify(cfg));
         const reduction = ((originalSize - result.length) / originalSize) * 100;
         console.log(`${name}: ${reduction.toFixed(1)}% reduction → ${(result.length/1024).toFixed(2)} KB`);
     }

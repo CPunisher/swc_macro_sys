@@ -44,6 +44,56 @@ impl SharedExtractionMethods {
                     }
                 }
             }
+            Stmt::Block(block) => {
+                for s in &block.stmts {
+                    Self::extract_webpack_requires_from_stmt(s, source);
+                }
+            }
+            Stmt::If(if_stmt) => {
+                Self::extract_webpack_requires_from_expr(&if_stmt.test, source, ExtractionMode::Basic);
+                Self::extract_webpack_requires_from_stmt(&if_stmt.cons, source);
+                if let Some(alt) = &if_stmt.alt {
+                    Self::extract_webpack_requires_from_stmt(alt, source);
+                }
+            }
+            Stmt::Return(ret) => {
+                if let Some(arg) = &ret.arg {
+                    Self::extract_webpack_requires_from_expr(arg, source, ExtractionMode::Basic);
+                }
+            }
+            Stmt::While(wh) => {
+                Self::extract_webpack_requires_from_expr(&wh.test, source, ExtractionMode::Basic);
+                Self::extract_webpack_requires_from_stmt(&wh.body, source);
+            }
+            Stmt::DoWhile(dw) => {
+                Self::extract_webpack_requires_from_stmt(&dw.body, source);
+                Self::extract_webpack_requires_from_expr(&dw.test, source, ExtractionMode::Basic);
+            }
+            Stmt::For(f) => {
+                if let Some(init) = &f.init { match init { VarDeclOrExpr::VarDecl(v) => {
+                        for d in &v.decls { if let Some(i) = &d.init { Self::extract_webpack_requires_from_expr(i, source, ExtractionMode::Basic); } }
+                    }, VarDeclOrExpr::Expr(e) => Self::extract_webpack_requires_from_expr(e, source, ExtractionMode::Basic) } }
+                if let Some(test) = &f.test { Self::extract_webpack_requires_from_expr(test, source, ExtractionMode::Basic); }
+                if let Some(update) = &f.update { Self::extract_webpack_requires_from_expr(update, source, ExtractionMode::Basic); }
+                Self::extract_webpack_requires_from_stmt(&f.body, source);
+            }
+            Stmt::ForIn(fi) => {
+                if let ForHead::Pat(p) = &fi.left { let _ = p; }
+                Self::extract_webpack_requires_from_expr(&fi.right, source, ExtractionMode::Basic);
+                Self::extract_webpack_requires_from_stmt(&fi.body, source);
+            }
+            Stmt::ForOf(fo) => {
+                if let ForHead::Pat(p) = &fo.left { let _ = p; }
+                Self::extract_webpack_requires_from_expr(&fo.right, source, ExtractionMode::Basic);
+                Self::extract_webpack_requires_from_stmt(&fo.body, source);
+            }
+            Stmt::Switch(sw) => {
+                Self::extract_webpack_requires_from_expr(&sw.discriminant, source, ExtractionMode::Basic);
+                for cc in &sw.cases {
+                    if let Some(test) = &cc.test { Self::extract_webpack_requires_from_expr(test, source, ExtractionMode::Basic); }
+                    for s in &cc.cons { Self::extract_webpack_requires_from_stmt(s, source); }
+                }
+            }
             _ => {}
         }
     }
@@ -76,33 +126,67 @@ impl SharedExtractionMethods {
     /// Handle call expressions based on extraction mode
     fn handle_call_expr(call: &CallExpr, source: &mut String, mode: ExtractionMode) {
         if let Callee::Expr(callee_expr) = &call.callee {
-            if let Expr::Ident(ident) = callee_expr.as_ref() {
-                if ident.sym == "__webpack_require__" {
-                    // Found a webpack_require call
-                    if let Some(ExprOrSpread { expr, .. }) = call.args.first() {
-                        match expr.as_ref() {
-                            Expr::Lit(Lit::Str(s)) => {
-                                source.push_str(&format!("__webpack_require__(\"{}\");\n", s.value));
+            // Normalize callee: unwrap Paren and Seq (use last)
+            fn normalize<'a>(mut e: &'a Expr) -> &'a Expr {
+                loop {
+                    match e {
+                        Expr::Paren(p) => { e = &p.expr; }
+                        Expr::Seq(s) => { if let Some(last) = s.exprs.last() { e = last; } else { break; } }
+                        _ => break,
+                    }
+                }
+                e
+            }
+            let norm = normalize(callee_expr.as_ref());
+
+            match norm {
+                Expr::Ident(ident) => {
+                    if ident.sym == "__webpack_require__" {
+                        // Found a webpack_require call
+                        if let Some(ExprOrSpread { expr, .. }) = call.args.first() {
+                            match expr.as_ref() {
+                                Expr::Lit(Lit::Str(s)) => {
+                                    source.push_str(&format!("__webpack_require__(\"{}\");\n", s.value));
+                                }
+                                Expr::Lit(Lit::Num(n)) => {
+                                    // Support numeric module IDs (e.g., WebpackModules format)
+                                    source.push_str(&format!("__webpack_require__({});\n", n.value));
+                                }
+                                Expr::Tpl(tpl) if tpl.exprs.is_empty() => {
+                                    let cooked = tpl.quasis.iter().map(|q| q.raw.as_ref()).collect::<Vec<_>>().join("");
+                                    if !cooked.is_empty() { source.push_str(&format!("__webpack_require__(\"{}\");\n", cooked)); }
+                                }
+                                _ => {}
                             }
-                            Expr::Lit(Lit::Num(n)) if matches!(mode, ExtractionMode::WithNumericIds) => {
-                                source.push_str(&format!("__webpack_require__({});\n", n.value));
-                            }
-                            _ => {}
                         }
                     }
                 }
+                Expr::Fn(fn_expr) => {
+                    // IIFE: (function(){ ... __webpack_require__(...) ... })()
+                    let body = &fn_expr.function.body;
+                    let nested = Self::extract_webpack_requires_from_function_body(body);
+                    if !nested.is_empty() { source.push_str(&nested); }
+                }
+                Expr::Arrow(arrow) => {
+                    // IIFE arrow: (()=>{ ... __webpack_require__(...) ... })()
+                    match &*arrow.body {
+                        BlockStmtOrExpr::BlockStmt(block) => {
+                            for stmt in &block.stmts {
+                                Self::extract_webpack_requires_from_stmt(stmt, source);
+                            }
+                        }
+                        BlockStmtOrExpr::Expr(expr) => {
+                            Self::extract_webpack_requires_from_expr(expr, source, mode);
+                        }
+                    }
+                }
+                _ => {}
             }
             
-            // Handle member expressions and extended features based on mode
+            // Handle extended features based on mode
             match mode {
-                ExtractionMode::WithMemberExpr => {
-                    Self::handle_member_expr_calls(callee_expr, call, source);
-                }
                 ExtractionMode::WithWebpackD => {
-                    Self::handle_webpack_d_calls(callee_expr, call, source);
-                }
-                ExtractionMode::WithNumericIds => {
-                    // Basic numeric handling already covered above
+                    Self::handle_webpack_d_calls(norm, call, source);
                 }
                 ExtractionMode::Basic => {
                     // Only basic __webpack_require__ calls
@@ -111,24 +195,6 @@ impl SharedExtractionMethods {
         }
     }
 
-    /// Handle member expression calls like __webpack_require__("...").helper1
-    fn handle_member_expr_calls(callee_expr: &Expr, _call: &CallExpr, source: &mut String) {
-        if let Expr::Member(member) = callee_expr {
-            if let Expr::Call(inner_call) = member.obj.as_ref() {
-                if let Callee::Expr(inner_callee) = &inner_call.callee {
-                    if let Expr::Ident(ident) = inner_callee.as_ref() {
-                        if ident.sym == "__webpack_require__" {
-                            if let Some(ExprOrSpread { expr, .. }) = inner_call.args.first() {
-                                if let Expr::Lit(Lit::Str(s)) = expr.as_ref() {
-                                    source.push_str(&format!("__webpack_require__(\"{}\");\n", s.value));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     /// Handle __webpack_require__.d() calls (JSONP-specific)
     fn handle_webpack_d_calls(callee_expr: &Expr, call: &CallExpr, source: &mut String) {
@@ -187,25 +253,7 @@ impl SharedExtractionMethods {
         match arrow.body.as_ref() {
             BlockStmtOrExpr::BlockStmt(block) => {
                 for stmt in &block.stmts {
-                    match mode {
-                        ExtractionMode::WithNumericIds => {
-                            // Handle additional statement types for WebpackModules
-                            match stmt {
-                                Stmt::Expr(expr_stmt) => {
-                                    Self::extract_webpack_requires_from_expr(&expr_stmt.expr, source, mode);
-                                }
-                                Stmt::Return(ret_stmt) => {
-                                    if let Some(arg) = &ret_stmt.arg {
-                                        Self::extract_webpack_requires_from_expr(arg, source, mode);
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
-                        _ => {
-                            Self::extract_webpack_requires_from_stmt(stmt, source);
-                        }
-                    }
+                    Self::extract_webpack_requires_from_stmt(stmt, source);
                 }
             }
             BlockStmtOrExpr::Expr(expr) => {
@@ -269,10 +317,8 @@ impl SharedExtractionMethods {
 /// Extraction modes for different visitor types
 #[derive(Clone, Copy)]
 enum ExtractionMode {
-    Basic,           // CommonJS basic extraction
-    WithMemberExpr,  // CommonJS with member expression handling
-    WithWebpackD,    // JSONP with __webpack_require__.d() handling
-    WithNumericIds,  // WebpackModules with numeric IDs
+    Basic,        // CommonJS basic extraction
+    WithWebpackD, // JSONP with __webpack_require__.d() handling
 }
 
 /// Main analyzer for webpack chunks
@@ -299,26 +345,20 @@ impl WebpackAnalyzer {
         // Step 1: Determine chunk type from characteristics
         let chunk_type = characteristics.determine_chunk_type();
         
-        // Step 2: Validate chunk type is not Unknown
-        if chunk_type == ChunkType::Unknown {
-            return Err(format!("Unable to determine chunk type from characteristics. chunk_format: '{}'", 
-                characteristics.chunk_format).into());
-        }
-
-        // Step 3: Parse the source code
+        // Step 2: Parse the source code (allow Unknown to enable CommonJS/JSONP fallback only)
         let program = self.parse_source(source)?;
 
-        // Step 4: Create chunk with characteristics
+        // Step 3: Create chunk with characteristics
         let mut chunk = WebpackChunk::new_with_characteristics(
             chunk_type.clone(),
             source.to_string(),
             characteristics,
         );
 
-        // Step 5: Extract modules based on chunk type
+        // Step 4: Extract modules based on chunk type
         self.extract_modules(&program, &mut chunk)?;
 
-        // Step 6: Build dependency graph
+        // Step 5: Build dependency graph
         self.build_dependency_graph(&mut chunk)?;
 
         Ok(chunk)
@@ -363,20 +403,18 @@ impl WebpackAnalyzer {
                 self.extract_commonjs_modules(program, chunk)
             },
             ChunkType::JSONP => self.extract_jsonp_modules(program, chunk),
-            ChunkType::WebpackModules => self.extract_webpack_modules(program, chunk),
-            ChunkType::ESModules => {
-                // For now, treat ES modules similar to webpack modules
-                // TODO: Implement dedicated ES modules extraction
-                self.extract_webpack_modules(program, chunk)
+            // Explicitly disable webpack runtime and ESModules styles
+            ChunkType::WebpackModules | ChunkType::ESModules => {
+                Err("Unsupported chunk format: only JSONP or CommonJS styles are supported".into())
             },
             ChunkType::Unknown => {
-                // Try all extraction methods and use the one that finds modules
+                // Try CommonJS and JSONP extraction methods only
                 if self.extract_commonjs_modules(program, chunk).is_ok() && chunk.module_count() > 0 {
                     Ok(())
                 } else if self.extract_jsonp_modules(program, chunk).is_ok() && chunk.module_count() > 0 {
                     Ok(())
                 } else {
-                    self.extract_webpack_modules(program, chunk)
+                    Err("Unsupported or unrecognized chunk format: only JSONP or CommonJS styles are supported".into())
                 }
             },
         }
@@ -472,14 +510,14 @@ impl WebpackAnalyzer {
                 dependencies = visitor.dependencies;
             }
             Err(_e) => {
-                // If parsing fails, we'll return empty dependencies
-                // This can happen with malformed or incomplete source
+                // Parsing failed; skip dependency extraction to avoid false positives
+                // Conservative behavior: return no dependencies rather than using best-effort heuristics
+                dependencies = Vec::new();
             }
         }
 
         Ok(dependencies)
     }
-
 }
 
 /// Visitor for CommonJS format chunks
@@ -526,6 +564,7 @@ impl CommonJSVisitor {
                     let module_id = match &kv.key {
                         PropName::Str(s) => s.value.clone(),
                         PropName::Ident(ident) => ident.sym.clone(),
+                        PropName::Num(num) => Atom::from(num.value.to_string()),
                         _ => continue,
                     };
 
@@ -544,8 +583,8 @@ impl CommonJSVisitor {
         match expr {
             // Pattern 1: Direct function expressions
             Expr::Fn(func) => {
-                let result = SharedExtractionMethods::extract_webpack_requires_from_function_body(&func.function.body);
-                result
+                
+                SharedExtractionMethods::extract_webpack_requires_from_function_body(&func.function.body)
             }
             // Pattern 2: Function expressions wrapped in call expressions (real-world case)
             Expr::Call(call) => {
@@ -576,7 +615,7 @@ impl CommonJSVisitor {
     }
 
     fn extract_webpack_requires_from_expr(&self, expr: &Expr, source: &mut String) {
-        SharedExtractionMethods::extract_webpack_requires_from_expr(expr, source, ExtractionMode::WithMemberExpr);
+        SharedExtractionMethods::extract_webpack_requires_from_expr(expr, source, ExtractionMode::Basic);
     }
 }
 
@@ -656,8 +695,8 @@ impl JSONPVisitor {
         match expr {
             // Pattern 1: Direct function expressions
             Expr::Fn(func) => {
-                let result = SharedExtractionMethods::extract_webpack_requires_from_function_body(&func.function.body);
-                result
+                
+                SharedExtractionMethods::extract_webpack_requires_from_function_body(&func.function.body)
             }
             // Pattern 2: Function expressions wrapped in call expressions (real-world case)
             Expr::Call(call) => {
@@ -781,7 +820,7 @@ impl WebpackModulesVisitor {
     }
 
     fn extract_webpack_requires_from_expr(&self, expr: &Expr, source: &mut String) {
-        SharedExtractionMethods::extract_webpack_requires_from_expr(expr, source, ExtractionMode::WithNumericIds);
+        SharedExtractionMethods::extract_webpack_requires_from_expr(expr, source, ExtractionMode::Basic);
     }
 }
 
@@ -802,8 +841,26 @@ impl Visit for RequireVisitor {
     fn visit_call_expr(&mut self, node: &CallExpr) {
         // Look for __webpack_require__("module_id") calls
         if let Callee::Expr(expr) = &node.callee {
-            if let Expr::Ident(ident) = expr.as_ref() {
-                if ident.sym == "__webpack_require__" {
+            // Resolve the callee to an identifier symbol, handling parentheses and sequence expressions
+            fn resolve_callee_ident<'a>(mut e: &'a Expr) -> Option<&'a Ident> {
+                // Unwrap parens and sequence to the last expression
+                loop {
+                    match e {
+                        Expr::Paren(p) => { e = &p.expr; }
+                        Expr::Seq(s) => {
+                            if let Some(last) = s.exprs.last() { e = last; } else { break; }
+                        }
+                        _ => break,
+                    }
+                }
+                match e {
+                    Expr::Ident(id) => Some(id),
+                    _ => None,
+                }
+            }
+
+            if let Some(id) = resolve_callee_ident(expr.as_ref()) {
+                if id.sym == "__webpack_require__" {
                     // Found webpack_require call
                     if let Some(ExprOrSpread { expr, .. }) = node.args.first() {
                         match expr.as_ref() {
@@ -812,6 +869,11 @@ impl Visit for RequireVisitor {
                             }
                             Expr::Lit(Lit::Num(n)) => {
                                 self.dependencies.push(Atom::from(n.value.to_string()));
+                            }
+                            // Support template literals with no expressions: `./module.js`
+                            Expr::Tpl(tpl) if tpl.exprs.is_empty() => {
+                                let cooked = tpl.quasis.iter().map(|q| q.raw.as_ref()).collect::<Vec<_>>().join("");
+                                if !cooked.is_empty() { self.dependencies.push(Atom::from(cooked)); }
                             }
                             _ => {}
                         }

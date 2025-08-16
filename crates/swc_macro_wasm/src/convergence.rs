@@ -1,8 +1,8 @@
-use std::collections::{HashMap, VecDeque};
+use std::collections::VecDeque;
 use std::hash::{Hash, Hasher, DefaultHasher};
 use swc_ecma_ast::Program;
 use crate::config::ConvergenceConfig;
-use crate::error::{OptimizationError, OptimizationResult};
+use crate::error::OptimizationResult;
 
 /// Convergence detector for iterative optimization passes
 #[derive(Debug)]

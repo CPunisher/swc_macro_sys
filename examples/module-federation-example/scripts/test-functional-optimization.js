@@ -13,7 +13,7 @@ const path = require('path');
 const { createRequire } = require('module');
 
 // Set up module resolution for ES modules
-const require = createRequire(import.meta.url);
+const require = createRequire(require.main === module ? __filename : require.main.filename);
 
 // Mock DOM globals for webpack
 global.document = { getElementById: () => null };

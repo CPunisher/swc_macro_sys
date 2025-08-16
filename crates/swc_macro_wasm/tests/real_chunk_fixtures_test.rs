@@ -103,12 +103,15 @@ fn test_real_module_federation_chunk_optimization() {
         .count();
     println!("Combined used exports: {} total", all_used_count);
     
+    let mut tree_shake_config = tree_shake_config;
+    tree_shake_config.insert("chunk_characteristics".to_string(), serde_json::json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let config = serde_json::json!({
         "treeShake": {
             "lodash-es": tree_shake_config
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -193,12 +196,15 @@ fn test_real_standard_webpack_chunk_optimization() {
     for export in used_exports_vec { tree_shake_config.insert(export, serde_json::Value::Bool(true)); }
     for export in unused_exports_vec { tree_shake_config.insert(export, serde_json::Value::Bool(false)); }
     
+    let mut tree_shake_config = tree_shake_config;
+    tree_shake_config.insert("chunk_characteristics".to_string(), serde_json::json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let config = serde_json::json!({
         "treeShake": {
             "lodash-es": tree_shake_config
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -241,11 +247,13 @@ fn test_chunk_format_comparison_with_real_data() {
     let minimal_config = serde_json::json!({
         "treeShake": {
             "lodash-es": {
-                "default": true
+                "default": true,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     let config_str = serde_json::to_string(&minimal_config).unwrap();
@@ -365,30 +373,30 @@ fn test_debug_tree_shaker_on_real_chunk() {
     
     // Test with progressively aggressive configurations
     let configs = vec![
-        ("No tree shaking", serde_json::json!({
-            "entryModules": {
-                "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-            }
-        })),
+        ("No tree shaking", serde_json::json!({})),
         ("Minimal (default only)", serde_json::json!({
-            "treeShake": { "lodash-es": { "default": true } },
-            "entryModules": {
-                "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-            }
+            "treeShake": { "lodash-es": { "default": true, "chunk_characteristics": {
+                "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                "is_runtime_chunk": false,
+                "chunk_format": "require"
+            } } }
         })),
         ("Conservative (4 exports)", serde_json::json!({
             "treeShake": { "lodash-es": {
-                "map": true, "filter": true, "VERSION": true, "default": true
-            }},
-            "entryModules": {
-                "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-            }
+                "map": true, "filter": true, "VERSION": true, "default": true,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
+            }}
         })),
         ("Aggressive (1 export)", serde_json::json!({
-            "treeShake": { "lodash-es": { "map": true } },
-            "entryModules": {
-                "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-            }
+            "treeShake": { "lodash-es": { "map": true, "chunk_characteristics": {
+                "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                "is_runtime_chunk": false,
+                "chunk_format": "require"
+            } } }
         }))
     ];
     
@@ -397,7 +405,11 @@ fn test_debug_tree_shaker_on_real_chunk() {
     for (name, config) in configs {
         let config_str = serde_json::to_string(&config).unwrap();
         let optimized = optimize(original_code.clone(), &config_str);
-        let reduction = ((original_code.len() - optimized.len()) as f64 / original_code.len() as f64) * 100.0;
+        let before = original_code.len();
+        let after = optimized.len();
+        let reduction = if before > after {
+            ((before - after) as f64 / before as f64) * 100.0
+        } else { 0.0 };
         
         println!("{}: {:.1}% reduction → {:.1}KB", 
             name, reduction, optimized.len() as f64 / 1024.0);

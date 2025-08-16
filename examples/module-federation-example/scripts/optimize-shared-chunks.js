@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const path = require('path');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Import the SWC macro WASM optimizer
 async function loadOptimizer() {
@@ -64,43 +61,21 @@ function mergeUsageData(files, targetApp) {
         mergedTreeShake[moduleKey] = {};
       }
       Object.entries(moduleExports).forEach(([exportName, isUsed]) => {
-        if (exportName === 'chunk_characteristics') return; // skip metadata
+        if (exportName === 'chunk_characteristics') return; // skip here; handle below
         if (mergedTreeShake[moduleKey][exportName] !== true) {
           mergedTreeShake[moduleKey][exportName] = Boolean(isUsed);
         }
       });
+
+      // Attach chunk_characteristics once per module (first occurrence wins)
+      if (!mergedTreeShake[moduleKey].chunk_characteristics && moduleExports?.chunk_characteristics) {
+        mergedTreeShake[moduleKey].chunk_characteristics = moduleExports.chunk_characteristics;
+      }
     });
   });
 
-  // Populate entry modules
-  // - If targetApp is provided, use its chunk_characteristics exclusively
-  // - Otherwise, fall back to the first available entry_module_id across apps (prefers order of files)
-  const entryModules = {};
-  if (targetApp) {
-    const target = files.find(f => f.name === targetApp);
-    if (target?.data?.treeShake) {
-      Object.entries(target.data.treeShake).forEach(([moduleKey, moduleExports]) => {
-        const entryId = moduleExports?.chunk_characteristics?.entry_module_id;
-        if (entryId) {
-          entryModules[moduleKey] = entryId;
-        }
-      });
-    }
-  } else {
-    files.forEach(({ data }) => {
-      if (!data?.treeShake) return;
-      Object.entries(data.treeShake).forEach(([moduleKey, moduleExports]) => {
-        const entryId = moduleExports?.chunk_characteristics?.entry_module_id;
-        if (entryId && !entryModules[moduleKey]) {
-          entryModules[moduleKey] = entryId;
-        }
-      });
-    });
-  }
-
   return {
     treeShake: mergedTreeShake,
-    entryModules,
     metadata: {
       timestamp: new Date().toISOString(),
       apps: files.map(f => f.name),
@@ -155,19 +130,14 @@ function findSharedChunks(files) {
 /**
  * Optimize a shared library chunk using SWC macro with tree-shake flags
  */
-async function optimizeChunk(chunkPath, library, treeShakeConfig, entryModules, optimizer, chunkCharacteristics) {
+async function optimizeChunk(chunkPath, library, treeShakeConfig, optimizer, chunkCharacteristics) {
   console.log(`Optimizing chunk: ${path.basename(chunkPath)}`);
   
   try {
-    // Enforce: require chunk characteristics and entry module for this library
-    const entryIdForLibrary = entryModules?.[library];
+    // Enforce: require chunk characteristics only
     const hasChunkCharacteristics = Boolean(chunkCharacteristics?.entry_module_id);
-    if (!entryIdForLibrary || !hasChunkCharacteristics) {
-      console.log(
-        `Skipping ${path.basename(chunkPath)} for '${library}' - missing ${
-          !entryIdForLibrary ? 'entry module id' : 'chunk characteristics'
-        }`
-      );
+    if (!hasChunkCharacteristics) {
+      console.log(`Skipping ${path.basename(chunkPath)} for '${library}' - missing chunk characteristics`);
       return null;
     }
 
@@ -191,14 +161,10 @@ async function optimizeChunk(chunkPath, library, treeShakeConfig, entryModules, 
       };
     }
 
-    const config = {
-      treeShake: treeShakeWithMeta,  // Pass the full treeShake config
-      entryModules: entryModules || {}
-    };
+    const config = { treeShake: treeShakeWithMeta };
     
     const configJson = JSON.stringify(config);
     console.log(`Tree-shake config for ${library}:`, Object.keys(libraryConfig).length, 'exports to keep');
-    console.log(`Entry modules:`, JSON.stringify(config.entryModules, null, 2));
     console.log('Exports to keep:', Object.keys(libraryConfig).join(', '));
     
     // Run SWC macro optimization
@@ -261,17 +227,7 @@ async function main() {
     console.log('Finding shared library chunks...');
     const chunks = findSharedChunks(files);
 
-    // Group by unique path and collect libraries per chunk
-    const uniqueChunks = new Map();
-    chunks.forEach(chunk => {
-      const key = chunk.path;
-      if (!uniqueChunks.has(key)) {
-        uniqueChunks.set(key, { ...chunk, libraries: [] });
-      }
-      uniqueChunks.get(key).libraries.push(chunk.library);
-    });
     console.log(`✅ Found ${chunks.length} shared library chunks\n`);
-    
     if (chunks.length === 0) {
       console.log('No shared library chunks found to optimize.');
       return;
@@ -290,54 +246,37 @@ async function main() {
     });
     console.log();
     
-    // Optimize each unique chunk
+    // Optimize each chunk individually per library to ensure correct metadata
     console.log('Optimizing chunks...');
     const results = [];
-    
-    for (const uniqueChunk of uniqueChunks.values()) {
-      // Build per-app config dynamically: OR-merged exports + app-specific entry modules
-      const { entryModules } = mergeUsageData(files, uniqueChunk.app);
-      
-      // Collect chunkCharacteristics - use first library's as representative
-      const appData = files.find(f => f.name === uniqueChunk.app)?.data;
-      const firstLibrary = uniqueChunk.libraries[0];
-      const chunkCharacteristics = appData?.treeShake?.[firstLibrary]?.chunk_characteristics;
+    for (const chunk of chunks) {
+      const appName = chunk.app;
+      const library = chunk.library;
+      // Pull chunk characteristics for this library/app
+      const appData = files.find(f => f.name === appName)?.data;
+      const chunkCharacteristics = appData?.treeShake?.[library]?.chunk_characteristics;
 
-      // Merge treeShake configs for all libraries in this chunk
-      const mergedLibraryConfig = {};
-      uniqueChunk.libraries.forEach(lib => {
-        if (mergedFlags[lib]) {
-          Object.entries(mergedFlags[lib]).forEach(([exportName, shouldKeep]) => {
-            if (shouldKeep) {
-              mergedLibraryConfig[exportName] = true;
-            }
-          });
-        }
-      });
-
-      // For treeShakeWithMeta, include all libraries' flags
-      const treeShakeWithMeta = { ...mergedFlags };
+      // Build treeShake config for this library only and attach metadata
+      const singleLibFlags = mergedFlags[library] ? { [library]: { ...mergedFlags[library] } } : { [library]: {} };
       if (chunkCharacteristics) {
-        // Attach to first library
-        treeShakeWithMeta[firstLibrary] = {
-          ...(treeShakeWithMeta[firstLibrary] || {}),
+        singleLibFlags[library] = {
+          ...(singleLibFlags[library] || {}),
           chunk_characteristics: chunkCharacteristics
         };
       }
 
       const result = await optimizeChunk(
-        uniqueChunk.path,
-        uniqueChunk.libraries.join(', '),  // For logging
-        treeShakeWithMeta,
-        entryModules,
+        chunk.path,
+        library,
+        singleLibFlags,
         optimizer,
         chunkCharacteristics
       );
       if (result) {
         results.push({
-          app: uniqueChunk.app,
-          filename: uniqueChunk.filename,
-          library: uniqueChunk.libraries.join(', '),
+          app: appName,
+          filename: chunk.filename,
+          library,
           ...result
         });
       }
@@ -382,8 +321,8 @@ async function main() {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   main().catch(console.error);
 }
 
-export { main, mergeUsageData, readShareUsageFiles };
+module.exports = { main, mergeUsageData, readShareUsageFiles };

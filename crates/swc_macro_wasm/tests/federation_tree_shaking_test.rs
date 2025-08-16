@@ -157,11 +157,24 @@ exports.modules = {
                 "debounce": true,
                 "add": false,
                 "after": false,
-                "ary": false
+                "ary": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
             }
-        },
-        "entryModules": {
-            "lodash": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
 
@@ -320,11 +333,28 @@ exports.modules = {
 
     // Config with feature disabled
     let config = json!({
-        "feature": {
-            "enabled": false
-        },
-        "entryModules": {
-            "main": "main.js"
+        // Keep both forms for compatibility with macro conditions used in this test
+        "enableFeature": false,
+        "feature": { "enabled": false },
+        "treeShake": {
+            "features": {
+                "chunk_characteristics": {
+                    "entry_module_id": "main.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["test-chunk.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
 
@@ -454,8 +484,25 @@ exports.modules = {
     // Test with implementation A selected
     let config_a = json!({
         "useImplementationA": true,
-        "entryModules": {
-            "entry": "entry.js"
+        "treeShake": {
+            "impl": {
+                "chunk_characteristics": {
+                    "entry_module_id": "entry.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["indirect-test.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
 
@@ -485,8 +532,25 @@ exports.modules = {
     // Test with implementation B selected
     let config_b = json!({
         "useImplementationA": false,
-        "entryModules": {
-            "entry": "entry.js"
+        "treeShake": {
+            "impl": {
+                "chunk_characteristics": {
+                    "entry_module_id": "entry.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["indirect-test.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
 
@@ -615,8 +679,25 @@ exports.modules = {
     // Test with feature disabled - circular modules should be removed
     let config = json!({
         "enableFeature": false,
-        "entryModules": {
-            "main": "main.js"
+        "treeShake": {
+            "circular": {
+                "chunk_characteristics": {
+                    "entry_module_id": "main.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["circular-test.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
 
@@ -680,9 +761,6 @@ fn test_real_federation_chunk_structure() {
                 "bindAll": false,
                 "bindKey": false
             }
-        },
-        "entryModules": {
-            "lodash": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -769,8 +847,25 @@ exports.modules = {
 "#;
 
     let config = json!({
-        "entryModules": {
-            "main": "main.js"
+        "treeShake": {
+            "test": {
+                "chunk_characteristics": {
+                    "entry_module_id": "main.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "require",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["test.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
     

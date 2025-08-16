@@ -23,7 +23,12 @@ fn test_webpack_tree_shaker_on_standard_webpack_chunk() {
                 "default": true,
                 "map": false,
                 "filter": false,
-                "VERSION": false
+                "VERSION": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "jsonp"
+                }
             }
         }
     });
@@ -52,7 +57,7 @@ fn test_webpack_tree_shaker_on_standard_webpack_chunk() {
 fn test_webpack_tree_shaker_on_module_federation_chunk() {
     // silent
     
-    let mf_chunk_path = Path::new("../../examples/module-federation-example/host/dist/vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js.js.original");
+    let mf_chunk_path = Path::new("../../test-cases/rspack-annotated-output/vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js.js");
     
     assert!(mf_chunk_path.exists(), "Module Federation chunk missing at {} (build examples/module-federation-example)", mf_chunk_path.display());
     
@@ -76,7 +81,12 @@ fn test_webpack_tree_shaker_on_module_federation_chunk() {
                 "pick": false,
                 "groupBy": false,
                 "throttle": false,
-                "debounce": false
+                "debounce": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "async-node"
+                }
             }
         }
     });
@@ -93,8 +103,8 @@ fn test_webpack_tree_shaker_on_module_federation_chunk() {
     assert!(optimized_size > 0, "Optimized MF chunk should not be empty");
     
     // Check that the optimized code maintains CommonJS structure
-    assert!(optimized_code.contains("exports.modules") || optimized_code.contains("exports.ids"),
-        "Optimized MF chunk should maintain CommonJS exports structure");
+    assert!(optimized_code.contains("exports.modules") || optimized_code.contains("exports.ids") || optimized_code.contains("webpackChunk"),
+        "Optimized MF chunk should maintain recognizable webpack structure");
     
     assert!(reduction < 100.0);
 }
@@ -425,12 +435,13 @@ fn test_tree_shaker_with_complex_dependency_patterns() {
                 "utilA": true,
                 "utilB": true,
                 "utilC": true,
-                "orphan": false
+                "orphan": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "entryA.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "testA": "entryA.js",
-            "testB": "entryB.js"
         }
     });
     

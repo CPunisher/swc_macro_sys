@@ -92,12 +92,15 @@ fn test_optimization_pipeline_on_real_chunk() {
         }
     }
     
+    let mut tree_shake_config_with_chars = tree_shake_config.clone();
+    tree_shake_config_with_chars.insert("chunk_characteristics".to_string(), serde_json::json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let config1 = serde_json::json!({
         "treeShake": {
-            "lodash-es": tree_shake_config
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
+            "lodash-es": tree_shake_config_with_chars
         }
     });
     
@@ -141,11 +144,13 @@ fn test_optimization_pipeline_on_real_chunk() {
     let minimal_config = serde_json::json!({
         "treeShake": {
             "lodash-es": {
-                "default": true
+                "default": true,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -156,13 +161,13 @@ fn test_optimization_pipeline_on_real_chunk() {
         minimal_reduction, minimal_result.len() as f64 / 1024.0);
     
     // Test with no tree shaking (pure DCE)
-    let no_treeshake_config = serde_json::json!({
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-        }
-    });
+    let no_treeshake_config = serde_json::json!({});
     let no_treeshake_result = optimize(original_code.clone(), &serde_json::to_string(&no_treeshake_config).unwrap());
-    let no_treeshake_reduction = ((original_size - no_treeshake_result.len()) as f64 / original_size as f64) * 100.0;
+    let no_treeshake_reduction = if original_size > no_treeshake_result.len() {
+        ((original_size - no_treeshake_result.len()) as f64 / original_size as f64) * 100.0
+    } else {
+        0.0
+    };
     
     println!("No tree-shaking (DCE only): {:.2}% reduction → {:.2}KB", 
         no_treeshake_reduction, no_treeshake_result.len() as f64 / 1024.0);
@@ -170,9 +175,15 @@ fn test_optimization_pipeline_on_real_chunk() {
     // === TEST 4: Enhanced config with features ===
     println!("\n--- TEST 4: Enhanced config (like enhanced optimizer) ---");
     
+    let mut enhanced_tree = tree_shake_config.clone();
+    enhanced_tree.insert("chunk_characteristics".to_string(), serde_json::json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let enhanced_config = serde_json::json!({
         "treeShake": {
-            "lodash-es": tree_shake_config.clone()
+            "lodash-es": enhanced_tree
         },
         "optimization": {
             "aggressive": true,
@@ -183,9 +194,6 @@ fn test_optimization_pipeline_on_real_chunk() {
             "enableDebugging": false,
             "enableLogging": false,
             "enableWebpackHMR": false
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         },
         "build": {
             "target": "production",
@@ -335,9 +343,7 @@ fn test_javascript_integration_simulation() {
             "enableBabelTransforms": false,
             "enableMinification": false
         },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-        },
+        
         "build": {
             "target": "production",
             "mode": "aggressive",
@@ -436,9 +442,7 @@ fn test_compare_with_scripts_behavior() {
                 "debounce": true
             }
         },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-        }
+        
     });
     
     let script_result = optimize(original_code.clone(), &serde_json::to_string(&script_config).unwrap());

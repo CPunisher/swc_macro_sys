@@ -1,5 +1,4 @@
 use std::fmt;
-use swc_common::errors::HANDLER;
 use serde_json::Error as JsonError;
 
 /// Comprehensive error type for optimization operations
@@ -232,11 +231,8 @@ impl OptimizationError {
     }
     
     pub fn with_recovery_suggestion(mut self, suggestion: impl Into<String>) -> Self {
-        match &mut self {
-            Self::OptimizationFailed { recovery_suggestion, .. } => {
-                *recovery_suggestion = Some(suggestion.into());
-            }
-            _ => {}
+        if let Self::OptimizationFailed { recovery_suggestion, .. } = &mut self {
+            *recovery_suggestion = Some(suggestion.into());
         }
         self
     }

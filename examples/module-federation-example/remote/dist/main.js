@@ -98,7 +98,7 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 });
 // Use dynamic import for async chunks to avoid top-level await
-/* ESM default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Promise.all(/*! import() */ [__webpack_require__.e("webpack_sharing_consume_default_lodash-es_lodash-es"), __webpack_require__.e("webpack_sharing_consume_default_ramda_ramda"), __webpack_require__.e("webpack_sharing_consume_default_date-fns_date-fns"), __webpack_require__.e("src_bootstrap_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./bootstrap.js */ "./src/bootstrap.js")));
+/* ESM default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.e(/*! import() */ "src_bootstrap_js").then(__webpack_require__.bind(__webpack_require__, /*! ./bootstrap.js */ "./src/bootstrap.js")));
 
 
 }),
@@ -4877,7 +4877,7 @@ if(!__webpack_require__.federation){
     __webpack_require__.federation = {
         
 chunkMatcher: function(chunkId) {
-    return !/^webpack_sharing_consume_default_(date\-fns_date\-fns|lodash\-es_lodash\-es|ramda_ramda)$/.test(chunkId);
+    return true;
 },
 rootOutputDir: "",
 
@@ -4965,14 +4965,14 @@ __webpack_require__.r = (exports) => {
 (() => {
 
 __webpack_require__.S = {};
-__webpack_require__.initializeSharingData = { scopeToSharingDataMapping: { "default": [{ name: "date-fns", version: "4.1.0", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_date-fns_4_1_0_node_modules_date-fns_index_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js */ "../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.1.0", strictVersion: 1 }, { name: "lodash-es", version: "4.17.21", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.17.21", strictVersion: 1 }, { name: "ramda", version: "0.31.3", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js */ "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^0.31.3", strictVersion: 1 }] }, uniqueName: "remote" };
+__webpack_require__.initializeSharingData = { scopeToSharingDataMapping: { "default": [{ name: "date-fns", version: "4.1.0", factory: () => (__webpack_require__.e("node_modules_pnpm_date-fns_4_1_0_node_modules_date-fns_index_js-_d2310").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js */ "../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.1.0", strictVersion: 1 }, { name: "lodash-es", version: "4.17.21", factory: () => (__webpack_require__.e("node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js-_46ec0").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.17.21", strictVersion: 1 }, { name: "ramda", version: "0.31.3", factory: () => (__webpack_require__.e("node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js-_696a0").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js */ "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^0.31.3", strictVersion: 1 }] }, uniqueName: "remote" };
 __webpack_require__.I = __webpack_require__.I || function() { throw new Error("should have __webpack_require__.I") }
 
 })();
 // webpack/runtime/consumes_loading
 (() => {
 
-__webpack_require__.consumesLoadingData = { chunkMapping: {"webpack_sharing_consume_default_date-fns_date-fns":["webpack/sharing/consume/default/date-fns/date-fns"],"webpack_sharing_consume_default_ramda_ramda":["webpack/sharing/consume/default/ramda/ramda"],"webpack_sharing_consume_default_lodash-es_lodash-es":["webpack/sharing/consume/default/lodash-es/lodash-es"]}, moduleIdToConsumeDataMapping: { "webpack/sharing/consume/default/date-fns/date-fns": { shareScope: "default", shareKey: "date-fns", import: "date-fns", requiredVersion: "^4.1.0", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_date-fns_4_1_0_node_modules_date-fns_index_js").then(() => (() => (__webpack_require__(/*! date-fns */ "../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js"))))) }, "webpack/sharing/consume/default/lodash-es/lodash-es": { shareScope: "default", shareKey: "lodash-es", import: "lodash-es", requiredVersion: "^4.17.21", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js").then(() => (() => (__webpack_require__(/*! lodash-es */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))) }, "webpack/sharing/consume/default/ramda/ramda": { shareScope: "default", shareKey: "ramda", import: "ramda", requiredVersion: "^0.31.3", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js").then(() => (() => (__webpack_require__(/*! ramda */ "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js"))))) } }, initialConsumes: [] };
+__webpack_require__.consumesLoadingData = { chunkMapping: {"src_bootstrap_js":["webpack/sharing/consume/default/lodash-es/lodash-es","webpack/sharing/consume/default/ramda/ramda","webpack/sharing/consume/default/date-fns/date-fns"]}, moduleIdToConsumeDataMapping: { "webpack/sharing/consume/default/date-fns/date-fns": { shareScope: "default", shareKey: "date-fns", import: "date-fns", requiredVersion: "^4.1.0", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("node_modules_pnpm_date-fns_4_1_0_node_modules_date-fns_index_js-_d2311").then(() => (() => (__webpack_require__(/*! date-fns */ "../../../node_modules/.pnpm/date-fns@4.1.0/node_modules/date-fns/index.js"))))) }, "webpack/sharing/consume/default/lodash-es/lodash-es": { shareScope: "default", shareKey: "lodash-es", import: "lodash-es", requiredVersion: "^4.17.21", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js-_46ec1").then(() => (() => (__webpack_require__(/*! lodash-es */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))) }, "webpack/sharing/consume/default/ramda/ramda": { shareScope: "default", shareKey: "ramda", import: "ramda", requiredVersion: "^0.31.3", strictVersion: true, singleton: true, eager: false, fallback: () => (__webpack_require__.e("node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js-_696a1").then(() => (() => (__webpack_require__(/*! ramda */ "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js"))))) } }, initialConsumes: [] };
 __webpack_require__.f.consumes = __webpack_require__.f.consumes || function() { throw new Error("should have __webpack_require__.f.consumes") }
 })();
 // webpack/runtime/readfile_chunk_loading
@@ -5003,7 +5003,7 @@ if (installedChunkData !== 0) {  // 0 means "already installed".
   if (installedChunkData) {
     promises.push(installedChunkData[2]);
   } else {
-    if (!/^webpack_sharing_consume_default_(date\-fns_date\-fns|lodash\-es_lodash\-es|ramda_ramda)$/.test(chunkId)) {  // all chunks have JS
+    if (true) {  // all chunks have JS
       // load the chunk and return promise to it
       var promise = new Promise(function (resolve, reject) {
         installedChunkData = installedChunks[chunkId] = [resolve, reject];
@@ -5021,8 +5021,7 @@ if (installedChunkData !== 0) {  // 0 means "already installed".
         });
       });
       promises.push(installedChunkData[2] = promise);
-    } else installedChunks[chunkId] = 0;
-
+    } 
   }
 }
         };

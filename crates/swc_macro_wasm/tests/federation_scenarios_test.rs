@@ -32,12 +32,15 @@ fn test_real_federation_lodash_chunk_with_host_usage() {
     lodash_config.insert("merge".to_string(), json!(false));
     lodash_config.insert("cloneDeep".to_string(), json!(false));
     
+    let mut lodash_config = lodash_config;
+    lodash_config.insert("chunk_characteristics".to_string(), json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let config = json!({
         "treeShake": {
             "lodash-es": lodash_config
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -142,12 +145,15 @@ fn test_real_federation_lodash_chunk_with_remote_usage() {
     lodash_config.insert("cloneDeep".to_string(), json!(false));
     lodash_config.insert("assign".to_string(), json!(false));
     
+    let mut lodash_config = lodash_config;
+    lodash_config.insert("chunk_characteristics".to_string(), json!({
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "is_runtime_chunk": false,
+        "chunk_format": "require"
+    }));
     let config = json!({
         "treeShake": {
             "lodash-es": lodash_config
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -337,11 +343,9 @@ exports.modules = {
             "test-lib": {
                 "math": false,
                 "add": true,
-                "subtract": false
+                "subtract": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/test-lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "test-lib": "node_modules/test-lib/index.js"
         }
     });
     
@@ -361,11 +365,9 @@ exports.modules = {
             "test-lib": {
                 "math": false,
                 "add": false,
-                "subtract": true
+                "subtract": true,
+                "chunk_characteristics": { "entry_module_id": "node_modules/test-lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "test-lib": "node_modules/test-lib/index.js"
         }
     });
     
@@ -437,11 +439,9 @@ exports.modules = {
         "treeShake": {
             "lib": {
                 "moduleA": true,
-                "moduleB": false
+                "moduleB": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "lib": "node_modules/lib/index.js"
         }
     });
     
@@ -511,11 +511,9 @@ exports.modules = {
         "treeShake": {
             "utils": {
                 "capitalize": true,
-                "lowercase": false
+                "lowercase": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/utils/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "utils": "node_modules/utils/index.js"
         }
     });
     
@@ -618,11 +616,9 @@ exports.modules = {
         "treeShake": {
             "lib": {
                 "processA": false,
-                "processB": true
+                "processB": true,
+                "chunk_characteristics": { "entry_module_id": "node_modules/lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "lib": "node_modules/lib/index.js"
         }
     });
     
@@ -700,11 +696,9 @@ exports.modules = {
         "treeShake": {
             "lib": {
                 "pureFunction": true,
-                "functionWithSideEffect": false
+                "functionWithSideEffect": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "lib": "node_modules/lib/index.js"
         }
     });
     
@@ -834,11 +828,9 @@ exports.modules = {
                 "find": true,     // App B, C
                 "some": true,     // App B
                 "every": true,    // App C
-                "includes": false // Not used by any app
+                "includes": false, // Not used by any app
+                "chunk_characteristics": { "entry_module_id": "node_modules/array-utils/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "array-utils": "node_modules/array-utils/index.js"
         }
     });
     
@@ -931,11 +923,9 @@ exports.modules = {
             "math-lib": {
                 "default": false,
                 "add": true,
-                "multiply": false
+                "multiply": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/math-lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "math-lib": "node_modules/math-lib/index.js"
         }
     });
     
@@ -955,11 +945,9 @@ exports.modules = {
             "math-lib": {
                 "default": false,
                 "add": false,
-                "multiply": false
+                "multiply": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/math-lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "math-lib": "node_modules/math-lib/index.js"
         }
     });
     
@@ -978,11 +966,9 @@ exports.modules = {
             "math-lib": {
                 "default": true,
                 "add": false,
-                "multiply": false
+                "multiply": false,
+                "chunk_characteristics": { "entry_module_id": "node_modules/math-lib/index.js", "chunk_format": "require", "is_runtime_chunk": false }
             }
-        },
-        "entryModules": {
-            "math-lib": "node_modules/math-lib/index.js"
         }
     });
     

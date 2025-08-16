@@ -55,8 +55,13 @@ fn test_orphaned_modules_after_macro_processing() {
             "featureB": false,
             "featureC": true
         },
-        "entryModules": {
-            "main": "main.js"
+        "treeShake": {
+            "main.js": true,
+            "featureA.js": false,
+            "featureB.js": false,
+            "featureC.js": true,
+            "helperA.js": false,
+            "helperB.js": false
         }
     });
     
@@ -188,8 +193,17 @@ fn test_deep_orphaned_module_chains() {
             "enableUserService": false,
             "enableProductService": false
         },
-        "entryModules": {
-            "entry": "entry.js"
+        "treeShake": {
+            "entry.js": true,
+            "services/user.js": false,
+            "services/product.js": false,
+            "services/core.js": true,
+            "db/user-db.js": false,
+            "db/product-db.js": false,
+            "db/connection.js": false,
+            "auth/auth-helper.js": false,
+            "cache/product-cache.js": false,
+            "config/app-config.js": true
         }
     });
     
@@ -346,9 +360,6 @@ fn test_lodash_specific_orphaned_modules() {
                 "sortBy": true,
                 "groupBy": false
             }
-        },
-        "entryModules": {
-            "lodash": "lodash-es/lodash.js"
         }
     });
     

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
 
 test.describe('Module Federation React App', () => {
   test.beforeEach(async ({ page }) => {

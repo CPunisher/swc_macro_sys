@@ -1,8 +1,10 @@
 const rspack = require('@rspack/core');
 const { ModuleFederationPlugin } = rspack.container;
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: 'development',
+  devtool: false,
   entry: './src/index.js',
   target: 'async-node',
   devtool: false,
@@ -35,23 +37,57 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimize: false,
+    sideEffects: false,
+    usedExports: false,
+    providedExports: false,
+    concatenateModules: false,
+    mangleExports: false,
+    nodeEnv: false,
+    mergeDuplicateChunks: false,
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: 'host',
+      remoteType: 'commonjs-module',
       remotes: {
-        remote: 'remote@http://localhost:3002/remoteEntry.js',
+        remote: '../remote/dist/remoteEntry.js',
       },
       shared: {
+        react: {
+          singleton: true,
+          requiredVersion: '^18.3.1',
+          eager: false,
+        },
+        'react-dom': {
+          singleton: true,
+          requiredVersion: '^18.3.1',
+          eager: false,
+        },
         'lodash-es': {
           singleton: true,
           strictVersion: true,
           requiredVersion: '^4.17.21',
           eager: false,
         },
+        'date-fns': {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: '^4.1.0',
+          eager: false,
+        },
+        ramda: {
+          singleton: true,
+          strictVersion: true,
+          requiredVersion: '^0.31.3',
+          eager: false,
+        },
       },
     }),
-    new rspack.HtmlRspackPlugin({
-      template: './src/index.html',
-    }),
+
   ],
 };

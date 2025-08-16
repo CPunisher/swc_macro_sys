@@ -6,9 +6,13 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
   context: __dirname,
+  mode: 'development',
+  devtool: false,
+  clean: true,
   entry: './src/index.js',
   target: 'web',
   resolve: {
@@ -29,7 +33,7 @@ export default defineConfig({
                 },
                 transform: {
                   react: {
-                    development: isDev,
+                    development: false,
                     refresh: false
                   }
                 }
@@ -43,6 +47,9 @@ export default defineConfig({
         type: 'asset/resource'
       }
     ]
+  },
+  optimization: {
+    minimize: false,
   },
   plugins: [
     new rspack.container.ModuleFederationPlugin({
@@ -131,16 +138,5 @@ export default defineConfig({
       'Access-Control-Allow-Origin': '*'
     }
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          priority: 10
-        }
-      }
-    }
-  }
+  // keep a single chunk layout for predictable IDs during testing
 });

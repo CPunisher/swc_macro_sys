@@ -1,16 +1,12 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require('fs');
+const path = require('path');
 
 // Load the SWC macro WASM optimizer
 async function loadOptimizer() {
   try {
-    const swcMacro = await import('swc_macro_wasm');
+    const swcMacro = require('swc_macro_wasm');
     return swcMacro;
   } catch (error) {
     console.error('Failed to load SWC macro optimizer:', error.message);

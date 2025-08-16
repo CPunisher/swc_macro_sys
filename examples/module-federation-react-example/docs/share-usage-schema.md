@@ -26,9 +26,7 @@ The optimization script currently transforms from arrays to boolean flags:
       "reduce": false
     }
   },
-  "entryModules": {
-    "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
-  }
+  // entry module is carried within each library's chunk_characteristics (see below)
 }
 ```
 
@@ -52,11 +50,11 @@ Output the **exact** macro format directly from rspack:
       "capitalize": false,
       "pick": false,
       "throttle": false,
-      "debounce": false
+      "debounce": false,
+      "chunk_characteristics": {
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
+      }
     }
-  },
-  "entryModules": {
-    "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
   },
   "chunk_characteristics": {
     "is_runtime_chunk": false,
@@ -88,8 +86,7 @@ Output the **exact** macro format directly from rspack:
 ```typescript
 // Direct output of macro format
 const shareUsage = {
-  treeShake: compilation.getTreeShakeFlags(), // { "lodash-es": { "sortBy": true, "map": false } }
-  entryModules: compilation.getEntryModules(), // { "lodash-es": "path/to/entry" }
+  treeShake: compilation.getTreeShakeFlagsWithEntryIds(), // { "lodash-es": { "sortBy": true, "map": false, chunk_characteristics: { entry_module_id: '...' } } }
   chunk_characteristics: compilation.getChunkCharacteristics()
 };
 ```
@@ -110,7 +107,7 @@ optimizeChunk(chunkPath, shareUsage, optimizer);
 ### Merging Multiple Apps
 ```javascript
 function mergeShareUsage(files) {
-  const merged = { treeShake: {}, entryModules: {}, chunk_characteristics: {} };
+  const merged = { treeShake: {}, chunk_characteristics: {} };
   
   files.forEach(({ data }) => {
     // Merge treeShake flags (OR used exports, AND unused exports)
@@ -125,9 +122,6 @@ function mergeShareUsage(files) {
         });
       }
     });
-    
-    // Merge entry modules
-    Object.assign(merged.entryModules, data.entryModules);
     
     // Use first chunk_characteristics found
     if (!Object.keys(merged.chunk_characteristics).length) {
@@ -146,7 +140,7 @@ function mergeShareUsage(files) {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Minimal Share Usage for Direct Macro Consumption",
   "type": "object",
-  "required": ["treeShake", "entryModules", "chunk_characteristics"],
+  "required": ["treeShake", "chunk_characteristics"],
   "properties": {
     "treeShake": {
       "type": "object",
@@ -158,14 +152,6 @@ function mergeShareUsage(files) {
               "type": "boolean"
             }
           }
-        }
-      }
-    },
-    "entryModules": {
-      "type": "object",
-      "patternProperties": {
-        "^[a-zA-Z0-9@/_-]+$": {
-          "type": "string"
         }
       }
     },

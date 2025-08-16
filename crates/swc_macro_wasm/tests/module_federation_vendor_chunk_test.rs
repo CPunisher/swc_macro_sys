@@ -60,11 +60,13 @@ exports.modules = {
             "lodash-es": {
                 "sortBy": true,
                 "uniq": true,
-                "filter": false
+                "filter": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "lodash-es": "node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -143,8 +145,7 @@ fn test_vendor_chunk_with_usage_data() {
             "lodash-es": {
                 "sortBy": true,
                 "uniq": true,
-                "default": true,  // Often needed for default exports
-                // All other exports should be false
+                "default": true,
                 "capitalize": false,
                 "debounce": false,
                 "filter": false,
@@ -152,11 +153,13 @@ fn test_vendor_chunk_with_usage_data() {
                 "map": false,
                 "omit": false,
                 "pick": false,
-                "throttle": false
+                "throttle": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
         }
     });
     

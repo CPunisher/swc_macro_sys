@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use crate::error::{OptimizationError, OptimizationResult};
 
 /// Configuration for optimization passes
@@ -218,11 +217,10 @@ impl OptimizationConfig {
         let mut config = Self::default();
         
         // Extract optimization-specific settings if they exist
-        if let Some(opt_config) = json.get("optimization") {
-            if let Ok(parsed) = serde_json::from_value::<OptimizationConfig>(opt_config.clone()) {
+        if let Some(opt_config) = json.get("optimization")
+            && let Ok(parsed) = serde_json::from_value::<OptimizationConfig>(opt_config.clone()) {
                 return Ok(parsed);
             }
-        }
         
         // Legacy compatibility: extract settings from various locations
         if let Some(max_iter) = json.get("maxIterations").and_then(|v| v.as_u64()) {
@@ -234,27 +232,16 @@ impl OptimizationConfig {
         }
         
         // Tree shaking configuration from existing structure
-        if let Some(tree_shake) = json.get("treeShake") {
+        if let Some(_tree_shake) = json.get("treeShake") {
+            // Enable tree shaking when treeShake key is present; entryModules is no longer supported
             config.tree_shaking.enabled = true;
-            if let Some(tree_obj) = tree_shake.as_object() {
-                // Extract entry modules if specified
-                if let Some(entry_modules) = json.get("entryModules") {
-                    if let Some(entry_obj) = entry_modules.as_object() {
-                        config.tree_shaking.entry_point_extraction.explicit_entries = 
-                            entry_obj.values()
-                                .filter_map(|v| v.as_str())
-                                .map(|s| s.to_string())
-                                .collect();
-                    }
-                }
-            }
         }
         
         Ok(config)
     }
     
     /// Merge with another configuration, preferring values from `other`
-    pub fn merge_with(mut self, other: OptimizationConfig) -> Self {
+    pub fn merge_with(self, other: OptimizationConfig) -> Self {
         // For now, simply replace with other's values
         // In the future, this could be more sophisticated
         other

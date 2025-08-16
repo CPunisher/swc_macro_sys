@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { optimize } from 'swc_macro_wasm';
+import { execFileSync } from 'child_process';
 
 /**
  * Analyzes a webpack chunk and returns metrics
@@ -41,13 +41,28 @@ export function shareUsageToConfig(shareUsagePath) {
 }
 
 /**
- * Optimizes a chunk with the given config
+ * Optimizes a chunk with the given config by spawning a new Node process
+ * with --experimental-wasm-modules to load the WASM optimizer reliably.
  */
 export function optimizeChunk(chunkPath, config) {
-  const content = fs.readFileSync(chunkPath, 'utf-8');
+  const source = fs.readFileSync(chunkPath, 'utf-8');
   const configStr = typeof config === 'string' ? config : JSON.stringify(config);
-  
-  return optimize(content, configStr);
+
+  const runner = `
+    (async () => {
+      const fs = require('fs');
+      const optimizer = await import('swc_macro_wasm');
+      const src = fs.readFileSync(${JSON.stringify(chunkPath)}, 'utf8');
+      const cfg = ${JSON.stringify(configStr)};
+      const out = optimizer.optimize(src, cfg);
+      process.stdout.write(out);
+    })().catch(e => { console.error(e); process.exit(1); });
+  `;
+
+  const output = execFileSync(process.execPath, ['--experimental-wasm-modules', '-e', runner], {
+    encoding: 'utf8'
+  });
+  return output;
 }
 
 /**
@@ -83,18 +98,14 @@ export function mergeUsageData(...shareUsagePaths) {
     
     Object.entries(usage.treeShake).forEach(([lib, exports]) => {
       if (!mergedConfig.treeShake[lib]) {
-        // Clone the exports object for this library
         mergedConfig.treeShake[lib] = { ...exports };
       } else {
-        // Merge exports: if any app uses an export, mark it as true
         Object.entries(exports).forEach(([exportName, isUsed]) => {
           if (exportName === 'chunk_characteristics') {
-            // Keep the chunk_characteristics from the first occurrence
             if (!mergedConfig.treeShake[lib].chunk_characteristics) {
               mergedConfig.treeShake[lib].chunk_characteristics = isUsed;
             }
           } else if (isUsed === true) {
-            // If any app uses this export, mark it as used
             mergedConfig.treeShake[lib][exportName] = true;
           }
         });

@@ -10,10 +10,10 @@ export default defineConfig({
   ],
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: process.env.E2E === '1' ? 'node' : 'jsdom',
     setupFiles: './test/setup.js',
-    include: ['test/**/*.test.js'],
-    exclude: ['test/e2e/**'],
+    include: process.env.E2E === '1' ? ['test/e2e/**/*.test.js'] : ['test/**/*.test.js'],
+    exclude: process.env.E2E === '1' ? [] : ['test/e2e/**'],
     watch: false,
     coverage: {
       provider: 'v8',

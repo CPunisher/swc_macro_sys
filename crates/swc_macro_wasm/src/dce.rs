@@ -126,11 +126,10 @@ impl Data {
             // correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
-            if e.usage == 0 && e.assign == 0 {
-                if let Some(n) = self.get_node(id) {
+            if e.usage == 0 && e.assign == 0
+                && let Some(n) = self.get_node(id) {
                     self.graph.remove_node(n);
                 }
-            }
         } else if let Some(n) = self.get_node(id) {
             self.graph.remove_node(n);
         }
@@ -143,11 +142,10 @@ impl Data {
             // correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
-            if e.usage == 0 && e.assign == 0 {
-                if let Some(n) = self.get_node(id) {
+            if e.usage == 0 && e.assign == 0
+                && let Some(n) = self.get_node(id) {
                     self.graph.remove_node(n);
                 }
-            }
         } else if let Some(n) = self.get_node(id) {
             self.graph.remove_node(n);
         }
@@ -423,16 +421,14 @@ impl Analyzer<'_> {
             self.scope.found_arguemnts = true;
         }
 
-        if let Some(f) = &self.cur_fn_id {
-            if id == *f {
+        if let Some(f) = &self.cur_fn_id
+            && id == *f {
                 return;
             }
-        }
-        if let Some(f) = &self.cur_class_id {
-            if id == *f {
+        if let Some(f) = &self.cur_class_id
+            && id == *f {
                 return;
             }
-        }
 
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
@@ -468,11 +464,10 @@ impl Visit for Analyzer<'_> {
     fn visit_callee(&mut self, n: &Callee) {
         n.visit_children_with(self);
 
-        if let Callee::Expr(e) = n {
-            if e.is_ident_ref_to("eval") {
+        if let Callee::Expr(e) = n
+            && e.is_ident_ref_to("eval") {
                 self.scope.found_direct_eval = true;
             }
-        }
     }
 
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
@@ -497,11 +492,10 @@ impl Visit for Analyzer<'_> {
     fn visit_class_expr(&mut self, n: &ClassExpr) {
         n.visit_children_with(self);
 
-        if !n.class.decorators.is_empty() {
-            if let Some(i) = &n.ident {
+        if !n.class.decorators.is_empty()
+            && let Some(i) = &n.ident {
                 self.add(i.to_id(), false);
             }
-        }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
@@ -619,21 +613,19 @@ impl Visit for Analyzer<'_> {
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         n.visit_children_with(self);
 
-        if !n.function.decorators.is_empty() {
-            if let Some(i) = &n.ident {
+        if !n.function.decorators.is_empty()
+            && let Some(i) = &n.ident {
                 self.add(i.to_id(), false);
             }
-        }
     }
 
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        if !self.in_var_decl {
-            if let Pat::Ident(i) = p {
+        if !self.in_var_decl
+            && let Pat::Ident(i) = p {
                 self.add(i.to_id(), true);
             }
-        }
     }
 
     fn visit_prop(&mut self, p: &Prop) {
@@ -662,11 +654,10 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = old;
 
-        if let Pat::Ident(i) = &n.name {
-            if self.var_decl_kind == Some(VarDeclKind::Var) {
+        if let Pat::Ident(i) = &n.name
+            && self.var_decl_kind == Some(VarDeclKind::Var) {
                 self.data.mark_var(i.to_id());
             }
-        }
     }
 }
 
@@ -687,13 +678,11 @@ impl TreeShaker {
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
         Vec<T>: VisitMutWith<Self>,
     {
-        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().and_then(|s| s.as_stmt()) {
-            if let Expr::Lit(Lit::Str(v)) = &**expr {
-                if &*v.value == "use asm" {
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().and_then(|s| s.as_stmt())
+            && let Expr::Lit(Lit::Str(v)) = &**expr
+                && &*v.value == "use asm" {
                     return;
                 }
-            }
-        }
 
         self.visit_mut_par(cpu_count() * 8, stmts);
 
@@ -740,11 +729,10 @@ impl TreeShaker {
 
             // Abort if the variable is declared on top level scope.
             let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
+            if let Some(ix) = ix
+                && self.data.entries.contains(&(ix as u32)) {
                     return false;
                 }
-            }
         }
 
         if self.config.top_retain.contains(&name.0) {
@@ -838,7 +826,7 @@ impl VisitMut for TreeShaker {
             }
             Decl::Class(c) => {
                 if self.can_drop_binding(c.ident.to_id(), false)
-                    && c.class.super_class.as_deref().map_or(true, |e| {
+                    && c.class.super_class.as_deref().is_none_or(|e| {
                         !may_have_side_effects(&self.comments, e, self.expr_ctx)
                     })
                     && c.class.body.iter().all(|m| match m {
@@ -920,11 +908,11 @@ impl VisitMut for TreeShaker {
                         ..
                     }) =>
                     {
-                        if f.params.is_empty() && f.body.as_ref().map_or(false, |b| b.stmts.len() == 1) {
-                            if let Some(body) = f.body.as_mut() {
-                                if let Some(Stmt::Return(ReturnStmt { arg: Some(arg), .. })) = body.stmts.get_mut(0) {
-                                    if let Expr::Object(ObjectLit { props, .. }) = &**arg {
-                                        if props.iter().all(|p| match p {
+                        if f.params.is_empty() && f.body.as_ref().is_some_and(|b| b.stmts.len() == 1)
+                            && let Some(body) = f.body.as_mut()
+                                && let Some(Stmt::Return(ReturnStmt { arg: Some(arg), .. })) = body.stmts.get_mut(0)
+                                    && let Expr::Object(ObjectLit { props, .. }) = &**arg
+                                        && props.iter().all(|p| match p {
                                             PropOrSpread::Spread(_) => false,
                                             PropOrSpread::Prop(p) => match &**p {
                                                 Prop::Shorthand(_) => true,
@@ -937,24 +925,19 @@ impl VisitMut for TreeShaker {
                                             *n = *arg.take();
                                             return;
                                         }
-                                    }
-                                }
-                            }
-                        }
                     }
                     _ => (),
                 }
             }
         }
 
-        if let Expr::Assign(a) = n {
-            if match &a.left {
+        if let Expr::Assign(a) = n
+            && match &a.left {
                 AssignTarget::Simple(l) => l.is_invalid(),
                 AssignTarget::Pat(l) => l.is_invalid(),
             } {
                 *n = *a.right.take();
             }
-        }
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
@@ -1099,12 +1082,11 @@ impl VisitMut for TreeShaker {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
-        if let Stmt::Decl(Decl::Var(v)) = s {
-            if v.decls.is_empty() {
+        if let Stmt::Decl(Decl::Var(v)) = s
+            && v.decls.is_empty() {
                 s.take();
                 return;
             }
-        }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
             let span = v.span;
@@ -1147,11 +1129,10 @@ impl VisitMut for TreeShaker {
             }
         }
 
-        if let Stmt::Decl(Decl::Var(v)) = s {
-            if v.decls.is_empty() {
+        if let Stmt::Decl(Decl::Var(v)) = s
+            && v.decls.is_empty() {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
             }
-        }
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {

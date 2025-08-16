@@ -1,5 +1,5385 @@
-var remote;(()=>{"use strict";var __webpack_modules__={5594:function(e,t){function r(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}var n,o,i="RUNTIME-001",a="RUNTIME-002",s="RUNTIME-003",l="RUNTIME-004",c="RUNTIME-005",u="RUNTIME-006",f="RUNTIME-007",h="RUNTIME-008",d="RUNTIME-009",p="TYPE-001",m="BUILD-001",y="BUILD-002",_=function(e){var t=e.split("-")[0].toLowerCase();return"View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/".concat(t,"/").concat(e)},g=function(e,t,r,n){var o=["".concat([t[e]]," #").concat(e)];return r&&o.push("args: ".concat(JSON.stringify(r))),o.push(_(e)),n&&o.push("Original Error Message:\n ".concat(n)),o.join("\n")};function E(){return(E=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}var b=(r(n={},i,"Failed to get remoteEntry exports."),r(n,a,'The remote entry interface does not contain "init"'),r(n,s,"Failed to get manifest."),r(n,l,"Failed to locate remote."),r(n,c,"Invalid loadShareSync function call from bundler runtime"),r(n,u,"Invalid loadShareSync function call from runtime"),r(n,f,"Failed to get remote snapshot."),r(n,h,"Failed to load script resources."),r(n,d,"Please call createInstance first."),n),v=r({},p,"Failed to generate type declaration. Execute the below cmd to reproduce and fix the error."),S=(r(o={},m,"Failed to find expose module."),r(o,y,"PublicPath is required in prod mode."),o),I=E({},b,v,S);t.BUILD_001=m,t.BUILD_002=y,t.RUNTIME_001=i,t.RUNTIME_002=a,t.RUNTIME_003=s,t.RUNTIME_004=l,t.RUNTIME_005=c,t.RUNTIME_006=u,t.RUNTIME_007=f,t.RUNTIME_008=h,t.RUNTIME_009=d,t.TYPE_001=p,t.buildDescMap=S,t.errorDescMap=I,t.getShortErrorMsg=g,t.runtimeDescMap=b,t.typeDescMap=v},940:function(e,t,r){var n=r(2806),o=r.n(n);function i(e,t){(null==t||t>e.length)&&(t=e.length);for(var r=0,n=Array(t);r<t;r++)n[r]=e[r];return n}function a(e){if(Array.isArray(e))return e}function s(e){if(Array.isArray(e))return i(e)}function l(e){if("undefined"!=typeof Symbol&&null!=e[Symbol.iterator]||null!=e["@@iterator"])return Array.from(e)}function c(e,t){var r,n,o=null==e?null:"undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(null!=o){var i=[],a=!0,s=!1;try{for(o=o.call(e);!(a=(r=o.next()).done)&&(i.push(r.value),!t||i.length!==t);a=!0);}catch(e){s=!0,n=e}finally{try{a||null==o.return||o.return()}finally{if(s)throw n}}return i}}function u(){throw TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function f(){throw TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function h(e,t){return a(e)||c(e,t)||m(e,t)||u()}function d(e){return s(e)||l(e)||m(e)||f()}function p(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function m(e,t){if(e){if("string"==typeof e)return i(e,t);var r=Object.prototype.toString.call(e).slice(8,-1);if("Object"===r&&e.constructor&&(r=e.constructor.name),"Map"===r||"Set"===r)return Array.from(r);if("Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r))return i(e,t)}}var y=[],_={},g="remote",E="version-first";if((r.initializeSharingData||r.initializeExposesData)&&r.federation){var b,v,S,I,R,N,O,M,T,$,w,A,k=function(e,t,r){e&&e[t]&&(e[t]=r)},P=function(e,t,r){var n,o,i,a,s,l,c,u=r();Array.isArray(u)?(null!=(a=(o=e)[i=t])||(o[i]=[]),(n=e[t]).push.apply(n,d(u))):(void 0===u?"undefined":p(u))==="object"&&null!==u&&(null!=(c=(s=e)[l=t])||(s[l]={}),Object.assign(e[t],u))},D=function(e,t,r){var n,o,i;null!=(i=(n=e)[o=t])||(n[o]=r())},x=null!=(M=null==(b=r.remotesLoadingData)?void 0:b.chunkMapping)?M:{},j=null!=(T=null==(v=r.remotesLoadingData)?void 0:v.moduleIdToRemoteDataMapping)?T:{},L=null!=($=null==(S=r.initializeSharingData)?void 0:S.scopeToSharingDataMapping)?$:{},F=null!=(w=null==(I=r.consumesLoadingData)?void 0:I.chunkMapping)?w:{},H=null!=(A=null==(R=r.consumesLoadingData)?void 0:R.moduleIdToConsumeDataMapping)?A:{},C={},U=[],G={},V=null==(N=r.initializeExposesData)?void 0:N.shareScope;for(var q in o())r.federation[q]=o()[q];D(r.federation,"consumesLoadingModuleToHandlerMapping",function(){var e={},t=!0,r=!1,n=void 0;try{for(var o,i=Object.entries(H)[Symbol.iterator]();!(t=(o=i.next()).done);t=!0){var a=h(o.value,2),s=a[0],l=a[1];e[s]={getter:l.fallback,shareInfo:{shareConfig:{fixedDependencies:!1,requiredVersion:l.requiredVersion,strictVersion:l.strictVersion,singleton:l.singleton,eager:l.eager},scope:[l.shareScope]},shareKey:l.shareKey}}}catch(e){r=!0,n=e}finally{try{t||null==i.return||i.return()}finally{if(r)throw n}}return e}),D(r.federation,"initOptions",function(){return{}}),D(r.federation.initOptions,"name",function(){return g}),D(r.federation.initOptions,"shareStrategy",function(){return E}),D(r.federation.initOptions,"shared",function(){var e={},t=!0,r=!1,n=void 0;try{for(var o,i=Object.entries(L)[Symbol.iterator]();!(t=(o=i.next()).done);t=!0){var a=h(o.value,2),s=a[0],l=a[1],c=!0,u=!1,f=void 0;try{for(var d,m=l[Symbol.iterator]();!(c=(d=m.next()).done);c=!0){var y=d.value;if((void 0===y?"undefined":p(y))==="object"&&null!==y){var _=y.name,g=y.version,E=y.factory,b=y.eager,v=y.singleton,S=y.requiredVersion,I=y.strictVersion,R={},N=function(e){return void 0!==e};N(v)&&(R.singleton=v),N(S)&&(R.requiredVersion=S),N(b)&&(R.eager=b),N(I)&&(R.strictVersion=I);var O={version:g,scope:[s],shareConfig:R,get:E};e[_]?e[_].push(O):e[_]=[O]}}}catch(e){u=!0,f=e}finally{try{c||null==m.return||m.return()}finally{if(u)throw f}}}}catch(e){r=!0,n=e}finally{try{t||null==i.return||i.return()}finally{if(r)throw n}}return e}),P(r.federation.initOptions,"remotes",function(){return Object.values(_).flat().filter(function(e){return"script"===e.externalType})}),P(r.federation.initOptions,"plugins",function(){return y}),D(r.federation,"bundlerRuntimeOptions",function(){return{}}),D(r.federation.bundlerRuntimeOptions,"remotes",function(){return{}}),D(r.federation.bundlerRuntimeOptions.remotes,"chunkMapping",function(){return x}),D(r.federation.bundlerRuntimeOptions.remotes,"idToExternalAndNameMapping",function(){var e={},t=!0,r=!1,n=void 0;try{for(var o,i=Object.entries(j)[Symbol.iterator]();!(t=(o=i.next()).done);t=!0){var a=h(o.value,2),s=a[0],l=a[1];e[s]=[l.shareScope,l.name,l.externalModuleId,l.remoteName]}}catch(e){r=!0,n=e}finally{try{t||null==i.return||i.return()}finally{if(r)throw n}}return e}),D(r.federation.bundlerRuntimeOptions.remotes,"webpackRequire",function(){return r}),P(r.federation.bundlerRuntimeOptions.remotes,"idToRemoteMap",function(){var e={},t=!0,r=!1,n=void 0;try{for(var o,i=Object.entries(j)[Symbol.iterator]();!(t=(o=i.next()).done);t=!0){var a=h(o.value,2),s=a[0],l=_[a[1].remoteName];l&&(e[s]=l)}}catch(e){r=!0,n=e}finally{try{t||null==i.return||i.return()}finally{if(r)throw n}}return e}),k(r,"S",r.federation.bundlerRuntime.S),r.federation.attachShareScopeMap&&r.federation.attachShareScopeMap(r),k(r.f,"remotes",function(e,t){return r.federation.bundlerRuntime.remotes({chunkId:e,promises:t,chunkMapping:x,idToExternalAndNameMapping:r.federation.bundlerRuntimeOptions.remotes.idToExternalAndNameMapping,idToRemoteMap:r.federation.bundlerRuntimeOptions.remotes.idToRemoteMap,webpackRequire:r})}),k(r.f,"consumes",function(e,t){return r.federation.bundlerRuntime.consumes({chunkId:e,promises:t,chunkMapping:F,moduleToHandlerMapping:r.federation.consumesLoadingModuleToHandlerMapping,installedModules:C,webpackRequire:r})}),k(r,"I",function(e,t){return r.federation.bundlerRuntime.I({shareScopeName:e,initScope:t,initPromises:U,initTokens:G,webpackRequire:r})}),k(r,"initContainer",function(e,t,n){return r.federation.bundlerRuntime.initContainerEntry({shareScope:e,initScope:t,remoteEntryInitOptions:n,shareScopeKey:V,webpackRequire:r})}),k(r,"getContainer",function(e,t){var n=r.initializeExposesData.moduleMap;return r.R=t,t=Object.prototype.hasOwnProperty.call(n,e)?n[e]():Promise.resolve().then(function(){throw Error('Module "'+e+'" does not exist in container.')}),r.R=void 0,t}),r.federation.instance=r.federation.runtime.init(r.federation.initOptions),(null==(O=r.consumesLoadingData)?void 0:O.initialConsumes)&&r.federation.bundlerRuntime.installInitialConsumes({webpackRequire:r,installedModules:C,initialConsumes:r.consumesLoadingData.initialConsumes,moduleToHandlerMapping:r.federation.consumesLoadingModuleToHandlerMapping})}},5702:function(e,t,r){r.d(t,{get:()=>r.getContainer,init:()=>r.initContainer})},9697:function(e,t,r){var n=r(2939),o=r(5921),i=r(5594);let a="[ Federation Runtime ]",s=o.createLogger(a);function l(e,t){e||c(t)}function c(e){if(e instanceof Error)throw e.message=`${a}: ${e.message}`,e;throw Error(`${a}: ${e}`)}function u(e){e instanceof Error&&(e.message=`${a}: ${e.message}`),s.warn(e)}function f(e,t){return -1===e.findIndex(e=>e===t)&&e.push(t),e}function h(e){return"version"in e&&e.version?`${e.name}:${e.version}`:"entry"in e&&e.entry?`${e.name}:${e.entry}`:`${e.name}`}function d(e){return void 0!==e.entry}function p(e){return!e.entry.includes(".json")}async function m(e,t){try{return await e()}catch(e){t||u(e);return}}function y(e){return e&&"object"==typeof e}let _=Object.prototype.toString;function g(e){return"[object Object]"===_.call(e)}function E(e,t){let r=/^(https?:)?\/\//i;return e.replace(r,"").replace(/\/$/,"")===t.replace(r,"").replace(/\/$/,"")}function b(e){return Array.isArray(e)?e:[e]}function v(e){let t={url:"",type:"global",globalName:""};return o.isBrowserEnv()||o.isReactNativeEnv()?"remoteEntry"in e?{url:e.remoteEntry,type:e.remoteEntryType,globalName:e.globalName}:t:"ssrRemoteEntry"in e?{url:e.ssrRemoteEntry||t.url,type:e.ssrRemoteEntryType||t.type,globalName:e.globalName}:t}let S=(e,t)=>{let r;return r=e.endsWith("/")?e.slice(0,-1):e,t.startsWith(".")&&(t=t.slice(1)),r+=t},I="object"==typeof globalThis?globalThis:window,R=(()=>{try{return document.defaultView}catch(e){return I}})(),N=R;function O(e,t,r){Object.defineProperty(e,t,{value:r,configurable:!1,writable:!0})}function M(e,t){return Object.hasOwnProperty.call(e,t)}M(I,"__GLOBAL_LOADING_REMOTE_ENTRY__")||O(I,"__GLOBAL_LOADING_REMOTE_ENTRY__",{});let T=I.__GLOBAL_LOADING_REMOTE_ENTRY__;function $(e){var t,r,n,o,i,a,s,l,c,u,f,h;M(e,"__VMOK__")&&!M(e,"__FEDERATION__")&&O(e,"__FEDERATION__",e.__VMOK__),M(e,"__FEDERATION__")||(O(e,"__FEDERATION__",{__GLOBAL_PLUGIN__:[],__INSTANCES__:[],moduleInfo:{},__SHARE__:{},__MANIFEST_LOADING__:{},__PRELOADED_MAP__:new Map}),O(e,"__VMOK__",e.__FEDERATION__)),null!=(s=(t=e.__FEDERATION__).__GLOBAL_PLUGIN__)||(t.__GLOBAL_PLUGIN__=[]),null!=(l=(r=e.__FEDERATION__).__INSTANCES__)||(r.__INSTANCES__=[]),null!=(c=(n=e.__FEDERATION__).moduleInfo)||(n.moduleInfo={}),null!=(u=(o=e.__FEDERATION__).__SHARE__)||(o.__SHARE__={}),null!=(f=(i=e.__FEDERATION__).__MANIFEST_LOADING__)||(i.__MANIFEST_LOADING__={}),null!=(h=(a=e.__FEDERATION__).__PRELOADED_MAP__)||(a.__PRELOADED_MAP__=new Map)}function w(){I.__FEDERATION__.__GLOBAL_PLUGIN__=[],I.__FEDERATION__.__INSTANCES__=[],I.__FEDERATION__.moduleInfo={},I.__FEDERATION__.__SHARE__={},I.__FEDERATION__.__MANIFEST_LOADING__={},Object.keys(T).forEach(e=>{delete T[e]})}function A(e){I.__FEDERATION__.__INSTANCES__.push(e)}function k(){return I.__FEDERATION__.__DEBUG_CONSTRUCTOR__}function P(e,t=o.isDebugMode()){t&&(I.__FEDERATION__.__DEBUG_CONSTRUCTOR__=e,I.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__="0.17.0")}function D(e,t){if("string"==typeof t){if(e[t])return{value:e[t],key:t};for(let r of Object.keys(e)){let[n,o]=r.split(":"),i=`${n}:${t}`,a=e[i];if(a)return{value:a,key:i}}return{value:void 0,key:t}}throw Error("key must be string")}$(I),$(R);let x=()=>R.__FEDERATION__.moduleInfo,j=(e,t)=>{let r=D(t,h(e)).value;if(r&&!r.version&&"version"in e&&e.version&&(r.version=e.version),r)return r;if("version"in e&&e.version){let{version:t}=e,r=h(n._object_without_properties_loose(e,["version"])),o=D(R.__FEDERATION__.moduleInfo,r).value;if((null==o?void 0:o.version)===t)return o}},L=e=>j(e,R.__FEDERATION__.moduleInfo),F=(e,t)=>{let r=h(e);return R.__FEDERATION__.moduleInfo[r]=t,R.__FEDERATION__.moduleInfo},H=e=>(R.__FEDERATION__.moduleInfo=n._extends({},R.__FEDERATION__.moduleInfo,e),()=>{for(let t of Object.keys(e))delete R.__FEDERATION__.moduleInfo[t]}),C=(e,t)=>{let r=t||`__FEDERATION_${e}:custom__`,n=I[r];return{remoteEntryKey:r,entryExports:n}},U=e=>{let{__GLOBAL_PLUGIN__:t}=R.__FEDERATION__;e.forEach(e=>{-1===t.findIndex(t=>t.name===e.name)?t.push(e):u(`The plugin ${e.name} has been registered.`)})},G=()=>R.__FEDERATION__.__GLOBAL_PLUGIN__,V=e=>I.__FEDERATION__.__PRELOADED_MAP__.get(e),q=e=>I.__FEDERATION__.__PRELOADED_MAP__.set(e,!0),B="default",W="global",z="[0-9A-Za-z-]+",K=`(?:\\+(${z}(?:\\.${z})*))`,Y="0|[1-9]\\d*",X="[0-9]+",J="\\d*[a-zA-Z-][a-zA-Z0-9-]*",Z=`(?:${X}|${J})`,Q=`(?:-?(${Z}(?:\\.${Z})*))`,ee=`(?:${Y}|${J})`,et=`(?:-(${ee}(?:\\.${ee})*))`,er=`${Y}|x|X|\\*`,en=`[v=\\s]*(${er})(?:\\.(${er})(?:\\.(${er})(?:${et})?${K}?)?)?`,eo=`^\\s*(${en})\\s+-\\s+(${en})\\s*$`,ei=`(${X})\\.(${X})\\.(${X})`,ea=`[v=\\s]*${ei}${Q}?${K}?`,es="((?:<|>)?=?)",el=`(\\s*)${es}\\s*(${ea}|${en})`,ec="(?:~>?)",eu=`(\\s*)${ec}\\s+`,ef="(?:\\^)",eh=`(\\s*)${ef}\\s+`,ed="(<|>)?=?\\s*\\*",ep=`^${ef}${en}$`,em=`(${Y})\\.(${Y})\\.(${Y})`,ey=`v?${em}${et}?${K}?`,e_=`^${ec}${en}$`,eg=`^${es}\\s*${en}$`,eE=`^${es}\\s*(${ey})$|^$`,eb="^\\s*>=\\s*0.0.0\\s*$";function ev(e){return new RegExp(e)}function eS(e){return!e||"x"===e.toLowerCase()||"*"===e}function eI(...e){return t=>e.reduce((e,t)=>t(e),t)}function eR(e){return e.match(ev(eE))}function eN(e,t,r,n){let o=`${e}.${t}.${r}`;return n?`${o}-${n}`:o}function eO(e){return e.replace(ev(eo),(e,t,r,n,o,i,a,s,l,c,u,f)=>(t=eS(r)?"":eS(n)?`>=${r}.0.0`:eS(o)?`>=${r}.${n}.0`:`>=${t}`,s=eS(l)?"":eS(c)?`<${Number(l)+1}.0.0-0`:eS(u)?`<${l}.${Number(c)+1}.0-0`:f?`<=${l}.${c}.${u}-${f}`:`<=${s}`,`${t} ${s}`.trim()))}function eM(e){return e.replace(ev(el),"$1$2$3")}function eT(e){return e.replace(ev(eu),"$1~")}function e$(e){return e.replace(ev(eh),"$1^")}function ew(e){return e.trim().split(/\s+/).map(e=>e.replace(ev(ep),(e,t,r,n,o)=>{if(eS(t))return"";if(eS(r))return`>=${t}.0.0 <${Number(t)+1}.0.0-0`;if(eS(n))if("0"===t)return`>=${t}.${r}.0 <${t}.${Number(r)+1}.0-0`;else return`>=${t}.${r}.0 <${Number(t)+1}.0.0-0`;if(o)if("0"!==t)return`>=${t}.${r}.${n}-${o} <${Number(t)+1}.0.0-0`;else if("0"===r)return`>=${t}.${r}.${n}-${o} <${t}.${r}.${Number(n)+1}-0`;else return`>=${t}.${r}.${n}-${o} <${t}.${Number(r)+1}.0-0`;if("0"===t)if("0"===r)return`>=${t}.${r}.${n} <${t}.${r}.${Number(n)+1}-0`;else return`>=${t}.${r}.${n} <${t}.${Number(r)+1}.0-0`;return`>=${t}.${r}.${n} <${Number(t)+1}.0.0-0`})).join(" ")}function eA(e){return e.trim().split(/\s+/).map(e=>e.replace(ev(e_),(e,t,r,n,o)=>eS(t)?"":eS(r)?`>=${t}.0.0 <${Number(t)+1}.0.0-0`:eS(n)?`>=${t}.${r}.0 <${t}.${Number(r)+1}.0-0`:o?`>=${t}.${r}.${n}-${o} <${t}.${Number(r)+1}.0-0`:`>=${t}.${r}.${n} <${t}.${Number(r)+1}.0-0`)).join(" ")}function ek(e){return e.split(/\s+/).map(e=>e.trim().replace(ev(eg),(e,t,r,n,o,i)=>{let a=eS(r),s=a||eS(n),l=s||eS(o);if("="===t&&l&&(t=""),i="",a)if(">"===t||"<"===t)return"<0.0.0-0";else return"*";return t&&l?(s&&(n=0),o=0,">"===t?(t=">=",s?(r=Number(r)+1,n=0):n=Number(n)+1,o=0):"<="===t&&(t="<",s?r=Number(r)+1:n=Number(n)+1),"<"===t&&(i="-0"),`${t+r}.${n}.${o}${i}`):s?`>=${r}.0.0${i} <${Number(r)+1}.0.0-0`:l?`>=${r}.${n}.0${i} <${r}.${Number(n)+1}.0-0`:e})).join(" ")}function eP(e){return e.trim().replace(ev(ed),"")}function eD(e){return e.trim().replace(ev(eb),"")}function ex(e,t){return(e=Number(e)||e)>(t=Number(t)||t)?1:e===t?0:-1}function ej(e,t){let{preRelease:r}=e,{preRelease:n}=t;if(void 0===r&&n)return 1;if(r&&void 0===n)return -1;if(void 0===r&&void 0===n)return 0;for(let e=0,t=r.length;e<=t;e++){let t=r[e],o=n[e];if(t!==o){if(void 0===t&&void 0===o)return 0;if(!t)return 1;if(!o)return -1;return ex(t,o)}}return 0}function eL(e,t){return ex(e.major,t.major)||ex(e.minor,t.minor)||ex(e.patch,t.patch)||ej(e,t)}function eF(e,t){return e.version===t.version}function eH(e,t){switch(e.operator){case"":case"=":return eF(e,t);case">":return 0>eL(e,t);case">=":return eF(e,t)||0>eL(e,t);case"<":return eL(e,t)>0;case"<=":return eF(e,t)||eL(e,t)>0;case void 0:return!0;default:return!1}}function eC(e){return eI(ew,eA,ek,eP)(e)}function eU(e){return eI(eO,eM,eT,e$)(e.trim()).split(/\s+/).join(" ")}function eG(e,t){if(!e)return!1;let r=eR(e);if(!r)return!1;let[,n,,o,i,a,s]=r,l={operator:n,version:eN(o,i,a,s),major:o,minor:i,patch:a,preRelease:null==s?void 0:s.split(".")};for(let e of t.split("||")){let t=e.trim();if(!t||"*"===t||"x"===t)return!0;try{let e=eU(t);if(!e.trim())return!0;let r=e.split(" ").map(e=>eC(e)).join(" ");if(!r.trim())return!0;let n=r.split(/\s+/).map(e=>eD(e)).filter(Boolean);if(0===n.length)continue;let o=!0;for(let e of n){let t=eR(e);if(!t){o=!1;break}let[,r,,n,i,a,s]=t,c={operator:r,version:eN(n,i,a,s),major:n,minor:i,patch:a,preRelease:null==s?void 0:s.split(".")};if(!eH(c,l)){o=!1;break}}if(o)return!0}catch(e){console.error(`[semver] Error processing range part "${t}":`,e);continue}}return!1}function eV(e,t,r,o){var i,a,s;let l;return l="get"in e?e.get:"lib"in e?()=>Promise.resolve(e.lib):()=>Promise.resolve(()=>{throw Error(`Can not get shared '${r}'!`)}),n._extends({deps:[],useIn:[],from:t,loading:null},e,{shareConfig:n._extends({requiredVersion:`^${e.version}`,singleton:!1,eager:!1,strictVersion:!1},e.shareConfig),get:l,loaded:null!=e&&!!e.loaded||"lib"in e||void 0,version:null!=(i=e.version)?i:"0",scope:Array.isArray(e.scope)?e.scope:[null!=(a=e.scope)?a:"default"],strategy:(null!=(s=e.strategy)?s:o)||"version-first"})}function eq(e,t){let r=t.shared||{},o=t.name,i=Object.keys(r).reduce((e,n)=>{let i=b(r[n]);return e[n]=e[n]||[],i.forEach(r=>{e[n].push(eV(r,o,n,t.shareStrategy))}),e},{}),a=n._extends({},e.shared);return Object.keys(i).forEach(e=>{a[e]?i[e].forEach(t=>{a[e].find(e=>e.version===t.version)||a[e].push(t)}):a[e]=i[e]}),{shared:a,shareInfos:i}}function eB(e,t){let r=e=>{if(!Number.isNaN(Number(e))){let t=e.split("."),r=e;for(let e=0;e<3-t.length;e++)r+=".0";return r}return e};return!!eG(r(e),`<=${r(t)}`)}let eW=(e,t)=>{let r=t||function(e,t){return eB(e,t)};return Object.keys(e).reduce((e,t)=>!e||r(e,t)||"0"===e?t:e,0)},ez=e=>!!e.loaded||"function"==typeof e.lib,eK=e=>!!e.loading;function eY(e,t,r){let n=e[t][r],o=function(e,t){return!ez(n[e])&&eB(e,t)};return eW(e[t][r],o)}function eX(e,t,r){let n=e[t][r],o=function(e,t){let r=e=>ez(e)||eK(e);if(r(n[t]))if(r(n[e]))return!!eB(e,t);else return!0;return!r(n[e])&&eB(e,t)};return eW(e[t][r],o)}function eJ(e){return"loaded-first"===e?eX:eY}function eZ(e,t,r,n){if(!e)return;let{shareConfig:o,scope:i=B,strategy:a}=r;for(let s of Array.isArray(i)?i:[i])if(o&&e[s]&&e[s][t]){let{requiredVersion:i}=o,l=eJ(a)(e,s,t),f=()=>{if(o.singleton){if("string"==typeof i&&!eG(l,i)){let n=`Version ${l} from ${l&&e[s][t][l].from} of shared singleton module ${t} does not satisfy the requirement of ${r.from} which needs ${i})`;o.strictVersion?c(n):u(n)}return e[s][t][l]}if(!1===i||"*"===i||eG(l,i))return e[s][t][l];for(let[r,n]of Object.entries(e[s][t]))if(eG(r,i))return n},h={shareScopeMap:e,scope:s,pkgName:t,version:l,GlobalFederation:N.__FEDERATION__,resolver:f};return(n.emit(h)||h).resolver()}}function eQ(){return N.__FEDERATION__.__SHARE__}function e0(e){var t;let{pkgName:r,extraOptions:n,shareInfos:o}=e,i=e=>{if(!e)return;let t={};e.forEach(e=>{t[e.version]=e});let r=function(e,r){return!ez(t[e])&&eB(e,r)},n=eW(t,r);return t[n]};return Object.assign({},(null!=(t=null==n?void 0:n.resolver)?t:i)(o[r]),null==n?void 0:n.customShareInfo)}function e1(){return"undefined"!=typeof FEDERATION_BUILD_IDENTIFIER?FEDERATION_BUILD_IDENTIFIER:""}function e2(e,t){for(let r of e){let e=t.startsWith(r.name),n=t.replace(r.name,"");if(e){if(n.startsWith("/"))return{pkgNameOrAlias:r.name,expose:n=`.${n}`,remote:r};else if(""===n)return{pkgNameOrAlias:r.name,expose:".",remote:r}}let o=r.alias&&t.startsWith(r.alias),i=r.alias&&t.replace(r.alias,"");if(r.alias&&o){if(i&&i.startsWith("/"))return{pkgNameOrAlias:r.alias,expose:i=`.${i}`,remote:r};else if(""===i)return{pkgNameOrAlias:r.alias,expose:".",remote:r}}}}function e9(e,t){for(let r of e)if(t===r.name||r.alias&&t===r.alias)return r}function e8(e,t){let r=G(),n=[t.hooks,t.remoteHandler.hooks,t.sharedHandler.hooks,t.snapshotHandler.hooks,t.loaderHook,t.bridgeHook];return r.length>0&&r.forEach(t=>{(null==e?void 0:e.find(e=>e.name!==t.name))&&e.push(t)}),e&&e.length>0&&e.forEach(e=>{n.forEach(r=>{r.applyPlugin(e,t)})}),e}let e5=".then(callbacks[0]).catch(callbacks[1])";async function e3({entry:e,remoteEntryExports:t}){return new Promise((r,n)=>{try{t?r(t):"undefined"!=typeof FEDERATION_ALLOW_NEW_FUNCTION?Function("callbacks",`import("${e}")${e5}`)([r,n]):import(e).then(r).catch(n)}catch(e){n(e)}})}async function e7({entry:e,remoteEntryExports:t}){return new Promise((r,n)=>{try{t?r(t):Function("callbacks",`System.import("${e}")${e5}`)([r,n])}catch(e){n(e)}})}function e4(e,t,r){let{remoteEntryKey:n,entryExports:o}=C(e,t);return l(o,i.getShortErrorMsg(i.RUNTIME_001,i.runtimeDescMap,{remoteName:e,remoteEntryUrl:r,remoteEntryKey:n})),o}async function e6({name:e,globalName:t,entry:r,loaderHook:n}){let{entryExports:a}=C(e,t);return a||o.loadScript(r,{attrs:{},createScriptHook:(e,t)=>{let r=n.lifecycle.createScript.emit({url:e,attrs:t});if(r&&(r instanceof HTMLScriptElement||"script"in r||"timeout"in r))return r}}).then(()=>e4(e,t,r)).catch(t=>{throw l(void 0,i.getShortErrorMsg(i.RUNTIME_008,i.runtimeDescMap,{remoteName:e,resourceUrl:r})),t})}async function te({remoteInfo:e,remoteEntryExports:t,loaderHook:r}){let{entry:n,entryGlobalName:o,name:i,type:a}=e;switch(a){case"esm":case"module":return e3({entry:n,remoteEntryExports:t});case"system":return e7({entry:n,remoteEntryExports:t});default:return e6({entry:n,globalName:o,name:i,loaderHook:r})}}async function tt({remoteInfo:e,loaderHook:t}){let{entry:r,entryGlobalName:n,name:i,type:a}=e,{entryExports:s}=C(i,n);return s||o.loadScriptNode(r,{attrs:{name:i,globalName:n,type:a},loaderHook:{createScriptHook:(e,r={})=>{let n=t.lifecycle.createScript.emit({url:e,attrs:r});if(n&&"url"in n)return n}}}).then(()=>e4(i,n,r)).catch(e=>{throw e})}function tr(e){let{entry:t,name:r}=e;return o.composeKeyWithSeparator(r,t)}async function tn({origin:e,remoteEntryExports:t,remoteInfo:r}){let n=tr(r);if(t)return t;if(!T[n]){let i=e.remoteHandler.hooks.lifecycle.loadEntry,a=e.loaderHook;T[n]=i.emit({loaderHook:a,remoteInfo:r,remoteEntryExports:t}).then(e=>e||(("undefined"!=typeof ENV_TARGET?"web"===ENV_TARGET:o.isBrowserEnv())?te({remoteInfo:r,remoteEntryExports:t,loaderHook:a}):tt({remoteInfo:r,loaderHook:a})))}return T[n]}function to(e){return n._extends({},e,{entry:"entry"in e?e.entry:"",type:e.type||W,entryGlobalName:e.entryGlobalName||e.name,shareScope:e.shareScope||B})}function ti(e){return n._extends({resourceCategory:"sync",share:!0,depsRemote:!0,prefetchInterface:!1},e)}function ta(e,t){return t.map(t=>{let r=e9(e,t.nameOrAlias);return l(r,`Unable to preload ${t.nameOrAlias} as it is not included in ${!r&&o.safeToString({remoteInfo:r,remotes:e})}`),{remote:r,preloadConfig:ti(t)}})}function ts(e){return e?e.map(e=>"."===e?e:e.startsWith("./")?e.replace("./",""):e):[]}function tl(e,t,r,n=!0){let{cssAssets:i,jsAssetsWithoutEntry:a,entryAssets:s}=r;if(t.options.inBrowser){if(s.forEach(r=>{let{moduleInfo:n}=r,o=t.moduleCache.get(e.name);o?tn({origin:t,remoteInfo:n,remoteEntryExports:o.remoteEntryExports}):tn({origin:t,remoteInfo:n,remoteEntryExports:void 0})}),n){let e={rel:"preload",as:"style"};i.forEach(r=>{let{link:n,needAttach:i}=o.createLink({url:r,cb:()=>{},attrs:e,createLinkHook:(e,r)=>{let n=t.loaderHook.lifecycle.createLink.emit({url:e,attrs:r});if(n instanceof HTMLLinkElement)return n}});i&&document.head.appendChild(n)})}else{let e={rel:"stylesheet",type:"text/css"};i.forEach(r=>{let{link:n,needAttach:i}=o.createLink({url:r,cb:()=>{},attrs:e,createLinkHook:(e,r)=>{let n=t.loaderHook.lifecycle.createLink.emit({url:e,attrs:r});if(n instanceof HTMLLinkElement)return n},needDeleteLink:!1});i&&document.head.appendChild(n)})}if(n){let e={rel:"preload",as:"script"};a.forEach(r=>{let{link:n,needAttach:i}=o.createLink({url:r,cb:()=>{},attrs:e,createLinkHook:(e,r)=>{let n=t.loaderHook.lifecycle.createLink.emit({url:e,attrs:r});if(n instanceof HTMLLinkElement)return n}});i&&document.head.appendChild(n)})}else{let r={fetchpriority:"high",type:(null==e?void 0:e.type)==="module"?"module":"text/javascript"};a.forEach(e=>{let{script:n,needAttach:i}=o.createScript({url:e,cb:()=>{},attrs:r,createScriptHook:(e,r)=>{let n=t.loaderHook.lifecycle.createScript.emit({url:e,attrs:r});if(n instanceof HTMLScriptElement)return n},needDeleteScript:!0});i&&document.head.appendChild(n)})}}}var tc={global:{Global:N,nativeGlobal:R,resetFederationGlobalInfo:w,setGlobalFederationInstance:A,getGlobalFederationConstructor:k,setGlobalFederationConstructor:P,getInfoWithoutType:D,getGlobalSnapshot:x,getTargetSnapshotInfoByModuleInfo:j,getGlobalSnapshotInfoByModuleInfo:L,setGlobalSnapshotInfoByModuleInfo:F,addGlobalSnapshot:H,getRemoteEntryExports:C,registerGlobalPlugins:U,getGlobalHostPlugins:G,getPreloaded:V,setPreloaded:q},share:{getRegisteredShare:eZ,getGlobalShareScope:eQ},utils:{matchRemoteWithNameAndExpose:e2,preloadAssets:tl,getRemoteInfo:to}};let tu=class{async getEntry(){let e;if(this.remoteEntryExports)return this.remoteEntryExports;try{e=await tn({origin:this.host,remoteInfo:this.remoteInfo,remoteEntryExports:this.remoteEntryExports})}catch(r){let t=tr(this.remoteInfo);e=await this.host.loaderHook.lifecycle.loadEntryError.emit({getRemoteEntry:tn,origin:this.host,remoteInfo:this.remoteInfo,remoteEntryExports:this.remoteEntryExports,globalLoading:T,uniqueKey:t})}return l(e,`remoteEntryExports is undefined 
- ${o.safeToString(this.remoteInfo)}`),this.remoteEntryExports=e,this.remoteEntryExports}async get(e,t,r,o){let a,{loadFactory:s=!0}=r||{loadFactory:!0},u=await this.getEntry();if(!this.inited){let t=this.host.shareScopeMap,r=Array.isArray(this.remoteInfo.shareScope)?this.remoteInfo.shareScope:[this.remoteInfo.shareScope];r.length||r.push("default"),r.forEach(e=>{t[e]||(t[e]={})});let a=t[r[0]],s=[],l={version:this.remoteInfo.version||"",shareScopeKeys:Array.isArray(this.remoteInfo.shareScope)?r:this.remoteInfo.shareScope||"default"};Object.defineProperty(l,"shareScopeMap",{value:t,enumerable:!1});let f=await this.host.hooks.lifecycle.beforeInitContainer.emit({shareScope:a,remoteEntryInitOptions:l,initScope:s,remoteInfo:this.remoteInfo,origin:this.host});void 0===(null==u?void 0:u.init)&&c(i.getShortErrorMsg(i.RUNTIME_002,i.runtimeDescMap,{hostName:this.host.name,remoteName:this.remoteInfo.name,remoteEntryUrl:this.remoteInfo.entry,remoteEntryKey:this.remoteInfo.entryGlobalName})),await u.init(f.shareScope,f.initScope,f.remoteEntryInitOptions),await this.host.hooks.lifecycle.initContainer.emit(n._extends({},f,{id:e,remoteSnapshot:o,remoteEntryExports:u}))}this.lib=u,this.inited=!0,(a=await this.host.loaderHook.lifecycle.getModuleFactory.emit({remoteEntryExports:u,expose:t,moduleInfo:this.remoteInfo}))||(a=await u.get(t)),l(a,`${h(this.remoteInfo)} remote don't export ${t}.`);let f=S(this.remoteInfo.name,t),d=this.wraperFactory(a,f);return s?await d():d}wraperFactory(e,t){function r(e,t){e&&"object"==typeof e&&Object.isExtensible(e)&&!Object.getOwnPropertyDescriptor(e,Symbol.for("mf_module_id"))&&Object.defineProperty(e,Symbol.for("mf_module_id"),{value:t,enumerable:!1})}return e instanceof Promise?async()=>{let n=await e();return r(n,t),n}:()=>{let n=e();return r(n,t),n}}constructor({remoteInfo:e,host:t}){this.inited=!1,this.lib=void 0,this.remoteInfo=e,this.host=t}};class tf{on(e){"function"==typeof e&&this.listeners.add(e)}once(e){let t=this;this.on(function r(...n){return t.remove(r),e.apply(null,n)})}emit(...e){let t;return this.listeners.size>0&&this.listeners.forEach(r=>{t=r(...e)}),t}remove(e){this.listeners.delete(e)}removeAll(){this.listeners.clear()}constructor(e){this.type="",this.listeners=new Set,e&&(this.type=e)}}class th extends tf{emit(...e){let t,r=Array.from(this.listeners);if(r.length>0){let n=0,o=t=>!1!==t&&(n<r.length?Promise.resolve(r[n++].apply(null,e)).then(o):t);t=o()}return Promise.resolve(t)}}function td(e,t){if(!y(t))return!1;if(e!==t){for(let r in e)if(!(r in t))return!1}return!0}class tp extends tf{emit(e){for(let t of(y(e)||c(`The data for the "${this.type}" hook should be an object.`),this.listeners))try{let r=t(e);if(td(e,r))e=r;else{this.onerror(`A plugin returned an unacceptable value for the "${this.type}" type.`);break}}catch(e){u(e),this.onerror(e)}return e}constructor(e){super(),this.onerror=c,this.type=e}}class tm extends tf{emit(e){y(e)||c(`The response data for the "${this.type}" hook must be an object.`);let t=Array.from(this.listeners);if(t.length>0){let r=0,n=t=>(u(t),this.onerror(t),e),o=i=>{if(td(e,i)){if(e=i,r<t.length)try{return Promise.resolve(t[r++](e)).then(o,n)}catch(e){return n(e)}}else this.onerror(`A plugin returned an incorrect value for the "${this.type}" type.`);return e};return Promise.resolve(o(e))}return Promise.resolve(e)}constructor(e){super(),this.onerror=c,this.type=e}}class ty{applyPlugin(e,t){l(g(e),"Plugin configuration is invalid.");let r=e.name;l(r,"A name must be provided by the plugin."),this.registerPlugins[r]||(this.registerPlugins[r]=e,null==e.apply||e.apply.call(e,t),Object.keys(this.lifecycle).forEach(t=>{let r=e[t];r&&this.lifecycle[t].on(r)}))}removePlugin(e){l(e,"A name is required.");let t=this.registerPlugins[e];l(t,`The plugin "${e}" is not registered.`),Object.keys(t).forEach(e=>{"name"!==e&&this.lifecycle[e].remove(t[e])})}constructor(e){this.registerPlugins={},this.lifecycle=e,this.lifecycleKeys=Object.keys(e)}}function t_(e,t){let r=v(t);r.url||c(`The attribute remoteEntry of ${e.name} must not be undefined.`);let n=o.getResourceUrl(t,r.url);o.isBrowserEnv()||n.startsWith("http")||(n=`https:${n}`),e.type=r.type,e.entryGlobalName=r.globalName,e.entry=n,e.version=t.version,e.buildVersion=t.buildVersion}function tg(){return{name:"snapshot-plugin",async afterResolve(e){let{remote:t,pkgNameOrAlias:r,expose:o,origin:i,remoteInfo:a,id:s}=e;if(!d(t)||!p(t)){let{remoteSnapshot:l,globalSnapshot:c}=await i.snapshotHandler.loadRemoteSnapshotInfo({moduleInfo:t,id:s});t_(a,l);let u={remote:t,preloadConfig:{nameOrAlias:r,exposes:[o],resourceCategory:"sync",share:!1,depsRemote:!1}},f=await i.remoteHandler.hooks.lifecycle.generatePreloadAssets.emit({origin:i,preloadOptions:u,remoteInfo:a,remote:t,remoteSnapshot:l,globalSnapshot:c});return f&&tl(a,i,f,!1),n._extends({},e,{remoteSnapshot:l})}return e}}}function tE(e){let t=e.split(":");return 1===t.length?{name:t[0],version:void 0}:2===t.length?{name:t[0],version:t[1]}:{name:t[1],version:t[2]}}function tb(e,t,r,n,i={},a){let{value:s}=D(e,h(t)),l=a||s;if(l&&!o.isManifestProvider(l)&&(r(l,t,n),l.remotesInfo))for(let t of Object.keys(l.remotesInfo)){if(i[t])continue;i[t]=!0;let n=tE(t),o=l.remotesInfo[t];tb(e,{name:n.name,version:o.matchedVersion},r,!1,i,void 0)}}let tv=(e,t)=>document.querySelector(`${e}[${"link"===e?"href":"src"}="${t}"]`);function tS(e,t,r,n,i){let a=[],s=[],l=[],c=new Set,u=new Set,{options:f}=e,{preloadConfig:h}=t,{depsRemote:d}=h;if(tb(n,r,(t,r,n)=>{let i;if(n)i=h;else if(Array.isArray(d)){let e=d.find(e=>e.nameOrAlias===r.name||e.nameOrAlias===r.alias);if(!e)return;i=ti(e)}else{if(!0!==d)return;i=h}let c=o.getResourceUrl(t,v(t).url);c&&l.push({name:r.name,moduleInfo:{name:r.name,entry:c,type:"remoteEntryType"in t?t.remoteEntryType:"global",entryGlobalName:"globalName"in t?t.globalName:r.name,shareScope:"",version:"version"in t?t.version:void 0},url:c});let u="modules"in t?t.modules:[],f=ts(i.exposes);if(f.length&&"modules"in t){var p;u=null==t||null==(p=t.modules)?void 0:p.reduce((e,t)=>((null==f?void 0:f.indexOf(t.moduleName))!==-1&&e.push(t),e),[])}function m(e){let r=e.map(e=>o.getResourceUrl(t,e));return i.filter?r.filter(i.filter):r}if(u){let n=u.length;for(let o=0;o<n;o++){let n=u[o],l=`${r.name}/${n.moduleName}`;e.remoteHandler.hooks.lifecycle.handlePreloadModule.emit({id:"."===n.moduleName?r.name:l,name:r.name,remoteSnapshot:t,preloadConfig:i,remote:r,origin:e}),V(l)||("all"===i.resourceCategory?(a.push(...m(n.assets.css.async)),a.push(...m(n.assets.css.sync)),s.push(...m(n.assets.js.async))):(i.resourceCategory="sync",a.push(...m(n.assets.css.sync))),s.push(...m(n.assets.js.sync)),q(l))}}},!0,{},i),i.shared&&i.shared.length>0){let t=(t,r)=>{let n=eZ(e.shareScopeMap,r.sharedName,t,e.sharedHandler.hooks.lifecycle.resolveShare);n&&"function"==typeof n.lib&&(r.assets.js.sync.forEach(e=>{c.add(e)}),r.assets.css.sync.forEach(e=>{u.add(e)}))};i.shared.forEach(e=>{var r;let n=null==(r=f.shared)?void 0:r[e.sharedName];if(!n)return;let o=e.version?n.find(t=>t.version===e.version):n;o&&b(o).forEach(r=>{t(r,e)})})}let p=s.filter(e=>!c.has(e)&&!tv("script",e));return{cssAssets:a.filter(e=>!u.has(e)&&!tv("link",e)),jsAssetsWithoutEntry:p,entryAssets:l.filter(e=>!tv("script",e.url))}}let tI=function(){return{name:"generate-preload-assets-plugin",async generatePreloadAssets(e){let{origin:t,preloadOptions:r,remoteInfo:n,remote:i,globalSnapshot:a,remoteSnapshot:s}=e;return o.isBrowserEnv()?d(i)&&p(i)?{cssAssets:[],jsAssetsWithoutEntry:[],entryAssets:[{name:i.name,url:i.entry,moduleInfo:{name:n.name,entry:i.entry,type:n.type||"global",entryGlobalName:"",shareScope:""}}]}:(t_(n,s),tS(t,r,n,a,s)):{cssAssets:[],jsAssetsWithoutEntry:[],entryAssets:[]}}}};function tR(e,t){let r=L({name:t.name,version:t.options.version}),n=r&&"remotesInfo"in r&&r.remotesInfo&&D(r.remotesInfo,e.name).value;return n&&n.matchedVersion?{hostGlobalSnapshot:r,globalSnapshot:x(),remoteSnapshot:L({name:e.name,version:n.matchedVersion})}:{hostGlobalSnapshot:void 0,globalSnapshot:x(),remoteSnapshot:L({name:e.name,version:"version"in e?e.version:void 0})}}class tN{async loadRemoteSnapshotInfo({moduleInfo:e,id:t,expose:r}){let a,s,{options:l}=this.HostInstance;await this.hooks.lifecycle.beforeLoadRemoteSnapshot.emit({options:l,moduleInfo:e});let u=L({name:this.HostInstance.options.name,version:this.HostInstance.options.version});u||(u={version:this.HostInstance.options.version||"",remoteEntry:"",remotesInfo:{}},H({[this.HostInstance.options.name]:u})),u&&"remotesInfo"in u&&!D(u.remotesInfo,e.name).value&&("version"in e||"entry"in e)&&(u.remotesInfo=n._extends({},null==u?void 0:u.remotesInfo,{[e.name]:{matchedVersion:"version"in e?e.version:e.entry}}));let{hostGlobalSnapshot:f,remoteSnapshot:h,globalSnapshot:p}=this.getGlobalRemoteInfo(e),{remoteSnapshot:m,globalSnapshot:y}=await this.hooks.lifecycle.loadSnapshot.emit({options:l,moduleInfo:e,hostGlobalSnapshot:f,remoteSnapshot:h,globalSnapshot:p});if(m)if(o.isManifestProvider(m)){let t=o.isBrowserEnv()?m.remoteEntry:m.ssrRemoteEntry||m.remoteEntry||"",r=await this.getManifestJson(t,e,{}),i=F(n._extends({},e,{entry:t}),r);a=r,s=i}else{let{remoteSnapshot:t}=await this.hooks.lifecycle.loadRemoteSnapshot.emit({options:this.HostInstance.options,moduleInfo:e,remoteSnapshot:m,from:"global"});a=t,s=y}else if(d(e)){let t=await this.getManifestJson(e.entry,e,{}),r=F(e,t),{remoteSnapshot:n}=await this.hooks.lifecycle.loadRemoteSnapshot.emit({options:this.HostInstance.options,moduleInfo:e,remoteSnapshot:t,from:"global"});a=n,s=r}else c(i.getShortErrorMsg(i.RUNTIME_007,i.runtimeDescMap,{hostName:e.name,hostVersion:e.version,globalSnapshot:JSON.stringify(y)}));return await this.hooks.lifecycle.afterLoadSnapshot.emit({id:t,host:this.HostInstance,options:l,moduleInfo:e,remoteSnapshot:a}),{remoteSnapshot:a,globalSnapshot:s}}getGlobalRemoteInfo(e){return tR(e,this.HostInstance)}async getManifestJson(e,t,r){let n=async()=>{let r=this.manifestCache.get(e);if(r)return r;try{let t=await this.loaderHook.lifecycle.fetch.emit(e,{});t&&t instanceof Response||(t=await fetch(e,{})),r=await t.json()}catch(n){(r=await this.HostInstance.remoteHandler.hooks.lifecycle.errorLoadRemote.emit({id:e,error:n,from:"runtime",lifecycle:"afterResolve",origin:this.HostInstance}))||(delete this.manifestLoading[e],c(i.getShortErrorMsg(i.RUNTIME_003,i.runtimeDescMap,{manifestUrl:e,moduleName:t.name,hostName:this.HostInstance.options.name},`${n}`)))}return l(r.metaData&&r.exposes&&r.shared,`${e} is not a federation manifest`),this.manifestCache.set(e,r),r},a=async()=>{let r=await n(),i=o.generateSnapshotFromManifest(r,{version:e}),{remoteSnapshot:a}=await this.hooks.lifecycle.loadRemoteSnapshot.emit({options:this.HostInstance.options,moduleInfo:t,manifestJson:r,remoteSnapshot:i,manifestUrl:e,from:"manifest"});return a};return this.manifestLoading[e]||(this.manifestLoading[e]=a().then(e=>e)),this.manifestLoading[e]}constructor(e){this.loadingHostSnapshot=null,this.manifestCache=new Map,this.hooks=new ty({beforeLoadRemoteSnapshot:new th("beforeLoadRemoteSnapshot"),loadSnapshot:new tm("loadGlobalSnapshot"),loadRemoteSnapshot:new tm("loadRemoteSnapshot"),afterLoadSnapshot:new tm("afterLoadSnapshot")}),this.manifestLoading=N.__FEDERATION__.__MANIFEST_LOADING__,this.HostInstance=e,this.loaderHook=e.loaderHook}}class tO{registerShared(e,t){let{shareInfos:r,shared:n}=eq(e,t);return Object.keys(r).forEach(e=>{r[e].forEach(r=>{!eZ(this.shareScopeMap,e,r,this.hooks.lifecycle.resolveShare)&&r&&r.lib&&this.setShared({pkgName:e,lib:r.lib,get:r.get,loaded:!0,shared:r,from:t.name})})}),{shareInfos:r,shared:n}}async loadShare(e,t){let{host:r}=this,n=e0({pkgName:e,extraOptions:t,shareInfos:r.options.shared});(null==n?void 0:n.scope)&&await Promise.all(n.scope.map(async e=>{await Promise.all(this.initializeSharing(e,{strategy:n.strategy}))}));let{shareInfo:o}=await this.hooks.lifecycle.beforeLoadShare.emit({pkgName:e,shareInfo:n,shared:r.options.shared,origin:r});l(o,`Cannot find ${e} Share in the ${r.options.name}. Please ensure that the ${e} Share parameters have been injected`);let i=eZ(this.shareScopeMap,e,o,this.hooks.lifecycle.resolveShare),a=e=>{e.useIn||(e.useIn=[]),f(e.useIn,r.options.name)};if(i&&i.lib)return a(i),i.lib;if(i&&i.loading&&!i.loaded){let e=await i.loading;return i.loaded=!0,i.lib||(i.lib=e),a(i),e}if(i){let t=(async()=>{let t=await i.get();o.lib=t,o.loaded=!0,a(o);let r=eZ(this.shareScopeMap,e,o,this.hooks.lifecycle.resolveShare);return r&&(r.lib=t,r.loaded=!0),t})();return this.setShared({pkgName:e,loaded:!1,shared:i,from:r.options.name,lib:null,loading:t}),t}{if(null==t?void 0:t.customShareInfo)return!1;let n=(async()=>{let t=await o.get();o.lib=t,o.loaded=!0,a(o);let r=eZ(this.shareScopeMap,e,o,this.hooks.lifecycle.resolveShare);return r&&(r.lib=t,r.loaded=!0),t})();return this.setShared({pkgName:e,loaded:!1,shared:o,from:r.options.name,lib:null,loading:n}),n}}initializeSharing(e=B,t){let{host:r}=this,n=null==t?void 0:t.from,o=null==t?void 0:t.strategy,i=null==t?void 0:t.initScope,a=[];if("build"!==n){let{initTokens:t}=this;i||(i=[]);let r=t[e];if(r||(r=t[e]={from:this.host.name}),i.indexOf(r)>=0)return a;i.push(r)}let s=this.shareScopeMap,l=r.options.name;s[e]||(s[e]={});let c=s[e],u=(e,t)=>{var r;let{version:n,eager:o}=t;c[e]=c[e]||{};let i=c[e],a=i[n],s=!!(a&&(a.eager||(null==(r=a.shareConfig)?void 0:r.eager)));(!a||"loaded-first"!==a.strategy&&!a.loaded&&(!o!=!s?o:l>a.from))&&(i[n]=t)},f=t=>t&&t.init&&t.init(s[e],i),h=async e=>{let{module:t}=await r.remoteHandler.getRemoteModuleAndOptions({id:e});if(t.getEntry){let n;try{n=await t.getEntry()}catch(t){n=await r.remoteHandler.hooks.lifecycle.errorLoadRemote.emit({id:e,error:t,from:"runtime",lifecycle:"beforeLoadShare",origin:r})}t.inited||(await f(n),t.inited=!0)}};return Object.keys(r.options.shared).forEach(t=>{r.options.shared[t].forEach(r=>{r.scope.includes(e)&&u(t,r)})}),("version-first"===r.options.shareStrategy||"version-first"===o)&&r.options.remotes.forEach(t=>{t.shareScope===e&&a.push(h(t.name))}),a}loadShareSync(e,t){let{host:r}=this,n=e0({pkgName:e,extraOptions:t,shareInfos:r.options.shared});(null==n?void 0:n.scope)&&n.scope.forEach(e=>{this.initializeSharing(e,{strategy:n.strategy})});let o=eZ(this.shareScopeMap,e,n,this.hooks.lifecycle.resolveShare),a=e=>{e.useIn||(e.useIn=[]),f(e.useIn,r.options.name)};if(o){if("function"==typeof o.lib)return a(o),o.loaded||(o.loaded=!0,o.from===r.options.name&&(n.loaded=!0)),o.lib;if("function"==typeof o.get){let t=o.get();if(!(t instanceof Promise))return a(o),this.setShared({pkgName:e,loaded:!0,from:r.options.name,lib:t,shared:o}),t}}if(n.lib)return n.loaded||(n.loaded=!0),n.lib;if(n.get){let o=n.get();if(o instanceof Promise){let n=(null==t?void 0:t.from)==="build"?i.RUNTIME_005:i.RUNTIME_006;throw Error(i.getShortErrorMsg(n,i.runtimeDescMap,{hostName:r.options.name,sharedPkgName:e}))}return n.lib=o,this.setShared({pkgName:e,loaded:!0,from:r.options.name,lib:n.lib,shared:n}),n.lib}throw Error(i.getShortErrorMsg(i.RUNTIME_006,i.runtimeDescMap,{hostName:r.options.name,sharedPkgName:e}))}initShareScopeMap(e,t,r={}){let{host:n}=this;this.shareScopeMap[e]=t,this.hooks.lifecycle.initContainerShareScopeMap.emit({shareScope:t,options:n.options,origin:n,scopeName:e,hostShareScopeMap:r.hostShareScopeMap})}setShared({pkgName:e,shared:t,from:r,lib:o,loading:i,loaded:a,get:s}){let{version:l,scope:c="default"}=t,u=n._object_without_properties_loose(t,["version","scope"]);(Array.isArray(c)?c:[c]).forEach(t=>{if(this.shareScopeMap[t]||(this.shareScopeMap[t]={}),this.shareScopeMap[t][e]||(this.shareScopeMap[t][e]={}),!this.shareScopeMap[t][e][l]){this.shareScopeMap[t][e][l]=n._extends({version:l,scope:["default"]},u,{lib:o,loaded:a,loading:i}),s&&(this.shareScopeMap[t][e][l].get=s);return}let r=this.shareScopeMap[t][e][l];i&&!r.loading&&(r.loading=i)})}_setGlobalShareScopeMap(e){let t=eQ(),r=e.id||e.name;r&&!t[r]&&(t[r]=this.shareScopeMap)}constructor(e){this.hooks=new ty({afterResolve:new tm("afterResolve"),beforeLoadShare:new tm("beforeLoadShare"),loadShare:new th,resolveShare:new tp("resolveShare"),initContainerShareScopeMap:new tp("initContainerShareScopeMap")}),this.host=e,this.shareScopeMap={},this.initTokens={},this._setGlobalShareScopeMap(e.options)}}class tM{formatAndRegisterRemote(e,t){return(t.remotes||[]).reduce((e,t)=>(this.registerRemote(t,e,{force:!1}),e),e.remotes)}setIdToRemoteMap(e,t){let{remote:r,expose:n}=t,{name:o,alias:i}=r;if(this.idToRemoteMap[e]={name:r.name,expose:n},i&&e.startsWith(o)){let t=e.replace(o,i);this.idToRemoteMap[t]={name:r.name,expose:n};return}if(i&&e.startsWith(i)){let t=e.replace(i,o);this.idToRemoteMap[t]={name:r.name,expose:n}}}async loadRemote(e,t){let{host:r}=this;try{let{loadFactory:n=!0}=t||{loadFactory:!0},{module:o,moduleOptions:i,remoteMatchInfo:a}=await this.getRemoteModuleAndOptions({id:e}),{pkgNameOrAlias:s,remote:l,expose:c,id:u,remoteSnapshot:f}=a,h=await o.get(u,c,t,f),d=await this.hooks.lifecycle.onLoad.emit({id:u,pkgNameOrAlias:s,expose:c,exposeModule:n?h:void 0,exposeModuleFactory:n?void 0:h,remote:l,options:i,moduleInstance:o,origin:r});if(this.setIdToRemoteMap(e,a),"function"==typeof d)return d;return h}catch(i){let{from:n="runtime"}=t||{from:"runtime"},o=await this.hooks.lifecycle.errorLoadRemote.emit({id:e,error:i,from:n,lifecycle:"onLoad",origin:r});if(!o)throw i;return o}}async preloadRemote(e){let{host:t}=this;await this.hooks.lifecycle.beforePreloadRemote.emit({preloadOps:e,options:t.options,origin:t});let r=ta(t.options.remotes,e);await Promise.all(r.map(async e=>{let{remote:r}=e,n=to(r),{globalSnapshot:o,remoteSnapshot:i}=await t.snapshotHandler.loadRemoteSnapshotInfo({moduleInfo:r}),a=await this.hooks.lifecycle.generatePreloadAssets.emit({origin:t,preloadOptions:e,remote:r,remoteInfo:n,globalSnapshot:o,remoteSnapshot:i});a&&tl(n,t,a)}))}registerRemotes(e,t){let{host:r}=this;e.forEach(e=>{this.registerRemote(e,r.options.remotes,{force:null==t?void 0:t.force})})}async getRemoteModuleAndOptions(e){let t,{host:r}=this,{id:o}=e;try{t=await this.hooks.lifecycle.beforeRequest.emit({id:o,options:r.options,origin:r})}catch(e){if(!(t=await this.hooks.lifecycle.errorLoadRemote.emit({id:o,options:r.options,origin:r,from:"runtime",error:e,lifecycle:"beforeRequest"})))throw e}let{id:a}=t,s=e2(r.options.remotes,a);l(s,i.getShortErrorMsg(i.RUNTIME_004,i.runtimeDescMap,{hostName:r.options.name,requestId:a}));let{remote:c}=s,u=to(c),f=await r.sharedHandler.hooks.lifecycle.afterResolve.emit(n._extends({id:a},s,{options:r.options,origin:r,remoteInfo:u})),{remote:h,expose:d}=f;l(h&&d,`The 'beforeRequest' hook was executed, but it failed to return the correct 'remote' and 'expose' values while loading ${a}.`);let p=r.moduleCache.get(h.name),m={host:r,remoteInfo:u};return p||(p=new tu(m),r.moduleCache.set(h.name,p)),{module:p,moduleOptions:m,remoteMatchInfo:f}}registerRemote(e,t,r){let{host:n}=this,i=()=>{if(e.alias){let r=t.find(t=>{var r;return e.alias&&(t.name.startsWith(e.alias)||(null==(r=t.alias)?void 0:r.startsWith(e.alias)))});l(!r,`The alias ${e.alias} of remote ${e.name} is not allowed to be the prefix of ${r&&r.name} name or alias`)}"entry"in e&&o.isBrowserEnv()&&!e.entry.startsWith("http")&&(e.entry=new URL(e.entry,window.location.origin).href),e.shareScope||(e.shareScope=B),e.type||(e.type=W)};this.hooks.lifecycle.beforeRegisterRemote.emit({remote:e,origin:n});let a=t.find(t=>t.name===e.name);if(a){let s=[`The remote "${e.name}" is already registered.`,"Please note that overriding it may cause unexpected errors."];(null==r?void 0:r.force)&&(this.removeRemote(a),i(),t.push(e),this.hooks.lifecycle.registerRemote.emit({remote:e,origin:n}),o.warn(s.join(" ")))}else i(),t.push(e),this.hooks.lifecycle.registerRemote.emit({remote:e,origin:n})}removeRemote(e){try{let{host:r}=this,{name:n}=e,i=r.options.remotes.findIndex(e=>e.name===n);-1!==i&&r.options.remotes.splice(i,1);let a=r.moduleCache.get(e.name);if(a){let n=a.remoteInfo,i=n.entryGlobalName;if(I[i]){var t;(null==(t=Object.getOwnPropertyDescriptor(I,i))?void 0:t.configurable)?delete I[i]:I[i]=void 0}let s=tr(a.remoteInfo);T[s]&&delete T[s],r.snapshotHandler.manifestCache.delete(n.entry);let l=n.buildVersion?o.composeKeyWithSeparator(n.name,n.buildVersion):n.name,c=I.__FEDERATION__.__INSTANCES__.findIndex(e=>n.buildVersion?e.options.id===l:e.name===l);if(-1!==c){let e=I.__FEDERATION__.__INSTANCES__[c];l=e.options.id||l;let t=eQ(),r=!0,o=[];Object.keys(t).forEach(e=>{let i=t[e];i&&Object.keys(i).forEach(t=>{let a=i[t];a&&Object.keys(a).forEach(i=>{let s=a[i];s&&Object.keys(s).forEach(a=>{let l=s[a];l&&"object"==typeof l&&l.from===n.name&&(l.loaded||l.loading?(l.useIn=l.useIn.filter(e=>e!==n.name),l.useIn.length?r=!1:o.push([e,t,i,a])):o.push([e,t,i,a]))})})})}),r&&(e.shareScopeMap={},delete t[l]),o.forEach(([e,r,n,o])=>{var i,a,s;null==(s=t[e])||null==(a=s[r])||null==(i=a[n])||delete i[o]}),I.__FEDERATION__.__INSTANCES__.splice(c,1)}let{hostGlobalSnapshot:u}=tR(e,r);if(u){let t=u&&"remotesInfo"in u&&u.remotesInfo&&D(u.remotesInfo,e.name).key;t&&(delete u.remotesInfo[t],N.__FEDERATION__.__MANIFEST_LOADING__[t]&&delete N.__FEDERATION__.__MANIFEST_LOADING__[t])}r.moduleCache.delete(e.name)}}catch(e){s.log("removeRemote fail: ",e)}}constructor(e){this.hooks=new ty({beforeRegisterRemote:new tp("beforeRegisterRemote"),registerRemote:new tp("registerRemote"),beforeRequest:new tm("beforeRequest"),onLoad:new th("onLoad"),handlePreloadModule:new tf("handlePreloadModule"),errorLoadRemote:new th("errorLoadRemote"),beforePreloadRemote:new th("beforePreloadRemote"),generatePreloadAssets:new th("generatePreloadAssets"),afterPreloadRemote:new th,loadEntry:new th}),this.host=e,this.idToRemoteMap={}}}let tT="boolean"!=typeof FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN||!FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN;class t${initOptions(e){this.registerPlugins(e.plugins);let t=this.formatOptions(this.options,e);return this.options=t,t}async loadShare(e,t){return this.sharedHandler.loadShare(e,t)}loadShareSync(e,t){return this.sharedHandler.loadShareSync(e,t)}initializeSharing(e=B,t){return this.sharedHandler.initializeSharing(e,t)}initRawContainer(e,t,r){let n=new tu({host:this,remoteInfo:to({name:e,entry:t})});return n.remoteEntryExports=r,this.moduleCache.set(e,n),n}async loadRemote(e,t){return this.remoteHandler.loadRemote(e,t)}async preloadRemote(e){return this.remoteHandler.preloadRemote(e)}initShareScopeMap(e,t,r={}){this.sharedHandler.initShareScopeMap(e,t,r)}formatOptions(e,t){let{shared:r}=eq(e,t),{userOptions:o,options:i}=this.hooks.lifecycle.beforeInit.emit({origin:this,userOptions:t,options:e,shareInfo:r}),a=this.remoteHandler.formatAndRegisterRemote(i,o),{shared:s}=this.sharedHandler.registerShared(i,o),l=[...i.plugins];o.plugins&&o.plugins.forEach(e=>{l.includes(e)||l.push(e)});let c=n._extends({},e,t,{plugins:l,remotes:a,shared:s});return this.hooks.lifecycle.init.emit({origin:this,options:c}),c}registerPlugins(e){let t=e8(e,this);this.options.plugins=this.options.plugins.reduce((e,t)=>(t&&e&&!e.find(e=>e.name===t.name)&&e.push(t),e),t||[])}registerRemotes(e,t){return this.remoteHandler.registerRemotes(e,t)}registerShared(e){this.sharedHandler.registerShared(this.options,n._extends({},this.options,{shared:e}))}constructor(e){this.hooks=new ty({beforeInit:new tp("beforeInit"),init:new tf,beforeInitContainer:new tm("beforeInitContainer"),initContainer:new tm("initContainer")}),this.version="0.17.0",this.moduleCache=new Map,this.loaderHook=new ty({getModuleInfo:new tf,createScript:new tf,createLink:new tf,fetch:new th,loadEntryError:new th,getModuleFactory:new th}),this.bridgeHook=new ty({beforeBridgeRender:new tf,afterBridgeRender:new tf,beforeBridgeDestroy:new tf,afterBridgeDestroy:new tf});let t=tT?[tg(),tI()]:[],r={id:e1(),name:e.name,plugins:t,remotes:[],shared:{},inBrowser:o.isBrowserEnv()};this.name=e.name,this.options=r,this.snapshotHandler=new tN(this),this.sharedHandler=new tO(this),this.remoteHandler=new tM(this),this.shareScopeMap=this.sharedHandler.shareScopeMap,this.registerPlugins([...r.plugins,...e.plugins||[]]),this.options=this.formatOptions(r,e)}}var tw=Object.freeze({__proto__:null});t.loadScript=o.loadScript,t.loadScriptNode=o.loadScriptNode,t.CurrentGlobal=I,t.Global=N,t.Module=tu,t.ModuleFederation=t$,t.addGlobalSnapshot=H,t.assert=l,t.getGlobalFederationConstructor=k,t.getGlobalSnapshot=x,t.getInfoWithoutType=D,t.getRegisteredShare=eZ,t.getRemoteEntry=tn,t.getRemoteInfo=to,t.helpers=tc,t.isStaticResourcesEqual=E,t.matchRemoteWithNameAndExpose=e2,t.registerGlobalPlugins=U,t.resetFederationGlobalInfo=w,t.safeWrapper=m,t.satisfy=eG,t.setGlobalFederationConstructor=P,t.setGlobalFederationInstance=A,t.types=tw},2939:function(e,t){function r(){return(r=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}function n(e,t){if(null==e)return{};var r,n,o={},i=Object.keys(e);for(n=0;n<i.length;n++)r=i[n],t.indexOf(r)>=0||(o[r]=e[r]);return o}t._extends=r,t._object_without_properties_loose=n},6940:function(e,t,r){var n=r(9697),o=r(5594),i=r(4755);function a(e){return new(n.getGlobalFederationConstructor()||n.ModuleFederation)(e)}let s=null;function l(e){let t=i.getGlobalFederationInstance(e.name,e.version);return t?(t.initOptions(e),s||(s=t),t):(s=a(e),n.setGlobalFederationInstance(s),s)}function c(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.loadRemote.apply(s,e)}function u(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.loadShare.apply(s,e)}function f(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.loadShareSync.apply(s,e)}function h(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.preloadRemote.apply(s,e)}function d(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.registerRemotes.apply(s,e)}function p(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.registerPlugins.apply(s,e)}function m(){return s}function y(...e){return n.assert(s,o.getShortErrorMsg(o.RUNTIME_009,o.runtimeDescMap)),s.registerShared.apply(s,e)}n.setGlobalFederationConstructor(n.ModuleFederation),t.Module=n.Module,t.ModuleFederation=n.ModuleFederation,t.getRemoteEntry=n.getRemoteEntry,t.getRemoteInfo=n.getRemoteInfo,t.loadScript=n.loadScript,t.loadScriptNode=n.loadScriptNode,t.registerGlobalPlugins=n.registerGlobalPlugins,t.createInstance=a,t.getInstance=m,t.init=l,t.loadRemote=c,t.loadShare=u,t.loadShareSync=f,t.preloadRemote=h,t.registerPlugins=p,t.registerRemotes=d,t.registerShared=y},4755:function(e,t,r){var n=r(9697);function o(){return"undefined"!=typeof FEDERATION_BUILD_IDENTIFIER?FEDERATION_BUILD_IDENTIFIER:""}t.getGlobalFederationInstance=function(e,t){let r=o();return n.CurrentGlobal.__FEDERATION__.__INSTANCES__.find(n=>!!r&&n.options.id===r||n.options.name===e&&!n.options.version&&!t||n.options.name===e&&!!t&&n.options.version===t)}},5921:function(__unused_webpack_module,exports,__webpack_require__){var polyfills=__webpack_require__(73);let FederationModuleManifest="federation-manifest.json",MANIFEST_EXT=".json",BROWSER_LOG_KEY="FEDERATION_DEBUG",NameTransformSymbol={AT:"@",HYPHEN:"-",SLASH:"/"},NameTransformMap={[NameTransformSymbol.AT]:"scope_",[NameTransformSymbol.HYPHEN]:"_",[NameTransformSymbol.SLASH]:"__"},EncodedNameTransformMap={[NameTransformMap[NameTransformSymbol.AT]]:NameTransformSymbol.AT,[NameTransformMap[NameTransformSymbol.HYPHEN]]:NameTransformSymbol.HYPHEN,[NameTransformMap[NameTransformSymbol.SLASH]]:NameTransformSymbol.SLASH},SEPARATOR=":",ManifestFileName="mf-manifest.json",StatsFileName="mf-stats.json",MFModuleType={NPM:"npm",APP:"app"},MODULE_DEVTOOL_IDENTIFIER="__MF_DEVTOOLS_MODULE_INFO__",ENCODE_NAME_PREFIX="ENCODE_NAME_PREFIX",TEMP_DIR=".federation",MFPrefetchCommon={identifier:"MFDataPrefetch",globalKey:"__PREFETCH__",library:"mf-data-prefetch",exportsKey:"__PREFETCH_EXPORTS__",fileName:"bootstrap.js"};var ContainerPlugin=Object.freeze({__proto__:null}),ContainerReferencePlugin=Object.freeze({__proto__:null}),ModuleFederationPlugin=Object.freeze({__proto__:null}),SharePlugin=Object.freeze({__proto__:null});function isBrowserEnv(){return"undefined"!=typeof window&&void 0!==window.document}function isReactNativeEnv(){var e;return"undefined"!=typeof navigator&&(null==(e=navigator)?void 0:e.product)==="ReactNative"}function isBrowserDebug(){try{if(isBrowserEnv()&&window.localStorage)return!!localStorage.getItem(BROWSER_LOG_KEY)}catch(e){}return!1}function isDebugMode(){return"undefined"!=typeof process&&process.env&&process.env.FEDERATION_DEBUG?!!process.env.FEDERATION_DEBUG:!!("undefined"!=typeof FEDERATION_DEBUG&&FEDERATION_DEBUG)||isBrowserDebug()}let getProcessEnv=function(){return"undefined"!=typeof process&&process.env?process.env:{}},LOG_CATEGORY="[ Federation Runtime ]",parseEntry=(e,t,r=SEPARATOR)=>{let n=e.split(r),o="development"===getProcessEnv().NODE_ENV&&t,i="*",a=e=>e.startsWith("http")||e.includes(MANIFEST_EXT);if(n.length>=2){let[t,...s]=n;e.startsWith(r)&&(t=n.slice(0,2).join(r),s=[o||n.slice(2).join(r)]);let l=o||s.join(r);return a(l)?{name:t,entry:l}:{name:t,version:l||i}}if(1===n.length){let[e]=n;return o&&a(o)?{name:e,entry:o}:{name:e,version:o||i}}throw`Invalid entry value: ${e}`},composeKeyWithSeparator=function(...e){return e.length?e.reduce((e,t)=>t?e?`${e}${SEPARATOR}${t}`:t:e,""):""},encodeName=function(e,t="",r=!1){try{let n=r?".js":"";return`${t}${e.replace(RegExp(`${NameTransformSymbol.AT}`,"g"),NameTransformMap[NameTransformSymbol.AT]).replace(RegExp(`${NameTransformSymbol.HYPHEN}`,"g"),NameTransformMap[NameTransformSymbol.HYPHEN]).replace(RegExp(`${NameTransformSymbol.SLASH}`,"g"),NameTransformMap[NameTransformSymbol.SLASH])}${n}`}catch(e){throw e}},decodeName=function(e,t,r){try{let n=e;if(t){if(!n.startsWith(t))return n;n=n.replace(RegExp(t,"g"),"")}return n=n.replace(RegExp(`${NameTransformMap[NameTransformSymbol.AT]}`,"g"),EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.AT]]).replace(RegExp(`${NameTransformMap[NameTransformSymbol.SLASH]}`,"g"),EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.SLASH]]).replace(RegExp(`${NameTransformMap[NameTransformSymbol.HYPHEN]}`,"g"),EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.HYPHEN]]),r&&(n=n.replace(".js","")),n}catch(e){throw e}},generateExposeFilename=(e,t)=>{if(!e)return"";let r=e;return"."===r&&(r="default_export"),r.startsWith("./")&&(r=r.replace("./","")),encodeName(r,"__federation_expose_",t)},generateShareFilename=(e,t)=>e?encodeName(e,"__federation_shared_",t):"",getResourceUrl=(e,t)=>{if("getPublicPath"in e){let r;return r=e.getPublicPath.startsWith("function")?Function("return "+e.getPublicPath)()():Function(e.getPublicPath)(),`${r}${t}`}return"publicPath"in e?!isBrowserEnv()&&!isReactNativeEnv()&&"ssrPublicPath"in e?`${e.ssrPublicPath}${t}`:`${e.publicPath}${t}`:(console.warn("Cannot get resource URL. If in debug mode, please ignore.",e,t),"")},assert=(e,t)=>{e||error(t)},error=e=>{throw Error(`${LOG_CATEGORY}: ${e}`)},warn=e=>{console.warn(`${LOG_CATEGORY}: ${e}`)};function safeToString(e){try{return JSON.stringify(e,null,2)}catch(e){return""}}let VERSION_PATTERN_REGEXP=/^([\d^=v<>~]|[*xX]$)/;function isRequiredVersion(e){return VERSION_PATTERN_REGEXP.test(e)}let simpleJoinRemoteEntry=(e,t)=>{if(!e)return t;let r=(e=>{if("."===e)return"";if(e.startsWith("./"))return e.replace("./","");if(e.startsWith("/")){let t=e.slice(1);return t.endsWith("/")?t.slice(0,-1):t}return e})(e);return r?r.endsWith("/")?`${r}${t}`:`${r}/${t}`:t};function inferAutoPublicPath(e){return e.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/")}function generateSnapshotFromManifest(e,t={}){var r,n,o;let i,{remotes:a={},overrides:s={},version:l}=t,c=()=>"publicPath"in e.metaData?"auto"===e.metaData.publicPath&&l?inferAutoPublicPath(l):e.metaData.publicPath:e.metaData.getPublicPath,u=Object.keys(s),f={};Object.keys(a).length||(f=(null==(o=e.remotes)?void 0:o.reduce((e,t)=>{let r,n=t.federationContainerName;return r=u.includes(n)?s[n]:"version"in t?t.version:t.entry,e[n]={matchedVersion:r},e},{}))||{}),Object.keys(a).forEach(e=>f[e]={matchedVersion:u.includes(e)?s[e]:a[e]});let{remoteEntry:{path:h,name:d,type:p},types:m,buildInfo:{buildVersion:y},globalName:_,ssrRemoteEntry:g}=e.metaData,{exposes:E}=e,b={version:l||"",buildVersion:y,globalName:_,remoteEntry:simpleJoinRemoteEntry(h,d),remoteEntryType:p,remoteTypes:simpleJoinRemoteEntry(m.path,m.name),remoteTypesZip:m.zip||"",remoteTypesAPI:m.api||"",remotesInfo:f,shared:null==e?void 0:e.shared.map(e=>({assets:e.assets,sharedName:e.name,version:e.version})),modules:null==E?void 0:E.map(e=>({moduleName:e.name,modulePath:e.path,assets:e.assets}))};if(null==(r=e.metaData)?void 0:r.prefetchInterface){let t=e.metaData.prefetchInterface;b=polyfills._({},b,{prefetchInterface:t})}if(null==(n=e.metaData)?void 0:n.prefetchEntry){let{path:t,name:r,type:n}=e.metaData.prefetchEntry;b=polyfills._({},b,{prefetchEntry:simpleJoinRemoteEntry(t,r),prefetchEntryType:n})}return i="publicPath"in e.metaData?polyfills._({},b,{publicPath:c(),ssrPublicPath:e.metaData.ssrPublicPath}):polyfills._({},b,{getPublicPath:c()}),g&&(i.ssrRemoteEntry=simpleJoinRemoteEntry(g.path,g.name),i.ssrRemoteEntryType=g.type||"commonjs-module"),i}function isManifestProvider(e){return!!("remoteEntry"in e&&e.remoteEntry.includes(MANIFEST_EXT))}let PREFIX="[ Module Federation ]",Logger=class{setPrefix(e){this.prefix=e}log(...e){console.log(this.prefix,...e)}warn(...e){console.log(this.prefix,...e)}error(...e){console.log(this.prefix,...e)}success(...e){console.log(this.prefix,...e)}info(...e){console.log(this.prefix,...e)}ready(...e){console.log(this.prefix,...e)}debug(...e){isDebugMode()&&console.log(this.prefix,...e)}constructor(e){this.prefix=e}};function createLogger(e){return new Logger(e)}let logger=createLogger(PREFIX);async function safeWrapper(e,t){try{return await e()}catch(e){t||warn(e);return}}function isStaticResourcesEqual(e,t){let r=/^(https?:)?\/\//i;return e.replace(r,"").replace(/\/$/,"")===t.replace(r,"").replace(/\/$/,"")}function createScript(e){let t,r=null,n=!0,o=2e4,i=document.getElementsByTagName("script");for(let t=0;t<i.length;t++){let o=i[t],a=o.getAttribute("src");if(a&&isStaticResourcesEqual(a,e.url)){r=o,n=!1;break}}if(!r){let t,n=e.attrs;(r=document.createElement("script")).type=(null==n?void 0:n.type)==="module"?"module":"text/javascript",e.createScriptHook&&((t=e.createScriptHook(e.url,e.attrs))instanceof HTMLScriptElement?r=t:"object"==typeof t&&("script"in t&&t.script&&(r=t.script),"timeout"in t&&t.timeout&&(o=t.timeout))),r.src||(r.src=e.url),n&&!t&&Object.keys(n).forEach(e=>{r&&("async"===e||"defer"===e?r[e]=n[e]:r.getAttribute(e)||r.setAttribute(e,n[e]))})}let a=async(n,o)=>{clearTimeout(t);let i=()=>{(null==o?void 0:o.type)==="error"?(null==e?void 0:e.onErrorCallback)&&(null==e||e.onErrorCallback(o)):(null==e?void 0:e.cb)&&(null==e||e.cb())};if(r&&(r.onerror=null,r.onload=null,safeWrapper(()=>{let{needDeleteScript:t=!0}=e;t&&(null==r?void 0:r.parentNode)&&r.parentNode.removeChild(r)}),n&&"function"==typeof n)){let e=n(o);if(e instanceof Promise){let t=await e;return i(),t}return i(),e}i()};return r.onerror=a.bind(null,r.onerror),r.onload=a.bind(null,r.onload),t=setTimeout(()=>{a(null,Error(`Remote script "${e.url}" time-outed.`))},o),{script:r,needAttach:n}}function createLink(e){let t=null,r=!0,n=document.getElementsByTagName("link");for(let o=0;o<n.length;o++){let i=n[o],a=i.getAttribute("href"),s=i.getAttribute("rel");if(a&&isStaticResourcesEqual(a,e.url)&&s===e.attrs.rel){t=i,r=!1;break}}if(!t){let r;(t=document.createElement("link")).setAttribute("href",e.url);let n=e.attrs;e.createLinkHook&&(r=e.createLinkHook(e.url,n))instanceof HTMLLinkElement&&(t=r),n&&!r&&Object.keys(n).forEach(e=>{t&&!t.getAttribute(e)&&t.setAttribute(e,n[e])})}let o=(r,n)=>{let o=()=>{(null==n?void 0:n.type)==="error"?(null==e?void 0:e.onErrorCallback)&&(null==e||e.onErrorCallback(n)):(null==e?void 0:e.cb)&&(null==e||e.cb())};if(t&&(t.onerror=null,t.onload=null,safeWrapper(()=>{let{needDeleteLink:r=!0}=e;r&&(null==t?void 0:t.parentNode)&&t.parentNode.removeChild(t)}),r)){let e=r(n);return o(),e}o()};return t.onerror=o.bind(null,t.onerror),t.onload=o.bind(null,t.onload),{link:t,needAttach:r}}function loadScript(e,t){let{attrs:r={},createScriptHook:n}=t;return new Promise((t,o)=>{let{script:i,needAttach:a}=createScript({url:e,cb:t,onErrorCallback:o,attrs:polyfills._({fetchpriority:"high"},r),createScriptHook:n,needDeleteScript:!0});a&&document.head.appendChild(i)})}function importNodeModule(e){if(!e)throw Error("import specifier is required");return Function("name","return import(name)")(e).then(e=>e).catch(t=>{throw console.error(`Error importing module ${e}:`,t),t})}let loadNodeFetch=async()=>{let e=await importNodeModule("node-fetch");return e.default||e},lazyLoaderHookFetch=async(e,t,r)=>{let n=(e,t)=>r.lifecycle.fetch.emit(e,t),o=await n(e,t||{});return o&&o instanceof Response?o:("undefined"==typeof fetch?await loadNodeFetch():fetch)(e,t||{})},createScriptNode="undefined"==typeof ENV_TARGET||"web"!==ENV_TARGET?(url,cb,attrs,loaderHook)=>{let urlObj;if(null==loaderHook?void 0:loaderHook.createScriptHook){let hookResult=loaderHook.createScriptHook(url);hookResult&&"object"==typeof hookResult&&"url"in hookResult&&(url=hookResult.url)}try{urlObj=new URL(url)}catch(e){console.error("Error constructing URL:",e),cb(Error(`Invalid URL: ${e}`));return}let getFetch=async()=>(null==loaderHook?void 0:loaderHook.fetch)?(e,t)=>lazyLoaderHookFetch(e,t,loaderHook):"undefined"==typeof fetch?loadNodeFetch():fetch,handleScriptFetch=async(f,urlObj)=>{try{var _vm_constants,_vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER;let res=await f(urlObj.href),data=await res.text(),[path,vm]=await Promise.all([importNodeModule("path"),importNodeModule("vm")]),scriptContext={exports:{},module:{exports:{}}},urlDirname=urlObj.pathname.split("/").slice(0,-1).join("/"),filename=path.basename(urlObj.pathname),script=new vm.Script(`(function(exports, module, require, __dirname, __filename) {${data}
-})`,{filename,importModuleDynamically:null!=(_vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER=null==(_vm_constants=vm.constants)?void 0:_vm_constants.USE_MAIN_CONTEXT_DEFAULT_LOADER)?_vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER:importNodeModule});script.runInThisContext()(scriptContext.exports,scriptContext.module,eval("require"),urlDirname,filename);let exportedInterface=scriptContext.module.exports||scriptContext.exports;if(attrs&&exportedInterface&&attrs.globalName){let container=exportedInterface[attrs.globalName]||exportedInterface;cb(void 0,container);return}cb(void 0,exportedInterface)}catch(e){cb(e instanceof Error?e:Error(`Script execution error: ${e}`))}};getFetch().then(async e=>{if((null==attrs?void 0:attrs.type)==="esm"||(null==attrs?void 0:attrs.type)==="module")return loadModule(urlObj.href,{fetch:e,vm:await importNodeModule("vm")}).then(async e=>{await e.evaluate(),cb(void 0,e.namespace)}).catch(e=>{cb(e instanceof Error?e:Error(`Script execution error: ${e}`))});handleScriptFetch(e,urlObj)}).catch(e=>{cb(e)})}:(e,t,r,n)=>{t(Error("createScriptNode is disabled in non-Node.js environment"))},loadScriptNode="undefined"==typeof ENV_TARGET||"web"!==ENV_TARGET?(e,t)=>new Promise((r,n)=>{createScriptNode(e,(e,o)=>{if(e)n(e);else{var i,a;let e=(null==t||null==(i=t.attrs)?void 0:i.globalName)||`__FEDERATION_${null==t||null==(a=t.attrs)?void 0:a.name}:custom__`;r(globalThis[e]=o)}},t.attrs,t.loaderHook)}):(e,t)=>{throw Error("loadScriptNode is disabled in non-Node.js environment")};async function loadModule(e,t){let{fetch:r,vm:n}=t,o=await r(e),i=await o.text(),a=new n.SourceTextModule(i,{importModuleDynamically:async(r,n)=>loadModule(new URL(r,e).href,t)});return await a.link(async r=>{let n=new URL(r,e).href;return await loadModule(n,t)}),a}function normalizeOptions(e,t,r){return function(n){if(!1===n)return!1;if(void 0===n)if(e)return t;else return!1;if(!0===n)return t;if(n&&"object"==typeof n)return polyfills._({},t,n);throw Error(`Unexpected type for \`${r}\`, expect boolean/undefined/object, got: ${typeof n}`)}}let createModuleFederationConfig=e=>e;exports.BROWSER_LOG_KEY=BROWSER_LOG_KEY,exports.ENCODE_NAME_PREFIX=ENCODE_NAME_PREFIX,exports.EncodedNameTransformMap=EncodedNameTransformMap,exports.FederationModuleManifest=FederationModuleManifest,exports.MANIFEST_EXT=MANIFEST_EXT,exports.MFModuleType=MFModuleType,exports.MFPrefetchCommon=MFPrefetchCommon,exports.MODULE_DEVTOOL_IDENTIFIER=MODULE_DEVTOOL_IDENTIFIER,exports.ManifestFileName=ManifestFileName,exports.NameTransformMap=NameTransformMap,exports.NameTransformSymbol=NameTransformSymbol,exports.SEPARATOR=SEPARATOR,exports.StatsFileName=StatsFileName,exports.TEMP_DIR=TEMP_DIR,exports.assert=assert,exports.composeKeyWithSeparator=composeKeyWithSeparator,exports.containerPlugin=ContainerPlugin,exports.containerReferencePlugin=ContainerReferencePlugin,exports.createLink=createLink,exports.createLogger=createLogger,exports.createModuleFederationConfig=createModuleFederationConfig,exports.createScript=createScript,exports.createScriptNode=createScriptNode,exports.decodeName=decodeName,exports.encodeName=encodeName,exports.error=error,exports.generateExposeFilename=generateExposeFilename,exports.generateShareFilename=generateShareFilename,exports.generateSnapshotFromManifest=generateSnapshotFromManifest,exports.getProcessEnv=getProcessEnv,exports.getResourceUrl=getResourceUrl,exports.inferAutoPublicPath=inferAutoPublicPath,exports.isBrowserEnv=isBrowserEnv,exports.isDebugMode=isDebugMode,exports.isManifestProvider=isManifestProvider,exports.isReactNativeEnv=isReactNativeEnv,exports.isRequiredVersion=isRequiredVersion,exports.isStaticResourcesEqual=isStaticResourcesEqual,exports.loadScript=loadScript,exports.loadScriptNode=loadScriptNode,exports.logger=logger,exports.moduleFederationPlugin=ModuleFederationPlugin,exports.normalizeOptions=normalizeOptions,exports.parseEntry=parseEntry,exports.safeToString=safeToString,exports.safeWrapper=safeWrapper,exports.sharePlugin=SharePlugin,exports.simpleJoinRemoteEntry=simpleJoinRemoteEntry,exports.warn=warn},73:function(e,t){function r(){return(r=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}t._=r},7673:function(e,t){t.FEDERATION_SUPPORTED_TYPES=["script"]},2806:function(e,t,r){var n=r(6940),o=r(7673),i=r(5921);function a(e){e.S&&!e.federation.hasAttachShareScopeMap&&e.federation.instance&&e.federation.instance.shareScopeMap&&(e.S=e.federation.instance.shareScopeMap,e.federation.hasAttachShareScopeMap=!0)}function s(e){let{chunkId:t,promises:r,chunkMapping:n,idToExternalAndNameMapping:s,webpackRequire:l,idToRemoteMap:c}=e;a(l),l.o(n,t)&&n[t].forEach(e=>{let t=l.R;t||(t=[]);let n=s[e],a=c[e];if(t.indexOf(n)>=0)return;if(t.push(n),n.p)return r.push(n.p);let u=t=>{t||(t=Error("Container missing")),"string"==typeof t.message&&(t.message+=`
-while loading "${n[1]}" from ${n[2]}`),l.m[e]=()=>{throw t},n.p=0},f=(e,t,o,i,a,s)=>{try{let l=e(t,o);if(!l||!l.then)return a(l,i,s);{let e=l.then(e=>a(e,i),u);if(!s)return e;r.push(n.p=e)}}catch(e){u(e)}},h=(e,t,r)=>e?f(l.I,n[0],0,e,d,r):u();var d=(e,r,o)=>f(r.get,n[1],t,0,p,o),p=t=>{n.p=1,l.m[e]=e=>{e.exports=t()}};let m=()=>{try{let e=i.decodeName(a[0].name,i.ENCODE_NAME_PREFIX)+n[1].slice(1),t=l.federation.instance,r=()=>l.federation.instance.loadRemote(e,{loadFactory:!1,from:"build"});if("version-first"===t.options.shareStrategy)return Promise.all(t.sharedHandler.initializeSharing(n[0])).then(()=>r());return r()}catch(e){u(e)}};1===a.length&&o.FEDERATION_SUPPORTED_TYPES.includes(a[0].externalType)&&a[0].name?f(m,n[2],0,0,p,1):f(l,n[2],0,0,h,1)})}function l(e){let{chunkId:t,promises:r,chunkMapping:n,installedModules:o,moduleToHandlerMapping:i,webpackRequire:s}=e;a(s),s.o(n,t)&&n[t].forEach(e=>{if(s.o(o,e))return r.push(o[e]);let t=t=>{o[e]=0,s.m[e]=r=>{delete s.c[e],r.exports=t()}},n=t=>{delete o[e],s.m[e]=r=>{throw delete s.c[e],t}};try{let a=s.federation.instance;if(!a)throw Error("Federation instance not found!");let{shareKey:l,getter:c,shareInfo:u}=i[e],f=a.loadShare(l,{customShareInfo:u}).then(e=>!1===e?c():e);f.then?r.push(o[e]=f.then(t).catch(n)):t(f)}catch(e){n(e)}})}function c({shareScopeName:e,webpackRequire:t,initPromises:r,initTokens:n,initScope:i}){let s=Array.isArray(e)?e:[e];var l=[],c=function(s){i||(i=[]);let l=t.federation.instance;var c=n[s];if(c||(c=n[s]={from:l.name}),i.indexOf(c)>=0)return;i.push(c);let u=r[s];if(u)return u;var f=e=>"undefined"!=typeof console&&console.warn&&console.warn(e),h=r=>{var n=e=>f("Initialization of sharing external failed: "+e);try{var o=t(r);if(!o)return;var a=r=>r&&r.init&&r.init(t.S[s],i,{shareScopeMap:t.S||{},shareScopeKeys:e});if(o.then)return d.push(o.then(a,n));var l=a(o);if(l&&"boolean"!=typeof l&&l.then)return d.push(l.catch(n))}catch(e){n(e)}};let d=l.initializeSharing(s,{strategy:l.options.shareStrategy,initScope:i,from:"build"});a(t);let p=t.federation.bundlerRuntimeOptions.remotes;return(p&&Object.keys(p.idToRemoteMap).forEach(e=>{let t=p.idToRemoteMap[e],r=p.idToExternalAndNameMapping[e][2];if(t.length>1)h(r);else if(1===t.length){let e=t[0];o.FEDERATION_SUPPORTED_TYPES.includes(e.externalType)||h(r)}}),d.length)?r[s]=Promise.all(d).then(()=>r[s]=!0):r[s]=!0};return s.forEach(e=>{l.push(c(e))}),Promise.all(l).then(()=>!0)}function u(e){let{moduleId:t,moduleToHandlerMapping:r,webpackRequire:n}=e,o=n.federation.instance;if(!o)throw Error("Federation instance not found!");let{shareKey:i,shareInfo:a}=r[t];try{return o.loadShareSync(i,{customShareInfo:a})}catch(e){throw console.error('loadShareSync failed! The function should not be called unless you set "eager:true". If you do not set it, and encounter this issue, you can check whether an async boundary is implemented.'),console.error("The original error message is as follows: "),e}}function f(e){let{moduleToHandlerMapping:t,webpackRequire:r,installedModules:n,initialConsumes:o}=e;o.forEach(e=>{r.m[e]=o=>{n[e]=0,delete r.c[e];let i=u({moduleId:e,moduleToHandlerMapping:t,webpackRequire:r});if("function"!=typeof i)throw Error(`Shared module is not available for eager consumption: ${e}`);o.exports=i()}})}function h(){return(h=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e}).apply(this,arguments)}function d(e){let{webpackRequire:t,shareScope:r,initScope:n,shareScopeKey:o,remoteEntryInitOptions:i}=e;if(!t.S||!t.federation||!t.federation.instance||!t.federation.initOptions)return;let a=t.federation.instance;a.initOptions(h({name:t.federation.initOptions.name,remotes:[]},i));let s=null==i?void 0:i.shareScopeKeys,l=null==i?void 0:i.shareScopeMap;if(o&&"string"!=typeof o)o.forEach(e=>{if(!s||!l)return void a.initShareScopeMap(e,r,{hostShareScopeMap:(null==i?void 0:i.shareScopeMap)||{}});l[e]||(l[e]={});let t=l[e];a.initShareScopeMap(e,t,{hostShareScopeMap:(null==i?void 0:i.shareScopeMap)||{}})});else{let e=o||"default";Array.isArray(s)?s.forEach(e=>{l[e]||(l[e]={});let t=l[e];a.initShareScopeMap(e,t,{hostShareScopeMap:(null==i?void 0:i.shareScopeMap)||{}})}):a.initShareScopeMap(e,r,{hostShareScopeMap:(null==i?void 0:i.shareScopeMap)||{}})}return(t.federation.attachShareScopeMap&&t.federation.attachShareScopeMap(t),"function"==typeof t.federation.prefetch&&t.federation.prefetch(),Array.isArray(o))?t.federation.initOptions.shared?t.I(o,n):Promise.all(o.map(e=>t.I(e,n))).then(()=>!0):t.I(o||"default",n)}e.exports={runtime:function(e){var t=Object.create(null);if(e)for(var r in e)t[r]=e[r];return t.default=e,Object.freeze(t)}(n),instance:void 0,initOptions:void 0,bundlerRuntime:{remotes:s,consumes:l,I:c,S:{},installInitialConsumes:f,initContainerEntry:d},attachShareScopeMap:a,bundlerRuntimeOptions:{}}}},__webpack_module_cache__={};function __webpack_require__(e){var t=__webpack_module_cache__[e];if(void 0!==t)return t.exports;var r=__webpack_module_cache__[e]={exports:{}};return __webpack_modules__[e].call(r.exports,r,r.exports,__webpack_require__),r.exports}__webpack_require__.m=__webpack_modules__,__webpack_require__.c=__webpack_module_cache__,__webpack_require__.x=()=>{var e=__webpack_require__.O(void 0,["192","12"],function(){return __webpack_require__(5702)});return __webpack_require__.O(e)},(()=>{__webpack_require__.federation||(__webpack_require__.federation={chunkMatcher:function(e){return/^(173|192|375|383|788|840|991)$/.test(e)},rootOutputDir:""})})(),(()=>{__webpack_require__.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return __webpack_require__.d(t,{a:t}),t}})(),(()=>{__webpack_require__.d=(e,t)=>{for(var r in t)__webpack_require__.o(t,r)&&!__webpack_require__.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})}})(),(()=>{var e=__webpack_require__.x,t=!1;__webpack_require__.x=function(){if(t||(t=!0,__webpack_require__(940)),"function"==typeof e)return e();console.warn("[MF] Invalid prevStartup")}})(),(()=>{__webpack_require__.f={},__webpack_require__.e=e=>Promise.all(Object.keys(__webpack_require__.f).reduce((t,r)=>(__webpack_require__.f[r](e,t),t),[]))})(),(()=>{__webpack_require__.u=e=>""+e+"."+({375:"acf25c8554a1032a",383:"fa6a16f4fede049a",788:"13ad237fe247baca",840:"80ecdc90232a784f",991:"3df4da7f8e37a38e"})[e]+".js"})(),(()=>{__webpack_require__.g=(()=>{if("object"==typeof globalThis)return globalThis;try{return this||Function("return this")()}catch(e){if("object"==typeof window)return window}})()})(),(()=>{__webpack_require__.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t)})(),(()=>{var e={},t="@mf-react/remote:";__webpack_require__.l=function(r,n,o,i){if(e[r])return void e[r].push(n);if(void 0!==o)for(var a,s,l=document.getElementsByTagName("script"),c=0;c<l.length;c++){var u=l[c];if(u.getAttribute("src")==r||u.getAttribute("data-webpack")==t+o){a=u;break}}a||(s=!0,(a=document.createElement("script")).charset="utf-8",a.timeout=120,__webpack_require__.nc&&a.setAttribute("nonce",__webpack_require__.nc),a.setAttribute("data-webpack",t+o),a.src=r),e[r]=[n];var f=function(t,n){a.onerror=a.onload=null,clearTimeout(h);var o=e[r];if(delete e[r],a.parentNode&&a.parentNode.removeChild(a),o&&o.forEach(function(e){return e(n)}),t)return t(n)},h=setTimeout(f.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=f.bind(null,a.onerror),a.onload=f.bind(null,a.onload),s&&document.head.appendChild(a)}})(),(()=>{__webpack_require__.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})}})(),(()=>{var e=[];__webpack_require__.O=(t,r,n,o)=>{if(r){o=o||0;for(var i=e.length;i>0&&e[i-1][2]>o;i--)e[i]=e[i-1];e[i]=[r,n,o];return}for(var a=1/0,i=0;i<e.length;i++){for(var[r,n,o]=e[i],s=!0,l=0;l<r.length;l++)(!1&o||a>=o)&&Object.keys(__webpack_require__.O).every(e=>__webpack_require__.O[e](r[l]))?r.splice(l--,1):(s=!1,o<a&&(a=o));if(s){e.splice(i--,1);var c=n();void 0!==c&&(t=c)}}return t}})(),(()=>{__webpack_require__.p="http://localhost:3002/"})(),(()=>{__webpack_require__.rv=()=>"1.4.11-canary-1c16f486-20250724191319"})(),(()=>{__webpack_require__.S={},__webpack_require__.initializeSharingData={scopeToSharingDataMapping:{default:[{name:"@ant-design/icons",version:"5.6.1",factory:()=>Promise.all([__webpack_require__.e("192"),__webpack_require__.e("582")]).then(()=>()=>__webpack_require__(5915)),eager:0,singleton:1,requiredVersion:"^5.5.2"},{name:"@reduxjs/toolkit",version:"2.8.2",factory:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(2363)),eager:0,singleton:1,requiredVersion:"^2.5.0"},{name:"antd",version:"5.27.0",factory:()=>Promise.all([__webpack_require__.e("192"),__webpack_require__.e("582"),__webpack_require__.e("728"),__webpack_require__.e("567"),__webpack_require__.e("127")]).then(()=>()=>__webpack_require__(9991)),eager:0,singleton:1,requiredVersion:"^5.21.8"},{name:"chart.js",version:"4.5.0",factory:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(900)),eager:0,singleton:1,requiredVersion:"^4.4.7"},{name:"dayjs",version:"1.11.13",factory:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(8868)),eager:0,singleton:1,requiredVersion:"^1.11.13"},{name:"lodash-es",version:"4.17.21",factory:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(5800)),eager:0,singleton:1,requiredVersion:"^4.17.21"},{name:"react-chartjs-2",version:"5.3.0",factory:()=>Promise.all([__webpack_require__.e("192"),__webpack_require__.e("582"),__webpack_require__.e("893")]).then(()=>()=>__webpack_require__(272)),eager:0,singleton:1,requiredVersion:"^5.2.0"},{name:"react-dom",version:"18.3.1",factory:()=>Promise.all([__webpack_require__.e("192"),__webpack_require__.e("582")]).then(()=>()=>__webpack_require__(8397)),eager:0,singleton:1,requiredVersion:"^18.3.1"},{name:"react",version:"18.3.1",factory:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(4784)),eager:0,singleton:1,requiredVersion:"^18.3.1"}]},uniqueName:"@mf-react/remote"},__webpack_require__.I=__webpack_require__.I||function(){throw Error("should have __webpack_require__.I")}})(),(()=>{__webpack_require__.consumesLoadingData={chunkMapping:{127:["5822"],563:["610"],347:["1952"],728:["1722"],893:["1090"],724:["2075"],567:["4042"],788:["2630"],582:["9439"]},moduleIdToConsumeDataMapping:{1090:{shareScope:"default",shareKey:"chart.js",import:"chart.js",requiredVersion:"^4.4.7",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(900))},9439:{shareScope:"default",shareKey:"react",import:"react",requiredVersion:"^18.3.1",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(4784))},5822:{shareScope:"default",shareKey:"react-dom",import:"react-dom",requiredVersion:"^18.3.1",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(8397))},4042:{shareScope:"default",shareKey:"@ant-design/icons",import:"@ant-design/icons",requiredVersion:"^5.5.2",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(5915))},2630:{shareScope:"default",shareKey:"@reduxjs/toolkit",import:"@reduxjs/toolkit",requiredVersion:"^2.5.0",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(2363))},2075:{shareScope:"default",shareKey:"antd",import:"antd",requiredVersion:"^5.21.8",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>Promise.all([__webpack_require__.e("192"),__webpack_require__.e("728"),__webpack_require__.e("127")]).then(()=>()=>__webpack_require__(9991))},1722:{shareScope:"default",shareKey:"dayjs",import:"dayjs",requiredVersion:"^1.11.13",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(8868))},610:{shareScope:"default",shareKey:"lodash-es",import:"lodash-es",requiredVersion:"^4.17.21",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(5800))},1952:{shareScope:"default",shareKey:"react-chartjs-2",import:"react-chartjs-2",requiredVersion:"^5.2.0",strictVersion:!1,singleton:!0,eager:!1,fallback:()=>__webpack_require__.e("192").then(()=>()=>__webpack_require__(272))}},initialConsumes:[]},__webpack_require__.f.consumes=__webpack_require__.f.consumes||function(){throw Error("should have __webpack_require__.f.consumes")}})(),(()=>{__webpack_require__.initializeExposesData={moduleMap:{"./UserCard":()=>Promise.all([__webpack_require__.e("582"),__webpack_require__.e("563"),__webpack_require__.e("728"),__webpack_require__.e("567"),__webpack_require__.e("724"),__webpack_require__.e("991")]).then(()=>()=>__webpack_require__(5575)),"./DataTable":()=>Promise.all([__webpack_require__.e("582"),__webpack_require__.e("563"),__webpack_require__.e("728"),__webpack_require__.e("567"),__webpack_require__.e("724"),__webpack_require__.e("383")]).then(()=>()=>__webpack_require__(7788)),"./ChartWidget":()=>Promise.all([__webpack_require__.e("582"),__webpack_require__.e("563"),__webpack_require__.e("893"),__webpack_require__.e("347"),__webpack_require__.e("840")]).then(()=>()=>__webpack_require__(3713)),"./FormBuilder":()=>Promise.all([__webpack_require__.e("582"),__webpack_require__.e("563"),__webpack_require__.e("567"),__webpack_require__.e("724"),__webpack_require__.e("375")]).then(()=>()=>__webpack_require__(9508)),"./store":()=>__webpack_require__.e("788").then(()=>()=>__webpack_require__(5294))},shareScope:"default"},__webpack_require__.getContainer=__webpack_require__.getContainer||function(){throw Error("should have __webpack_require__.getContainer")},__webpack_require__.initContainer=__webpack_require__.initContainer||function(){throw Error("should have __webpack_require__.initContainer")}})(),(()=>{var e={12:0,173:0};__webpack_require__.f.j=function(t,r){var n=__webpack_require__.o(e,t)?e[t]:void 0;if(0!==n)if(n)r.push(n[2]);else if(/^(173|192|375|383|788|840|991)$/.test(t)){var o=new Promise((r,o)=>n=e[t]=[r,o]);r.push(n[2]=o);var i=__webpack_require__.p+__webpack_require__.u(t),a=Error(),s=function(r){if(__webpack_require__.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var o=r&&("load"===r.type?"missing":r.type),i=r&&r.target&&r.target.src;a.message="Loading chunk "+t+" failed.\n("+o+": "+i+")",a.name="ChunkLoadError",a.type=o,a.request=i,n[1](a)}};__webpack_require__.l(i,s,"chunk-"+t,t)}else e[t]=0},__webpack_require__.O.j=t=>0===e[t];var t=(t,r)=>{var n,o,[i,a,s]=r,l=0;if(i.some(t=>0!==e[t])){for(n in a)__webpack_require__.o(a,n)&&(__webpack_require__.m[n]=a[n]);if(s)var c=s(__webpack_require__)}for(t&&t(r);l<i.length;l++)o=i[l],__webpack_require__.o(e,o)&&e[o]&&e[o][0](),e[o]=0;return __webpack_require__.O(c)},r=self.webpackChunk_mf_react_remote=self.webpackChunk_mf_react_remote||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})(),(()=>{__webpack_require__.ruid="bundler=rspack@1.4.11-canary-1c16f486-20250724191319"})();var __webpack_exports__=__webpack_require__.x();remote=__webpack_exports__})();
-//# sourceMappingURL=remoteEntry.js.map
+var remote;
+(() => { // webpackBootstrap
+"use strict";
+var __webpack_modules__ = ({
+"../../../node_modules/.pnpm/@module-federation+error-codes@0.17.0/node_modules/@module-federation/error-codes/dist/index.cjs.js": 
+/*!***************************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+error-codes@0.17.0/node_modules/@module-federation/error-codes/dist/index.cjs.js ***!
+  \***************************************************************************************************************************************/
+(function (__unused_webpack_module, exports) {
+
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+var RUNTIME_001 = 'RUNTIME-001';
+var RUNTIME_002 = 'RUNTIME-002';
+var RUNTIME_003 = 'RUNTIME-003';
+var RUNTIME_004 = 'RUNTIME-004';
+var RUNTIME_005 = 'RUNTIME-005';
+var RUNTIME_006 = 'RUNTIME-006';
+var RUNTIME_007 = 'RUNTIME-007';
+var RUNTIME_008 = 'RUNTIME-008';
+var RUNTIME_009 = 'RUNTIME-009';
+var TYPE_001 = 'TYPE-001';
+var BUILD_001 = 'BUILD-001';
+var BUILD_002 = 'BUILD-002';
+var getDocsUrl = function(errorCode) {
+    var type = errorCode.split('-')[0].toLowerCase();
+    return "View the docs to see how to solve: https://module-federation.io/guide/troubleshooting/".concat(type, "/").concat(errorCode);
+};
+var getShortErrorMsg = function(errorCode, errorDescMap, args, originalErrorMsg) {
+    var msg = [
+        "".concat([
+            errorDescMap[errorCode]
+        ], " #").concat(errorCode)
+    ];
+    args && msg.push("args: ".concat(JSON.stringify(args)));
+    msg.push(getDocsUrl(errorCode));
+    originalErrorMsg && msg.push("Original Error Message:\n ".concat(originalErrorMsg));
+    return msg.join('\n');
+};
+function _extends() {
+    _extends = Object.assign || function assign(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+var _obj;
+var runtimeDescMap = (_obj = {}, _define_property(_obj, RUNTIME_001, 'Failed to get remoteEntry exports.'), _define_property(_obj, RUNTIME_002, 'The remote entry interface does not contain "init"'), _define_property(_obj, RUNTIME_003, 'Failed to get manifest.'), _define_property(_obj, RUNTIME_004, 'Failed to locate remote.'), _define_property(_obj, RUNTIME_005, 'Invalid loadShareSync function call from bundler runtime'), _define_property(_obj, RUNTIME_006, 'Invalid loadShareSync function call from runtime'), _define_property(_obj, RUNTIME_007, 'Failed to get remote snapshot.'), _define_property(_obj, RUNTIME_008, 'Failed to load script resources.'), _define_property(_obj, RUNTIME_009, 'Please call createInstance first.'), _obj);
+var typeDescMap = _define_property({}, TYPE_001, 'Failed to generate type declaration. Execute the below cmd to reproduce and fix the error.');
+var _obj1;
+var buildDescMap = (_obj1 = {}, _define_property(_obj1, BUILD_001, 'Failed to find expose module.'), _define_property(_obj1, BUILD_002, 'PublicPath is required in prod mode.'), _obj1);
+var errorDescMap = _extends({}, runtimeDescMap, typeDescMap, buildDescMap);
+exports.BUILD_001 = BUILD_001;
+exports.BUILD_002 = BUILD_002;
+exports.RUNTIME_001 = RUNTIME_001;
+exports.RUNTIME_002 = RUNTIME_002;
+exports.RUNTIME_003 = RUNTIME_003;
+exports.RUNTIME_004 = RUNTIME_004;
+exports.RUNTIME_005 = RUNTIME_005;
+exports.RUNTIME_006 = RUNTIME_006;
+exports.RUNTIME_007 = RUNTIME_007;
+exports.RUNTIME_008 = RUNTIME_008;
+exports.RUNTIME_009 = RUNTIME_009;
+exports.TYPE_001 = TYPE_001;
+exports.buildDescMap = buildDescMap;
+exports.errorDescMap = errorDescMap;
+exports.getShortErrorMsg = getShortErrorMsg;
+exports.runtimeDescMap = runtimeDescMap;
+exports.typeDescMap = typeDescMap;
+
+
+}),
+"@module-federation/runtime/rspack.js!=!data:text/javascript,import __module_federation_bundler_runtime__ from \"/Users/bytedance/dev/swc_macro_sys/node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs\";const __module_federation_runtime_plugins__ = [];const __module_federation_remote_infos__ = {};const __module_federation_container_name__ = \"remote\";const __module_federation_share_strategy__ = \"version-first\";if((__webpack_require__.initializeSharingData||__webpack_require__.initializeExposesData)&&__webpack_require__.federation){var __webpack_require___remotesLoadingData,__webpack_require___remotesLoadingData1,__webpack_require___initializeSharingData,__webpack_require___consumesLoadingData,__webpack_require___consumesLoadingData1,__webpack_require___initializeExposesData,__webpack_require___consumesLoadingData2;const override=(obj,key,value)=>{if(!obj)return;if(obj[key])obj[key]=value};const merge=(obj,key,fn)=>{const value=fn();if(Array.isArray(value)){var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=[];obj[key].push(...value)}else if(typeof value===\"object\"&&value!==null){var _obj1,_key1;var _1;(_1=(_obj1=obj)[_key1=key])!==null&&_1!==void 0?_1:_obj1[_key1]={};Object.assign(obj[key],value)}};const early=(obj,key,initial)=>{var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=initial()};var __webpack_require___remotesLoadingData_chunkMapping;const remotesLoadingChunkMapping=(__webpack_require___remotesLoadingData_chunkMapping=(__webpack_require___remotesLoadingData=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData===void 0?void 0:__webpack_require___remotesLoadingData.chunkMapping)!==null&&__webpack_require___remotesLoadingData_chunkMapping!==void 0?__webpack_require___remotesLoadingData_chunkMapping:{};var __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping;const remotesLoadingModuleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData1=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData1===void 0?void 0:__webpack_require___remotesLoadingData1.moduleIdToRemoteDataMapping)!==null&&__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping!==void 0?__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping:{};var __webpack_require___initializeSharingData_scopeToSharingDataMapping;const initializeSharingScopeToInitDataMapping=(__webpack_require___initializeSharingData_scopeToSharingDataMapping=(__webpack_require___initializeSharingData=__webpack_require__.initializeSharingData)===null||__webpack_require___initializeSharingData===void 0?void 0:__webpack_require___initializeSharingData.scopeToSharingDataMapping)!==null&&__webpack_require___initializeSharingData_scopeToSharingDataMapping!==void 0?__webpack_require___initializeSharingData_scopeToSharingDataMapping:{};var __webpack_require___consumesLoadingData_chunkMapping;const consumesLoadingChunkMapping=(__webpack_require___consumesLoadingData_chunkMapping=(__webpack_require___consumesLoadingData=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData===void 0?void 0:__webpack_require___consumesLoadingData.chunkMapping)!==null&&__webpack_require___consumesLoadingData_chunkMapping!==void 0?__webpack_require___consumesLoadingData_chunkMapping:{};var __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping;const consumesLoadingModuleToConsumeDataMapping=(__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping=(__webpack_require___consumesLoadingData1=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData1===void 0?void 0:__webpack_require___consumesLoadingData1.moduleIdToConsumeDataMapping)!==null&&__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping!==void 0?__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping:{};const consumesLoadinginstalledModules={};const initializeSharingInitPromises=[];const initializeSharingInitTokens={};const containerShareScope=(__webpack_require___initializeExposesData=__webpack_require__.initializeExposesData)===null||__webpack_require___initializeExposesData===void 0?void 0:__webpack_require___initializeExposesData.shareScope;for(const key in __module_federation_bundler_runtime__){__webpack_require__.federation[key]=__module_federation_bundler_runtime__[key]}early(__webpack_require__.federation,\"consumesLoadingModuleToHandlerMapping\",()=>{const consumesLoadingModuleToHandlerMapping={};for(let[moduleId,data]of Object.entries(consumesLoadingModuleToConsumeDataMapping)){consumesLoadingModuleToHandlerMapping[moduleId]={getter:data.fallback,shareInfo:{shareConfig:{fixedDependencies:false,requiredVersion:data.requiredVersion,strictVersion:data.strictVersion,singleton:data.singleton,eager:data.eager},scope:[data.shareScope]},shareKey:data.shareKey}}return consumesLoadingModuleToHandlerMapping});early(__webpack_require__.federation,\"initOptions\",()=>({}));early(__webpack_require__.federation.initOptions,\"name\",()=>__module_federation_container_name__);early(__webpack_require__.federation.initOptions,\"shareStrategy\",()=>__module_federation_share_strategy__);early(__webpack_require__.federation.initOptions,\"shared\",()=>{const shared={};for(let[scope,stages]of Object.entries(initializeSharingScopeToInitDataMapping)){for(let stage of stages){if(typeof stage===\"object\"&&stage!==null){const{name,version,factory,eager,singleton,requiredVersion,strictVersion}=stage;const shareConfig={};const isValidValue=function(val){return typeof val!==\"undefined\"};if(isValidValue(singleton)){shareConfig.singleton=singleton}if(isValidValue(requiredVersion)){shareConfig.requiredVersion=requiredVersion}if(isValidValue(eager)){shareConfig.eager=eager}if(isValidValue(strictVersion)){shareConfig.strictVersion=strictVersion}const options={version,scope:[scope],shareConfig,get:factory};if(shared[name]){shared[name].push(options)}else{shared[name]=[options]}}}}return shared});merge(__webpack_require__.federation.initOptions,\"remotes\",()=>Object.values(__module_federation_remote_infos__).flat().filter(remote=>remote.externalType===\"script\"));merge(__webpack_require__.federation.initOptions,\"plugins\",()=>__module_federation_runtime_plugins__);early(__webpack_require__.federation,\"bundlerRuntimeOptions\",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions,\"remotes\",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"chunkMapping\",()=>remotesLoadingChunkMapping);early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"idToExternalAndNameMapping\",()=>{const remotesLoadingIdToExternalAndNameMappingMapping={};for(let[moduleId,data]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){remotesLoadingIdToExternalAndNameMappingMapping[moduleId]=[data.shareScope,data.name,data.externalModuleId,data.remoteName]}return remotesLoadingIdToExternalAndNameMappingMapping});early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"webpackRequire\",()=>__webpack_require__);merge(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"idToRemoteMap\",()=>{const idToRemoteMap={};for(let[id,remoteData]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){const info=__module_federation_remote_infos__[remoteData.remoteName];if(info)idToRemoteMap[id]=info}return idToRemoteMap});override(__webpack_require__,\"S\",__webpack_require__.federation.bundlerRuntime.S);if(__webpack_require__.federation.attachShareScopeMap){__webpack_require__.federation.attachShareScopeMap(__webpack_require__)}override(__webpack_require__.f,\"remotes\",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.remotes({chunkId,promises,chunkMapping:remotesLoadingChunkMapping,idToExternalAndNameMapping:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToExternalAndNameMapping,idToRemoteMap:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToRemoteMap,webpackRequire:__webpack_require__}));override(__webpack_require__.f,\"consumes\",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.consumes({chunkId,promises,chunkMapping:consumesLoadingChunkMapping,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping,installedModules:consumesLoadinginstalledModules,webpackRequire:__webpack_require__}));override(__webpack_require__,\"I\",(name,initScope)=>__webpack_require__.federation.bundlerRuntime.I({shareScopeName:name,initScope,initPromises:initializeSharingInitPromises,initTokens:initializeSharingInitTokens,webpackRequire:__webpack_require__}));override(__webpack_require__,\"initContainer\",(shareScope,initScope,remoteEntryInitOptions)=>__webpack_require__.federation.bundlerRuntime.initContainerEntry({shareScope,initScope,remoteEntryInitOptions,shareScopeKey:containerShareScope,webpackRequire:__webpack_require__}));override(__webpack_require__,\"getContainer\",(module1,getScope)=>{var moduleMap=__webpack_require__.initializeExposesData.moduleMap;__webpack_require__.R=getScope;getScope=Object.prototype.hasOwnProperty.call(moduleMap,module1)?moduleMap[module1]():Promise.resolve().then(()=>{throw new Error('Module \"'+module1+'\" does not exist in container.')});__webpack_require__.R=undefined;return getScope});__webpack_require__.federation.instance=__webpack_require__.federation.runtime.init(__webpack_require__.federation.initOptions);if((__webpack_require___consumesLoadingData2=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData2===void 0?void 0:__webpack_require___consumesLoadingData2.initialConsumes){__webpack_require__.federation.bundlerRuntime.installInitialConsumes({webpackRequire:__webpack_require__,installedModules:consumesLoadinginstalledModules,initialConsumes:__webpack_require__.consumesLoadingData.initialConsumes,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping})}}": 
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** @module-federation/runtime/rspack.js!=!data:text/javascript,import __module_federation_bundler_runtime__ from "/Users/bytedance/dev/swc_macro_sys/node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs";const __module_federation_runtime_plugins__ = [];const __module_federation_remote_infos__ = {};const __module_federation_container_name__ = "remote";const __module_federation_share_strategy__ = "version-first";if((__webpack_require__.initializeSharingData||__webpack_require__.initializeExposesData)&&__webpack_require__.federation){var __webpack_require___remotesLoadingData,__webpack_require___remotesLoadingData1,__webpack_require___initializeSharingData,__webpack_require___consumesLoadingData,__webpack_require___consumesLoadingData1,__webpack_require___initializeExposesData,__webpack_require___consumesLoadingData2;const override=(obj,key,value)=>{if(!obj)return;if(obj[key])obj[key]=value};const merge=(obj,key,fn)=>{const value=fn();if(Array.isArray(value)){var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=[];obj[key].push(...value)}else if(typeof value==="object"&&value!==null){var _obj1,_key1;var _1;(_1=(_obj1=obj)[_key1=key])!==null&&_1!==void 0?_1:_obj1[_key1]={};Object.assign(obj[key],value)}};const early=(obj,key,initial)=>{var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=initial()};var __webpack_require___remotesLoadingData_chunkMapping;const remotesLoadingChunkMapping=(__webpack_require___remotesLoadingData_chunkMapping=(__webpack_require___remotesLoadingData=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData===void 0?void 0:__webpack_require___remotesLoadingData.chunkMapping)!==null&&__webpack_require___remotesLoadingData_chunkMapping!==void 0?__webpack_require___remotesLoadingData_chunkMapping:{};var __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping;const remotesLoadingModuleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData1=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData1===void 0?void 0:__webpack_require___remotesLoadingData1.moduleIdToRemoteDataMapping)!==null&&__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping!==void 0?__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping:{};var __webpack_require___initializeSharingData_scopeToSharingDataMapping;const initializeSharingScopeToInitDataMapping=(__webpack_require___initializeSharingData_scopeToSharingDataMapping=(__webpack_require___initializeSharingData=__webpack_require__.initializeSharingData)===null||__webpack_require___initializeSharingData===void 0?void 0:__webpack_require___initializeSharingData.scopeToSharingDataMapping)!==null&&__webpack_require___initializeSharingData_scopeToSharingDataMapping!==void 0?__webpack_require___initializeSharingData_scopeToSharingDataMapping:{};var __webpack_require___consumesLoadingData_chunkMapping;const consumesLoadingChunkMapping=(__webpack_require___consumesLoadingData_chunkMapping=(__webpack_require___consumesLoadingData=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData===void 0?void 0:__webpack_require___consumesLoadingData.chunkMapping)!==null&&__webpack_require___consumesLoadingData_chunkMapping!==void 0?__webpack_require___consumesLoadingData_chunkMapping:{};var __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping;const consumesLoadingModuleToConsumeDataMapping=(__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping=(__webpack_require___consumesLoadingData1=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData1===void 0?void 0:__webpack_require___consumesLoadingData1.moduleIdToConsumeDataMapping)!==null&&__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping!==void 0?__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping:{};const consumesLoadinginstalledModules={};const initializeSharingInitPromises=[];const initializeSharingInitTokens={};const containerShareScope=(__webpack_require___initializeExposesData=__webpack_require__.initializeExposesData)===null||__webpack_require___initializeExposesData===void 0?void 0:__webpack_require___initializeExposesData.shareScope;for(const key in __module_federation_bundler_runtime__){__webpack_require__.federation[key]=__module_federation_bundler_runtime__[key]}early(__webpack_require__.federation,"consumesLoadingModuleToHandlerMapping",()=>{const consumesLoadingModuleToHandlerMapping={};for(let[moduleId,data]of Object.entries(consumesLoadingModuleToConsumeDataMapping)){consumesLoadingModuleToHandlerMapping[moduleId]={getter:data.fallback,shareInfo:{shareConfig:{fixedDependencies:false,requiredVersion:data.requiredVersion,strictVersion:data.strictVersion,singleton:data.singleton,eager:data.eager},scope:[data.shareScope]},shareKey:data.shareKey}}return consumesLoadingModuleToHandlerMapping});early(__webpack_require__.federation,"initOptions",()=>({}));early(__webpack_require__.federation.initOptions,"name",()=>__module_federation_container_name__);early(__webpack_require__.federation.initOptions,"shareStrategy",()=>__module_federation_share_strategy__);early(__webpack_require__.federation.initOptions,"shared",()=>{const shared={};for(let[scope,stages]of Object.entries(initializeSharingScopeToInitDataMapping)){for(let stage of stages){if(typeof stage==="object"&&stage!==null){const{name,version,factory,eager,singleton,requiredVersion,strictVersion}=stage;const shareConfig={};const isValidValue=function(val){return typeof val!=="undefined"};if(isValidValue(singleton)){shareConfig.singleton=singleton}if(isValidValue(requiredVersion)){shareConfig.requiredVersion=requiredVersion}if(isValidValue(eager)){shareConfig.eager=eager}if(isValidValue(strictVersion)){shareConfig.strictVersion=strictVersion}const options={version,scope:[scope],shareConfig,get:factory};if(shared[name]){shared[name].push(options)}else{shared[name]=[options]}}}}return shared});merge(__webpack_require__.federation.initOptions,"remotes",()=>Object.values(__module_federation_remote_infos__).flat().filter(remote=>remote.externalType==="script"));merge(__webpack_require__.federation.initOptions,"plugins",()=>__module_federation_runtime_plugins__);early(__webpack_require__.federation,"bundlerRuntimeOptions",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions,"remotes",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,"chunkMapping",()=>remotesLoadingChunkMapping);early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,"idToExternalAndNameMapping",()=>{const remotesLoadingIdToExternalAndNameMappingMapping={};for(let[moduleId,data]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){remotesLoadingIdToExternalAndNameMappingMapping[moduleId]=[data.shareScope,data.name,data.externalModuleId,data.remoteName]}return remotesLoadingIdToExternalAndNameMappingMapping});early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,"webpackRequire",()=>__webpack_require__);merge(__webpack_require__.federation.bundlerRuntimeOptions.remotes,"idToRemoteMap",()=>{const idToRemoteMap={};for(let[id,remoteData]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){const info=__module_federation_remote_infos__[remoteData.remoteName];if(info)idToRemoteMap[id]=info}return idToRemoteMap});override(__webpack_require__,"S",__webpack_require__.federation.bundlerRuntime.S);if(__webpack_require__.federation.attachShareScopeMap){__webpack_require__.federation.attachShareScopeMap(__webpack_require__)}override(__webpack_require__.f,"remotes",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.remotes({chunkId,promises,chunkMapping:remotesLoadingChunkMapping,idToExternalAndNameMapping:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToExternalAndNameMapping,idToRemoteMap:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToRemoteMap,webpackRequire:__webpack_require__}));override(__webpack_require__.f,"consumes",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.consumes({chunkId,promises,chunkMapping:consumesLoadingChunkMapping,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping,installedModules:consumesLoadinginstalledModules,webpackRequire:__webpack_require__}));override(__webpack_require__,"I",(name,initScope)=>__webpack_require__.federation.bundlerRuntime.I({shareScopeName:name,initScope,initPromises:initializeSharingInitPromises,initTokens:initializeSharingInitTokens,webpackRequire:__webpack_require__}));override(__webpack_require__,"initContainer",(shareScope,initScope,remoteEntryInitOptions)=>__webpack_require__.federation.bundlerRuntime.initContainerEntry({shareScope,initScope,remoteEntryInitOptions,shareScopeKey:containerShareScope,webpackRequire:__webpack_require__}));override(__webpack_require__,"getContainer",(module1,getScope)=>{var moduleMap=__webpack_require__.initializeExposesData.moduleMap;__webpack_require__.R=getScope;getScope=Object.prototype.hasOwnProperty.call(moduleMap,module1)?moduleMap[module1]():Promise.resolve().then(()=>{throw new Error('Module "'+module1+'" does not exist in container.')});__webpack_require__.R=undefined;return getScope});__webpack_require__.federation.instance=__webpack_require__.federation.runtime.init(__webpack_require__.federation.initOptions);if((__webpack_require___consumesLoadingData2=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData2===void 0?void 0:__webpack_require___consumesLoadingData2.initialConsumes){__webpack_require__.federation.bundlerRuntime.installInitialConsumes({webpackRequire:__webpack_require__,installedModules:consumesLoadinginstalledModules,initialConsumes:__webpack_require__.consumesLoadingData.initialConsumes,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping})}} ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+(function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+__webpack_require__.r(__webpack_exports__);
+/* ESM import */var _Users_bytedance_dev_swc_macro_sys_node_modules_pnpm_module_federation_webpack_bundler_runtime_0_17_0_node_modules_module_federation_webpack_bundler_runtime_dist_index_cjs_cjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs */ "../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs");
+/* ESM import */var _Users_bytedance_dev_swc_macro_sys_node_modules_pnpm_module_federation_webpack_bundler_runtime_0_17_0_node_modules_module_federation_webpack_bundler_runtime_dist_index_cjs_cjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Users_bytedance_dev_swc_macro_sys_node_modules_pnpm_module_federation_webpack_bundler_runtime_0_17_0_node_modules_module_federation_webpack_bundler_runtime_dist_index_cjs_cjs__WEBPACK_IMPORTED_MODULE_0__);
+function _array_like_to_array(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _array_with_holes(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function _array_without_holes(arr) {
+    if (Array.isArray(arr)) return _array_like_to_array(arr);
+}
+function _iterable_to_array(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+function _iterable_to_array_limit(arr, i) {
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    if (_i == null) return;
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _s, _e;
+    try {
+        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
+            _arr.push(_s.value);
+            if (i && _arr.length === i) break;
+        }
+    } catch (err) {
+        _d = true;
+        _e = err;
+    } finally{
+        try {
+            if (!_n && _i["return"] != null) _i["return"]();
+        } finally{
+            if (_d) throw _e;
+        }
+    }
+    return _arr;
+}
+function _non_iterable_rest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _non_iterable_spread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _sliced_to_array(arr, i) {
+    return _array_with_holes(arr) || _iterable_to_array_limit(arr, i) || _unsupported_iterable_to_array(arr, i) || _non_iterable_rest();
+}
+function _to_consumable_array(arr) {
+    return _array_without_holes(arr) || _iterable_to_array(arr) || _unsupported_iterable_to_array(arr) || _non_iterable_spread();
+}
+function _type_of(obj) {
+    "@swc/helpers - typeof";
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+}
+function _unsupported_iterable_to_array(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _array_like_to_array(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _array_like_to_array(o, minLen);
+}
+
+var __module_federation_runtime_plugins__ = [];
+var __module_federation_remote_infos__ = {};
+var __module_federation_container_name__ = "remote";
+var __module_federation_share_strategy__ = "version-first";
+if ((__webpack_require__.initializeSharingData || __webpack_require__.initializeExposesData) && __webpack_require__.federation) {
+    var __webpack_require___remotesLoadingData, __webpack_require___remotesLoadingData1, __webpack_require___initializeSharingData, __webpack_require___consumesLoadingData, __webpack_require___consumesLoadingData1, __webpack_require___initializeExposesData, __webpack_require___consumesLoadingData2;
+    var override = function(obj, key, value) {
+        if (!obj) return;
+        if (obj[key]) obj[key] = value;
+    };
+    var merge = function(obj, key, fn) {
+        var value = fn();
+        if (Array.isArray(value)) {
+            var _obj_key;
+            var _obj, _key;
+            var _;
+            (_ = (_obj = obj)[_key = key]) !== null && _ !== void 0 ? _ : _obj[_key] = [];
+            (_obj_key = obj[key]).push.apply(_obj_key, _to_consumable_array(value));
+        } else if ((typeof value === "undefined" ? "undefined" : _type_of(value)) === "object" && value !== null) {
+            var _obj1, _key1;
+            var _1;
+            (_1 = (_obj1 = obj)[_key1 = key]) !== null && _1 !== void 0 ? _1 : _obj1[_key1] = {};
+            Object.assign(obj[key], value);
+        }
+    };
+    var early = function(obj, key, initial) {
+        var _obj, _key;
+        var _;
+        (_ = (_obj = obj)[_key = key]) !== null && _ !== void 0 ? _ : _obj[_key] = initial();
+    };
+    var __webpack_require___remotesLoadingData_chunkMapping;
+    var remotesLoadingChunkMapping = (__webpack_require___remotesLoadingData_chunkMapping = (__webpack_require___remotesLoadingData = __webpack_require__.remotesLoadingData) === null || __webpack_require___remotesLoadingData === void 0 ? void 0 : __webpack_require___remotesLoadingData.chunkMapping) !== null && __webpack_require___remotesLoadingData_chunkMapping !== void 0 ? __webpack_require___remotesLoadingData_chunkMapping : {};
+    var __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping;
+    var remotesLoadingModuleIdToRemoteDataMapping = (__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping = (__webpack_require___remotesLoadingData1 = __webpack_require__.remotesLoadingData) === null || __webpack_require___remotesLoadingData1 === void 0 ? void 0 : __webpack_require___remotesLoadingData1.moduleIdToRemoteDataMapping) !== null && __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping !== void 0 ? __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping : {};
+    var __webpack_require___initializeSharingData_scopeToSharingDataMapping;
+    var initializeSharingScopeToInitDataMapping = (__webpack_require___initializeSharingData_scopeToSharingDataMapping = (__webpack_require___initializeSharingData = __webpack_require__.initializeSharingData) === null || __webpack_require___initializeSharingData === void 0 ? void 0 : __webpack_require___initializeSharingData.scopeToSharingDataMapping) !== null && __webpack_require___initializeSharingData_scopeToSharingDataMapping !== void 0 ? __webpack_require___initializeSharingData_scopeToSharingDataMapping : {};
+    var __webpack_require___consumesLoadingData_chunkMapping;
+    var consumesLoadingChunkMapping = (__webpack_require___consumesLoadingData_chunkMapping = (__webpack_require___consumesLoadingData = __webpack_require__.consumesLoadingData) === null || __webpack_require___consumesLoadingData === void 0 ? void 0 : __webpack_require___consumesLoadingData.chunkMapping) !== null && __webpack_require___consumesLoadingData_chunkMapping !== void 0 ? __webpack_require___consumesLoadingData_chunkMapping : {};
+    var __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping;
+    var consumesLoadingModuleToConsumeDataMapping = (__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping = (__webpack_require___consumesLoadingData1 = __webpack_require__.consumesLoadingData) === null || __webpack_require___consumesLoadingData1 === void 0 ? void 0 : __webpack_require___consumesLoadingData1.moduleIdToConsumeDataMapping) !== null && __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping !== void 0 ? __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping : {};
+    var consumesLoadinginstalledModules = {};
+    var initializeSharingInitPromises = [];
+    var initializeSharingInitTokens = {};
+    var containerShareScope = (__webpack_require___initializeExposesData = __webpack_require__.initializeExposesData) === null || __webpack_require___initializeExposesData === void 0 ? void 0 : __webpack_require___initializeExposesData.shareScope;
+    for(var key in (_Users_bytedance_dev_swc_macro_sys_node_modules_pnpm_module_federation_webpack_bundler_runtime_0_17_0_node_modules_module_federation_webpack_bundler_runtime_dist_index_cjs_cjs__WEBPACK_IMPORTED_MODULE_0___default())){
+        __webpack_require__.federation[key] = (_Users_bytedance_dev_swc_macro_sys_node_modules_pnpm_module_federation_webpack_bundler_runtime_0_17_0_node_modules_module_federation_webpack_bundler_runtime_dist_index_cjs_cjs__WEBPACK_IMPORTED_MODULE_0___default())[key];
+    }
+    early(__webpack_require__.federation, "consumesLoadingModuleToHandlerMapping", function() {
+        var consumesLoadingModuleToHandlerMapping = {};
+        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+        try {
+            for(var _iterator = Object.entries(consumesLoadingModuleToConsumeDataMapping)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                var _step_value = _sliced_to_array(_step.value, 2), moduleId = _step_value[0], data = _step_value[1];
+                consumesLoadingModuleToHandlerMapping[moduleId] = {
+                    getter: data.fallback,
+                    shareInfo: {
+                        shareConfig: {
+                            fixedDependencies: false,
+                            requiredVersion: data.requiredVersion,
+                            strictVersion: data.strictVersion,
+                            singleton: data.singleton,
+                            eager: data.eager
+                        },
+                        scope: [
+                            data.shareScope
+                        ]
+                    },
+                    shareKey: data.shareKey
+                };
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+        return consumesLoadingModuleToHandlerMapping;
+    });
+    early(__webpack_require__.federation, "initOptions", function() {
+        return {};
+    });
+    early(__webpack_require__.federation.initOptions, "name", function() {
+        return __module_federation_container_name__;
+    });
+    early(__webpack_require__.federation.initOptions, "shareStrategy", function() {
+        return __module_federation_share_strategy__;
+    });
+    early(__webpack_require__.federation.initOptions, "shared", function() {
+        var shared = {};
+        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+        try {
+            for(var _iterator = Object.entries(initializeSharingScopeToInitDataMapping)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                var _step_value = _sliced_to_array(_step.value, 2), scope = _step_value[0], stages = _step_value[1];
+                var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
+                try {
+                    for(var _iterator1 = stages[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
+                        var stage = _step1.value;
+                        if ((typeof stage === "undefined" ? "undefined" : _type_of(stage)) === "object" && stage !== null) {
+                            var name = stage.name, version = stage.version, factory = stage.factory, eager = stage.eager, singleton = stage.singleton, requiredVersion = stage.requiredVersion, strictVersion = stage.strictVersion;
+                            var shareConfig = {};
+                            var isValidValue = function isValidValue(val) {
+                                return typeof val !== "undefined";
+                            };
+                            if (isValidValue(singleton)) {
+                                shareConfig.singleton = singleton;
+                            }
+                            if (isValidValue(requiredVersion)) {
+                                shareConfig.requiredVersion = requiredVersion;
+                            }
+                            if (isValidValue(eager)) {
+                                shareConfig.eager = eager;
+                            }
+                            if (isValidValue(strictVersion)) {
+                                shareConfig.strictVersion = strictVersion;
+                            }
+                            var options = {
+                                version: version,
+                                scope: [
+                                    scope
+                                ],
+                                shareConfig: shareConfig,
+                                get: factory
+                            };
+                            if (shared[name]) {
+                                shared[name].push(options);
+                            } else {
+                                shared[name] = [
+                                    options
+                                ];
+                            }
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError1 = true;
+                    _iteratorError1 = err;
+                } finally{
+                    try {
+                        if (!_iteratorNormalCompletion1 && _iterator1.return != null) {
+                            _iterator1.return();
+                        }
+                    } finally{
+                        if (_didIteratorError1) {
+                            throw _iteratorError1;
+                        }
+                    }
+                }
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+        return shared;
+    });
+    merge(__webpack_require__.federation.initOptions, "remotes", function() {
+        return Object.values(__module_federation_remote_infos__).flat().filter(function(remote) {
+            return remote.externalType === "script";
+        });
+    });
+    merge(__webpack_require__.federation.initOptions, "plugins", function() {
+        return __module_federation_runtime_plugins__;
+    });
+    early(__webpack_require__.federation, "bundlerRuntimeOptions", function() {
+        return {};
+    });
+    early(__webpack_require__.federation.bundlerRuntimeOptions, "remotes", function() {
+        return {};
+    });
+    early(__webpack_require__.federation.bundlerRuntimeOptions.remotes, "chunkMapping", function() {
+        return remotesLoadingChunkMapping;
+    });
+    early(__webpack_require__.federation.bundlerRuntimeOptions.remotes, "idToExternalAndNameMapping", function() {
+        var remotesLoadingIdToExternalAndNameMappingMapping = {};
+        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+        try {
+            for(var _iterator = Object.entries(remotesLoadingModuleIdToRemoteDataMapping)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                var _step_value = _sliced_to_array(_step.value, 2), moduleId = _step_value[0], data = _step_value[1];
+                remotesLoadingIdToExternalAndNameMappingMapping[moduleId] = [
+                    data.shareScope,
+                    data.name,
+                    data.externalModuleId,
+                    data.remoteName
+                ];
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+        return remotesLoadingIdToExternalAndNameMappingMapping;
+    });
+    early(__webpack_require__.federation.bundlerRuntimeOptions.remotes, "webpackRequire", function() {
+        return __webpack_require__;
+    });
+    merge(__webpack_require__.federation.bundlerRuntimeOptions.remotes, "idToRemoteMap", function() {
+        var idToRemoteMap = {};
+        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+        try {
+            for(var _iterator = Object.entries(remotesLoadingModuleIdToRemoteDataMapping)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                var _step_value = _sliced_to_array(_step.value, 2), id = _step_value[0], remoteData = _step_value[1];
+                var info = __module_federation_remote_infos__[remoteData.remoteName];
+                if (info) idToRemoteMap[id] = info;
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+        return idToRemoteMap;
+    });
+    override(__webpack_require__, "S", __webpack_require__.federation.bundlerRuntime.S);
+    if (__webpack_require__.federation.attachShareScopeMap) {
+        __webpack_require__.federation.attachShareScopeMap(__webpack_require__);
+    }
+    override(__webpack_require__.f, "remotes", function(chunkId, promises) {
+        return __webpack_require__.federation.bundlerRuntime.remotes({
+            chunkId: chunkId,
+            promises: promises,
+            chunkMapping: remotesLoadingChunkMapping,
+            idToExternalAndNameMapping: __webpack_require__.federation.bundlerRuntimeOptions.remotes.idToExternalAndNameMapping,
+            idToRemoteMap: __webpack_require__.federation.bundlerRuntimeOptions.remotes.idToRemoteMap,
+            webpackRequire: __webpack_require__
+        });
+    });
+    override(__webpack_require__.f, "consumes", function(chunkId, promises) {
+        return __webpack_require__.federation.bundlerRuntime.consumes({
+            chunkId: chunkId,
+            promises: promises,
+            chunkMapping: consumesLoadingChunkMapping,
+            moduleToHandlerMapping: __webpack_require__.federation.consumesLoadingModuleToHandlerMapping,
+            installedModules: consumesLoadinginstalledModules,
+            webpackRequire: __webpack_require__
+        });
+    });
+    override(__webpack_require__, "I", function(name, initScope) {
+        return __webpack_require__.federation.bundlerRuntime.I({
+            shareScopeName: name,
+            initScope: initScope,
+            initPromises: initializeSharingInitPromises,
+            initTokens: initializeSharingInitTokens,
+            webpackRequire: __webpack_require__
+        });
+    });
+    override(__webpack_require__, "initContainer", function(shareScope, initScope, remoteEntryInitOptions) {
+        return __webpack_require__.federation.bundlerRuntime.initContainerEntry({
+            shareScope: shareScope,
+            initScope: initScope,
+            remoteEntryInitOptions: remoteEntryInitOptions,
+            shareScopeKey: containerShareScope,
+            webpackRequire: __webpack_require__
+        });
+    });
+    override(__webpack_require__, "getContainer", function(module1, getScope) {
+        var moduleMap = __webpack_require__.initializeExposesData.moduleMap;
+        __webpack_require__.R = getScope;
+        getScope = Object.prototype.hasOwnProperty.call(moduleMap, module1) ? moduleMap[module1]() : Promise.resolve().then(function() {
+            throw new Error('Module "' + module1 + '" does not exist in container.');
+        });
+        __webpack_require__.R = undefined;
+        return getScope;
+    });
+    __webpack_require__.federation.instance = __webpack_require__.federation.runtime.init(__webpack_require__.federation.initOptions);
+    if ((__webpack_require___consumesLoadingData2 = __webpack_require__.consumesLoadingData) === null || __webpack_require___consumesLoadingData2 === void 0 ? void 0 : __webpack_require___consumesLoadingData2.initialConsumes) {
+        __webpack_require__.federation.bundlerRuntime.installInitialConsumes({
+            webpackRequire: __webpack_require__,
+            installedModules: consumesLoadinginstalledModules,
+            initialConsumes: __webpack_require__.consumesLoadingData.initialConsumes,
+            moduleToHandlerMapping: __webpack_require__.federation.consumesLoadingModuleToHandlerMapping
+        });
+    }
+}
+
+
+}),
+"webpack/container/entry/remote": 
+/*!***********************!*\
+  !*** container entry ***!
+  \***********************/
+(function (__unused_webpack_module, exports, __webpack_require__) {
+
+__webpack_require__.d(exports, {
+	get: () => (__webpack_require__.getContainer),
+	init: () => (__webpack_require__.initContainer)
+});
+
+}),
+"../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/index.cjs.cjs": 
+/*!******************************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/index.cjs.cjs ***!
+  \******************************************************************************************************************************************/
+(function (__unused_webpack_module, exports, __webpack_require__) {
+
+
+var polyfills = __webpack_require__(/*! ./polyfills.cjs.cjs */ "../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/polyfills.cjs.cjs");
+var sdk = __webpack_require__(/*! @module-federation/sdk */ "../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/index.cjs.cjs");
+var errorCodes = __webpack_require__(/*! @module-federation/error-codes */ "../../../node_modules/.pnpm/@module-federation+error-codes@0.17.0/node_modules/@module-federation/error-codes/dist/index.cjs.js");
+
+const LOG_CATEGORY = '[ Federation Runtime ]';
+// FIXME: pre-bundle ?
+const logger = sdk.createLogger(LOG_CATEGORY);
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function assert(condition, msg) {
+    if (!condition) {
+        error(msg);
+    }
+}
+function error(msg) {
+    if (msg instanceof Error) {
+        msg.message = `${LOG_CATEGORY}: ${msg.message}`;
+        throw msg;
+    }
+    throw new Error(`${LOG_CATEGORY}: ${msg}`);
+}
+function warn(msg) {
+    if (msg instanceof Error) {
+        msg.message = `${LOG_CATEGORY}: ${msg.message}`;
+        logger.warn(msg);
+    } else {
+        logger.warn(msg);
+    }
+}
+
+function addUniqueItem(arr, item) {
+    if (arr.findIndex((name)=>name === item) === -1) {
+        arr.push(item);
+    }
+    return arr;
+}
+function getFMId(remoteInfo) {
+    if ('version' in remoteInfo && remoteInfo.version) {
+        return `${remoteInfo.name}:${remoteInfo.version}`;
+    } else if ('entry' in remoteInfo && remoteInfo.entry) {
+        return `${remoteInfo.name}:${remoteInfo.entry}`;
+    } else {
+        return `${remoteInfo.name}`;
+    }
+}
+function isRemoteInfoWithEntry(remote) {
+    return typeof remote.entry !== 'undefined';
+}
+function isPureRemoteEntry(remote) {
+    return !remote.entry.includes('.json');
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function safeWrapper(callback, disableWarn) {
+    try {
+        const res = await callback();
+        return res;
+    } catch (e) {
+        !disableWarn && warn(e);
+        return;
+    }
+}
+function isObject(val) {
+    return val && typeof val === 'object';
+}
+const objectToString = Object.prototype.toString;
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isPlainObject(val) {
+    return objectToString.call(val) === '[object Object]';
+}
+function isStaticResourcesEqual(url1, url2) {
+    const REG_EXP = /^(https?:)?\/\//i;
+    // Transform url1 and url2 into relative paths
+    const relativeUrl1 = url1.replace(REG_EXP, '').replace(/\/$/, '');
+    const relativeUrl2 = url2.replace(REG_EXP, '').replace(/\/$/, '');
+    // Check if the relative paths are identical
+    return relativeUrl1 === relativeUrl2;
+}
+function arrayOptions(options) {
+    return Array.isArray(options) ? options : [
+        options
+    ];
+}
+function getRemoteEntryInfoFromSnapshot(snapshot) {
+    const defaultRemoteEntryInfo = {
+        url: '',
+        type: 'global',
+        globalName: ''
+    };
+    if (sdk.isBrowserEnv() || sdk.isReactNativeEnv()) {
+        return 'remoteEntry' in snapshot ? {
+            url: snapshot.remoteEntry,
+            type: snapshot.remoteEntryType,
+            globalName: snapshot.globalName
+        } : defaultRemoteEntryInfo;
+    }
+    if ('ssrRemoteEntry' in snapshot) {
+        return {
+            url: snapshot.ssrRemoteEntry || defaultRemoteEntryInfo.url,
+            type: snapshot.ssrRemoteEntryType || defaultRemoteEntryInfo.type,
+            globalName: snapshot.globalName
+        };
+    }
+    return defaultRemoteEntryInfo;
+}
+const processModuleAlias = (name, subPath)=>{
+    // @host/ ./button -> @host/button
+    let moduleName;
+    if (name.endsWith('/')) {
+        moduleName = name.slice(0, -1);
+    } else {
+        moduleName = name;
+    }
+    if (subPath.startsWith('.')) {
+        subPath = subPath.slice(1);
+    }
+    moduleName = moduleName + subPath;
+    return moduleName;
+};
+
+const CurrentGlobal = typeof globalThis === 'object' ? globalThis : window;
+const nativeGlobal = (()=>{
+    try {
+        // get real window (incase of sandbox)
+        return document.defaultView;
+    } catch (e) {
+        // node env
+        return CurrentGlobal;
+    }
+})();
+const Global = nativeGlobal;
+function definePropertyGlobalVal(target, key, val) {
+    Object.defineProperty(target, key, {
+        value: val,
+        configurable: false,
+        writable: true
+    });
+}
+function includeOwnProperty(target, key) {
+    return Object.hasOwnProperty.call(target, key);
+}
+// This section is to prevent encapsulation by certain microfrontend frameworks. Due to reuse policies, sandbox escapes.
+// The sandbox in the microfrontend does not replicate the value of 'configurable'.
+// If there is no loading content on the global object, this section defines the loading object.
+if (!includeOwnProperty(CurrentGlobal, '__GLOBAL_LOADING_REMOTE_ENTRY__')) {
+    definePropertyGlobalVal(CurrentGlobal, '__GLOBAL_LOADING_REMOTE_ENTRY__', {});
+}
+const globalLoading = CurrentGlobal.__GLOBAL_LOADING_REMOTE_ENTRY__;
+function setGlobalDefaultVal(target) {
+    var _target___FEDERATION__, _target___FEDERATION__1, _target___FEDERATION__2, _target___FEDERATION__3, _target___FEDERATION__4, _target___FEDERATION__5;
+    if (includeOwnProperty(target, '__VMOK__') && !includeOwnProperty(target, '__FEDERATION__')) {
+        definePropertyGlobalVal(target, '__FEDERATION__', target.__VMOK__);
+    }
+    if (!includeOwnProperty(target, '__FEDERATION__')) {
+        definePropertyGlobalVal(target, '__FEDERATION__', {
+            __GLOBAL_PLUGIN__: [],
+            __INSTANCES__: [],
+            moduleInfo: {},
+            __SHARE__: {},
+            __MANIFEST_LOADING__: {},
+            __PRELOADED_MAP__: new Map()
+        });
+        definePropertyGlobalVal(target, '__VMOK__', target.__FEDERATION__);
+    }
+    var ___GLOBAL_PLUGIN__;
+    (___GLOBAL_PLUGIN__ = (_target___FEDERATION__ = target.__FEDERATION__).__GLOBAL_PLUGIN__) != null ? ___GLOBAL_PLUGIN__ : _target___FEDERATION__.__GLOBAL_PLUGIN__ = [];
+    var ___INSTANCES__;
+    (___INSTANCES__ = (_target___FEDERATION__1 = target.__FEDERATION__).__INSTANCES__) != null ? ___INSTANCES__ : _target___FEDERATION__1.__INSTANCES__ = [];
+    var _moduleInfo;
+    (_moduleInfo = (_target___FEDERATION__2 = target.__FEDERATION__).moduleInfo) != null ? _moduleInfo : _target___FEDERATION__2.moduleInfo = {};
+    var ___SHARE__;
+    (___SHARE__ = (_target___FEDERATION__3 = target.__FEDERATION__).__SHARE__) != null ? ___SHARE__ : _target___FEDERATION__3.__SHARE__ = {};
+    var ___MANIFEST_LOADING__;
+    (___MANIFEST_LOADING__ = (_target___FEDERATION__4 = target.__FEDERATION__).__MANIFEST_LOADING__) != null ? ___MANIFEST_LOADING__ : _target___FEDERATION__4.__MANIFEST_LOADING__ = {};
+    var ___PRELOADED_MAP__;
+    (___PRELOADED_MAP__ = (_target___FEDERATION__5 = target.__FEDERATION__).__PRELOADED_MAP__) != null ? ___PRELOADED_MAP__ : _target___FEDERATION__5.__PRELOADED_MAP__ = new Map();
+}
+setGlobalDefaultVal(CurrentGlobal);
+setGlobalDefaultVal(nativeGlobal);
+function resetFederationGlobalInfo() {
+    CurrentGlobal.__FEDERATION__.__GLOBAL_PLUGIN__ = [];
+    CurrentGlobal.__FEDERATION__.__INSTANCES__ = [];
+    CurrentGlobal.__FEDERATION__.moduleInfo = {};
+    CurrentGlobal.__FEDERATION__.__SHARE__ = {};
+    CurrentGlobal.__FEDERATION__.__MANIFEST_LOADING__ = {};
+    Object.keys(globalLoading).forEach((key)=>{
+        delete globalLoading[key];
+    });
+}
+function setGlobalFederationInstance(FederationInstance) {
+    CurrentGlobal.__FEDERATION__.__INSTANCES__.push(FederationInstance);
+}
+function getGlobalFederationConstructor() {
+    return CurrentGlobal.__FEDERATION__.__DEBUG_CONSTRUCTOR__;
+}
+function setGlobalFederationConstructor(FederationConstructor, isDebug = sdk.isDebugMode()) {
+    if (isDebug) {
+        CurrentGlobal.__FEDERATION__.__DEBUG_CONSTRUCTOR__ = FederationConstructor;
+        CurrentGlobal.__FEDERATION__.__DEBUG_CONSTRUCTOR_VERSION__ = "0.17.0";
+    }
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+function getInfoWithoutType(target, key) {
+    if (typeof key === 'string') {
+        const keyRes = target[key];
+        if (keyRes) {
+            return {
+                value: target[key],
+                key: key
+            };
+        } else {
+            const targetKeys = Object.keys(target);
+            for (const targetKey of targetKeys){
+                const [targetTypeOrName, _] = targetKey.split(':');
+                const nKey = `${targetTypeOrName}:${key}`;
+                const typeWithKeyRes = target[nKey];
+                if (typeWithKeyRes) {
+                    return {
+                        value: typeWithKeyRes,
+                        key: nKey
+                    };
+                }
+            }
+            return {
+                value: undefined,
+                key: key
+            };
+        }
+    } else {
+        throw new Error('key must be string');
+    }
+}
+const getGlobalSnapshot = ()=>nativeGlobal.__FEDERATION__.moduleInfo;
+const getTargetSnapshotInfoByModuleInfo = (moduleInfo, snapshot)=>{
+    // Check if the remote is included in the hostSnapshot
+    const moduleKey = getFMId(moduleInfo);
+    const getModuleInfo = getInfoWithoutType(snapshot, moduleKey).value;
+    // The remoteSnapshot might not include a version
+    if (getModuleInfo && !getModuleInfo.version && 'version' in moduleInfo && moduleInfo['version']) {
+        getModuleInfo.version = moduleInfo['version'];
+    }
+    if (getModuleInfo) {
+        return getModuleInfo;
+    }
+    // If the remote is not included in the hostSnapshot, deploy a micro app snapshot
+    if ('version' in moduleInfo && moduleInfo['version']) {
+        const { version } = moduleInfo, resModuleInfo = polyfills._object_without_properties_loose(moduleInfo, [
+            "version"
+        ]);
+        const moduleKeyWithoutVersion = getFMId(resModuleInfo);
+        const getModuleInfoWithoutVersion = getInfoWithoutType(nativeGlobal.__FEDERATION__.moduleInfo, moduleKeyWithoutVersion).value;
+        if ((getModuleInfoWithoutVersion == null ? void 0 : getModuleInfoWithoutVersion.version) === version) {
+            return getModuleInfoWithoutVersion;
+        }
+    }
+    return;
+};
+const getGlobalSnapshotInfoByModuleInfo = (moduleInfo)=>getTargetSnapshotInfoByModuleInfo(moduleInfo, nativeGlobal.__FEDERATION__.moduleInfo);
+const setGlobalSnapshotInfoByModuleInfo = (remoteInfo, moduleDetailInfo)=>{
+    const moduleKey = getFMId(remoteInfo);
+    nativeGlobal.__FEDERATION__.moduleInfo[moduleKey] = moduleDetailInfo;
+    return nativeGlobal.__FEDERATION__.moduleInfo;
+};
+const addGlobalSnapshot = (moduleInfos)=>{
+    nativeGlobal.__FEDERATION__.moduleInfo = polyfills._extends({}, nativeGlobal.__FEDERATION__.moduleInfo, moduleInfos);
+    return ()=>{
+        const keys = Object.keys(moduleInfos);
+        for (const key of keys){
+            delete nativeGlobal.__FEDERATION__.moduleInfo[key];
+        }
+    };
+};
+const getRemoteEntryExports = (name, globalName)=>{
+    const remoteEntryKey = globalName || `__FEDERATION_${name}:custom__`;
+    const entryExports = CurrentGlobal[remoteEntryKey];
+    return {
+        remoteEntryKey,
+        entryExports
+    };
+};
+// This function is used to register global plugins.
+// It iterates over the provided plugins and checks if they are already registered.
+// If a plugin is not registered, it is added to the global plugins.
+// If a plugin is already registered, a warning message is logged.
+const registerGlobalPlugins = (plugins)=>{
+    const { __GLOBAL_PLUGIN__ } = nativeGlobal.__FEDERATION__;
+    plugins.forEach((plugin)=>{
+        if (__GLOBAL_PLUGIN__.findIndex((p)=>p.name === plugin.name) === -1) {
+            __GLOBAL_PLUGIN__.push(plugin);
+        } else {
+            warn(`The plugin ${plugin.name} has been registered.`);
+        }
+    });
+};
+const getGlobalHostPlugins = ()=>nativeGlobal.__FEDERATION__.__GLOBAL_PLUGIN__;
+const getPreloaded = (id)=>CurrentGlobal.__FEDERATION__.__PRELOADED_MAP__.get(id);
+const setPreloaded = (id)=>CurrentGlobal.__FEDERATION__.__PRELOADED_MAP__.set(id, true);
+
+const DEFAULT_SCOPE = 'default';
+const DEFAULT_REMOTE_TYPE = 'global';
+
+// fork from https://github.com/originjs/vite-plugin-federation/blob/v1.1.12/packages/lib/src/utils/semver/index.ts
+// those constants are based on https://www.rubydoc.info/gems/semantic_range/3.0.0/SemanticRange#BUILDIDENTIFIER-constant
+// Copyright (c)
+// vite-plugin-federation is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//      http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+const buildIdentifier = '[0-9A-Za-z-]+';
+const build = `(?:\\+(${buildIdentifier}(?:\\.${buildIdentifier})*))`;
+const numericIdentifier = '0|[1-9]\\d*';
+const numericIdentifierLoose = '[0-9]+';
+const nonNumericIdentifier = '\\d*[a-zA-Z-][a-zA-Z0-9-]*';
+const preReleaseIdentifierLoose = `(?:${numericIdentifierLoose}|${nonNumericIdentifier})`;
+const preReleaseLoose = `(?:-?(${preReleaseIdentifierLoose}(?:\\.${preReleaseIdentifierLoose})*))`;
+const preReleaseIdentifier = `(?:${numericIdentifier}|${nonNumericIdentifier})`;
+const preRelease = `(?:-(${preReleaseIdentifier}(?:\\.${preReleaseIdentifier})*))`;
+const xRangeIdentifier = `${numericIdentifier}|x|X|\\*`;
+const xRangePlain = `[v=\\s]*(${xRangeIdentifier})(?:\\.(${xRangeIdentifier})(?:\\.(${xRangeIdentifier})(?:${preRelease})?${build}?)?)?`;
+const hyphenRange = `^\\s*(${xRangePlain})\\s+-\\s+(${xRangePlain})\\s*$`;
+const mainVersionLoose = `(${numericIdentifierLoose})\\.(${numericIdentifierLoose})\\.(${numericIdentifierLoose})`;
+const loosePlain = `[v=\\s]*${mainVersionLoose}${preReleaseLoose}?${build}?`;
+const gtlt = '((?:<|>)?=?)';
+const comparatorTrim = `(\\s*)${gtlt}\\s*(${loosePlain}|${xRangePlain})`;
+const loneTilde = '(?:~>?)';
+const tildeTrim = `(\\s*)${loneTilde}\\s+`;
+const loneCaret = '(?:\\^)';
+const caretTrim = `(\\s*)${loneCaret}\\s+`;
+const star = '(<|>)?=?\\s*\\*';
+const caret = `^${loneCaret}${xRangePlain}$`;
+const mainVersion = `(${numericIdentifier})\\.(${numericIdentifier})\\.(${numericIdentifier})`;
+const fullPlain = `v?${mainVersion}${preRelease}?${build}?`;
+const tilde = `^${loneTilde}${xRangePlain}$`;
+const xRange = `^${gtlt}\\s*${xRangePlain}$`;
+const comparator = `^${gtlt}\\s*(${fullPlain})$|^$`;
+// copy from semver package
+const gte0 = '^\\s*>=\\s*0.0.0\\s*$';
+
+// fork from https://github.com/originjs/vite-plugin-federation/blob/v1.1.12/packages/lib/src/utils/semver/index.ts
+// Copyright (c)
+// vite-plugin-federation is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//      http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+function parseRegex(source) {
+    return new RegExp(source);
+}
+function isXVersion(version) {
+    return !version || version.toLowerCase() === 'x' || version === '*';
+}
+function pipe(...fns) {
+    return (x)=>fns.reduce((v, f)=>f(v), x);
+}
+function extractComparator(comparatorString) {
+    return comparatorString.match(parseRegex(comparator));
+}
+function combineVersion(major, minor, patch, preRelease) {
+    const mainVersion = `${major}.${minor}.${patch}`;
+    if (preRelease) {
+        return `${mainVersion}-${preRelease}`;
+    }
+    return mainVersion;
+}
+
+// fork from https://github.com/originjs/vite-plugin-federation/blob/v1.1.12/packages/lib/src/utils/semver/index.ts
+// Copyright (c)
+// vite-plugin-federation is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//      http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+function parseHyphen(range) {
+    return range.replace(parseRegex(hyphenRange), (_range, from, fromMajor, fromMinor, fromPatch, _fromPreRelease, _fromBuild, to, toMajor, toMinor, toPatch, toPreRelease)=>{
+        if (isXVersion(fromMajor)) {
+            from = '';
+        } else if (isXVersion(fromMinor)) {
+            from = `>=${fromMajor}.0.0`;
+        } else if (isXVersion(fromPatch)) {
+            from = `>=${fromMajor}.${fromMinor}.0`;
+        } else {
+            from = `>=${from}`;
+        }
+        if (isXVersion(toMajor)) {
+            to = '';
+        } else if (isXVersion(toMinor)) {
+            to = `<${Number(toMajor) + 1}.0.0-0`;
+        } else if (isXVersion(toPatch)) {
+            to = `<${toMajor}.${Number(toMinor) + 1}.0-0`;
+        } else if (toPreRelease) {
+            to = `<=${toMajor}.${toMinor}.${toPatch}-${toPreRelease}`;
+        } else {
+            to = `<=${to}`;
+        }
+        return `${from} ${to}`.trim();
+    });
+}
+function parseComparatorTrim(range) {
+    return range.replace(parseRegex(comparatorTrim), '$1$2$3');
+}
+function parseTildeTrim(range) {
+    return range.replace(parseRegex(tildeTrim), '$1~');
+}
+function parseCaretTrim(range) {
+    return range.replace(parseRegex(caretTrim), '$1^');
+}
+function parseCarets(range) {
+    return range.trim().split(/\s+/).map((rangeVersion)=>rangeVersion.replace(parseRegex(caret), (_, major, minor, patch, preRelease)=>{
+            if (isXVersion(major)) {
+                return '';
+            } else if (isXVersion(minor)) {
+                return `>=${major}.0.0 <${Number(major) + 1}.0.0-0`;
+            } else if (isXVersion(patch)) {
+                if (major === '0') {
+                    return `>=${major}.${minor}.0 <${major}.${Number(minor) + 1}.0-0`;
+                } else {
+                    return `>=${major}.${minor}.0 <${Number(major) + 1}.0.0-0`;
+                }
+            } else if (preRelease) {
+                if (major === '0') {
+                    if (minor === '0') {
+                        return `>=${major}.${minor}.${patch}-${preRelease} <${major}.${minor}.${Number(patch) + 1}-0`;
+                    } else {
+                        return `>=${major}.${minor}.${patch}-${preRelease} <${major}.${Number(minor) + 1}.0-0`;
+                    }
+                } else {
+                    return `>=${major}.${minor}.${patch}-${preRelease} <${Number(major) + 1}.0.0-0`;
+                }
+            } else {
+                if (major === '0') {
+                    if (minor === '0') {
+                        return `>=${major}.${minor}.${patch} <${major}.${minor}.${Number(patch) + 1}-0`;
+                    } else {
+                        return `>=${major}.${minor}.${patch} <${major}.${Number(minor) + 1}.0-0`;
+                    }
+                }
+                return `>=${major}.${minor}.${patch} <${Number(major) + 1}.0.0-0`;
+            }
+        })).join(' ');
+}
+function parseTildes(range) {
+    return range.trim().split(/\s+/).map((rangeVersion)=>rangeVersion.replace(parseRegex(tilde), (_, major, minor, patch, preRelease)=>{
+            if (isXVersion(major)) {
+                return '';
+            } else if (isXVersion(minor)) {
+                return `>=${major}.0.0 <${Number(major) + 1}.0.0-0`;
+            } else if (isXVersion(patch)) {
+                return `>=${major}.${minor}.0 <${major}.${Number(minor) + 1}.0-0`;
+            } else if (preRelease) {
+                return `>=${major}.${minor}.${patch}-${preRelease} <${major}.${Number(minor) + 1}.0-0`;
+            }
+            return `>=${major}.${minor}.${patch} <${major}.${Number(minor) + 1}.0-0`;
+        })).join(' ');
+}
+function parseXRanges(range) {
+    return range.split(/\s+/).map((rangeVersion)=>rangeVersion.trim().replace(parseRegex(xRange), (ret, gtlt, major, minor, patch, preRelease)=>{
+            const isXMajor = isXVersion(major);
+            const isXMinor = isXMajor || isXVersion(minor);
+            const isXPatch = isXMinor || isXVersion(patch);
+            if (gtlt === '=' && isXPatch) {
+                gtlt = '';
+            }
+            preRelease = '';
+            if (isXMajor) {
+                if (gtlt === '>' || gtlt === '<') {
+                    // nothing is allowed
+                    return '<0.0.0-0';
+                } else {
+                    // nothing is forbidden
+                    return '*';
+                }
+            } else if (gtlt && isXPatch) {
+                // replace X with 0
+                if (isXMinor) {
+                    minor = 0;
+                }
+                patch = 0;
+                if (gtlt === '>') {
+                    // >1 => >=2.0.0
+                    // >1.2 => >=1.3.0
+                    gtlt = '>=';
+                    if (isXMinor) {
+                        major = Number(major) + 1;
+                        minor = 0;
+                        patch = 0;
+                    } else {
+                        minor = Number(minor) + 1;
+                        patch = 0;
+                    }
+                } else if (gtlt === '<=') {
+                    // <=0.7.x is actually <0.8.0, since any 0.7.x should pass
+                    // Similarly, <=7.x is actually <8.0.0, etc.
+                    gtlt = '<';
+                    if (isXMinor) {
+                        major = Number(major) + 1;
+                    } else {
+                        minor = Number(minor) + 1;
+                    }
+                }
+                if (gtlt === '<') {
+                    preRelease = '-0';
+                }
+                return `${gtlt + major}.${minor}.${patch}${preRelease}`;
+            } else if (isXMinor) {
+                return `>=${major}.0.0${preRelease} <${Number(major) + 1}.0.0-0`;
+            } else if (isXPatch) {
+                return `>=${major}.${minor}.0${preRelease} <${major}.${Number(minor) + 1}.0-0`;
+            }
+            return ret;
+        })).join(' ');
+}
+function parseStar(range) {
+    return range.trim().replace(parseRegex(star), '');
+}
+function parseGTE0(comparatorString) {
+    return comparatorString.trim().replace(parseRegex(gte0), '');
+}
+
+// fork from https://github.com/originjs/vite-plugin-federation/blob/v1.1.12/packages/lib/src/utils/semver/index.ts
+// Copyright (c)
+// vite-plugin-federation is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//      http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+function compareAtom(rangeAtom, versionAtom) {
+    rangeAtom = Number(rangeAtom) || rangeAtom;
+    versionAtom = Number(versionAtom) || versionAtom;
+    if (rangeAtom > versionAtom) {
+        return 1;
+    }
+    if (rangeAtom === versionAtom) {
+        return 0;
+    }
+    return -1;
+}
+function comparePreRelease(rangeAtom, versionAtom) {
+    const { preRelease: rangePreRelease } = rangeAtom;
+    const { preRelease: versionPreRelease } = versionAtom;
+    if (rangePreRelease === undefined && Boolean(versionPreRelease)) {
+        return 1;
+    }
+    if (Boolean(rangePreRelease) && versionPreRelease === undefined) {
+        return -1;
+    }
+    if (rangePreRelease === undefined && versionPreRelease === undefined) {
+        return 0;
+    }
+    for(let i = 0, n = rangePreRelease.length; i <= n; i++){
+        const rangeElement = rangePreRelease[i];
+        const versionElement = versionPreRelease[i];
+        if (rangeElement === versionElement) {
+            continue;
+        }
+        if (rangeElement === undefined && versionElement === undefined) {
+            return 0;
+        }
+        if (!rangeElement) {
+            return 1;
+        }
+        if (!versionElement) {
+            return -1;
+        }
+        return compareAtom(rangeElement, versionElement);
+    }
+    return 0;
+}
+function compareVersion(rangeAtom, versionAtom) {
+    return compareAtom(rangeAtom.major, versionAtom.major) || compareAtom(rangeAtom.minor, versionAtom.minor) || compareAtom(rangeAtom.patch, versionAtom.patch) || comparePreRelease(rangeAtom, versionAtom);
+}
+function eq(rangeAtom, versionAtom) {
+    return rangeAtom.version === versionAtom.version;
+}
+function compare(rangeAtom, versionAtom) {
+    switch(rangeAtom.operator){
+        case '':
+        case '=':
+            return eq(rangeAtom, versionAtom);
+        case '>':
+            return compareVersion(rangeAtom, versionAtom) < 0;
+        case '>=':
+            return eq(rangeAtom, versionAtom) || compareVersion(rangeAtom, versionAtom) < 0;
+        case '<':
+            return compareVersion(rangeAtom, versionAtom) > 0;
+        case '<=':
+            return eq(rangeAtom, versionAtom) || compareVersion(rangeAtom, versionAtom) > 0;
+        case undefined:
+            {
+                // mean * or x -> all versions
+                return true;
+            }
+        default:
+            return false;
+    }
+}
+
+// fork from https://github.com/originjs/vite-plugin-federation/blob/v1.1.12/packages/lib/src/utils/semver/index.ts
+// Copyright (c)
+// vite-plugin-federation is licensed under Mulan PSL v2.
+// You can use this software according to the terms and conditions of the Mulan PSL v2.
+// You may obtain a copy of Mulan PSL v2 at:
+//      http://license.coscl.org.cn/MulanPSL2
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+// See the Mulan PSL v2 for more details.
+function parseComparatorString(range) {
+    return pipe(// handle caret
+    // ^ --> * (any, kinda silly)
+    // ^2, ^2.x, ^2.x.x --> >=2.0.0 <3.0.0-0
+    // ^2.0, ^2.0.x --> >=2.0.0 <3.0.0-0
+    // ^1.2, ^1.2.x --> >=1.2.0 <2.0.0-0
+    // ^1.2.3 --> >=1.2.3 <2.0.0-0
+    // ^1.2.0 --> >=1.2.0 <2.0.0-0
+    parseCarets, // handle tilde
+    // ~, ~> --> * (any, kinda silly)
+    // ~2, ~2.x, ~2.x.x, ~>2, ~>2.x ~>2.x.x --> >=2.0.0 <3.0.0-0
+    // ~2.0, ~2.0.x, ~>2.0, ~>2.0.x --> >=2.0.0 <2.1.0-0
+    // ~1.2, ~1.2.x, ~>1.2, ~>1.2.x --> >=1.2.0 <1.3.0-0
+    // ~1.2.3, ~>1.2.3 --> >=1.2.3 <1.3.0-0
+    // ~1.2.0, ~>1.2.0 --> >=1.2.0 <1.3.0-0
+    parseTildes, parseXRanges, parseStar)(range);
+}
+function parseRange(range) {
+    return pipe(// handle hyphenRange
+    // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
+    parseHyphen, // handle trim comparator
+    // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
+    parseComparatorTrim, // handle trim tilde
+    // `~ 1.2.3` => `~1.2.3`
+    parseTildeTrim, // handle trim caret
+    // `^ 1.2.3` => `^1.2.3`
+    parseCaretTrim)(range.trim()).split(/\s+/).join(' ');
+}
+function satisfy(version, range) {
+    if (!version) {
+        return false;
+    }
+    // Extract version details once
+    const extractedVersion = extractComparator(version);
+    if (!extractedVersion) {
+        // If the version string is invalid, it can't satisfy any range
+        return false;
+    }
+    const [, versionOperator, , versionMajor, versionMinor, versionPatch, versionPreRelease] = extractedVersion;
+    const versionAtom = {
+        operator: versionOperator,
+        version: combineVersion(versionMajor, versionMinor, versionPatch, versionPreRelease),
+        major: versionMajor,
+        minor: versionMinor,
+        patch: versionPatch,
+        preRelease: versionPreRelease == null ? void 0 : versionPreRelease.split('.')
+    };
+    // Split the range by || to handle OR conditions
+    const orRanges = range.split('||');
+    for (const orRange of orRanges){
+        const trimmedOrRange = orRange.trim();
+        if (!trimmedOrRange) {
+            // An empty range string signifies wildcard *, satisfy any valid version
+            // (We already checked if the version itself is valid)
+            return true;
+        }
+        // Handle simple wildcards explicitly before complex parsing
+        if (trimmedOrRange === '*' || trimmedOrRange === 'x') {
+            return true;
+        }
+        try {
+            // Apply existing parsing logic to the current OR sub-range
+            const parsedSubRange = parseRange(trimmedOrRange); // Handles hyphens, trims etc.
+            // Check if the result of initial parsing is empty, which can happen
+            // for some wildcard cases handled by parseRange/parseComparatorString.
+            // E.g. `parseStar` used in `parseComparatorString` returns ''.
+            if (!parsedSubRange.trim()) {
+                // If parsing results in empty string, treat as wildcard match
+                return true;
+            }
+            const parsedComparatorString = parsedSubRange.split(' ').map((rangeVersion)=>parseComparatorString(rangeVersion)) // Expands ^, ~
+            .join(' ');
+            // Check again if the comparator string became empty after specific parsing like ^ or ~
+            if (!parsedComparatorString.trim()) {
+                return true;
+            }
+            // Split the sub-range by space for implicit AND conditions
+            const comparators = parsedComparatorString.split(/\s+/).map((comparator)=>parseGTE0(comparator))// Filter out empty strings that might result from multiple spaces
+            .filter(Boolean);
+            // If a sub-range becomes empty after parsing (e.g., invalid characters),
+            // it cannot be satisfied. This check might be redundant now but kept for safety.
+            if (comparators.length === 0) {
+                continue;
+            }
+            let subRangeSatisfied = true;
+            for (const comparator of comparators){
+                const extractedComparator = extractComparator(comparator);
+                // If any part of the AND sub-range is invalid, the sub-range is not satisfied
+                if (!extractedComparator) {
+                    subRangeSatisfied = false;
+                    break;
+                }
+                const [, rangeOperator, , rangeMajor, rangeMinor, rangePatch, rangePreRelease] = extractedComparator;
+                const rangeAtom = {
+                    operator: rangeOperator,
+                    version: combineVersion(rangeMajor, rangeMinor, rangePatch, rangePreRelease),
+                    major: rangeMajor,
+                    minor: rangeMinor,
+                    patch: rangePatch,
+                    preRelease: rangePreRelease == null ? void 0 : rangePreRelease.split('.')
+                };
+                // Check if the version satisfies this specific comparator in the AND chain
+                if (!compare(rangeAtom, versionAtom)) {
+                    subRangeSatisfied = false; // This part of the AND condition failed
+                    break; // No need to check further comparators in this sub-range
+                }
+            }
+            // If all AND conditions within this OR sub-range were met, the overall range is satisfied
+            if (subRangeSatisfied) {
+                return true;
+            }
+        } catch (e) {
+            // Log error and treat this sub-range as unsatisfied
+            console.error(`[semver] Error processing range part "${trimmedOrRange}":`, e);
+            continue;
+        }
+    }
+    // If none of the OR sub-ranges were satisfied
+    return false;
+}
+
+function formatShare(shareArgs, from, name, shareStrategy) {
+    let get;
+    if ('get' in shareArgs) {
+        // eslint-disable-next-line prefer-destructuring
+        get = shareArgs.get;
+    } else if ('lib' in shareArgs) {
+        get = ()=>Promise.resolve(shareArgs.lib);
+    } else {
+        get = ()=>Promise.resolve(()=>{
+                throw new Error(`Can not get shared '${name}'!`);
+            });
+    }
+    var _shareArgs_version, _shareArgs_scope, _shareArgs_strategy;
+    return polyfills._extends({
+        deps: [],
+        useIn: [],
+        from,
+        loading: null
+    }, shareArgs, {
+        shareConfig: polyfills._extends({
+            requiredVersion: `^${shareArgs.version}`,
+            singleton: false,
+            eager: false,
+            strictVersion: false
+        }, shareArgs.shareConfig),
+        get,
+        loaded: (shareArgs == null ? void 0 : shareArgs.loaded) || 'lib' in shareArgs ? true : undefined,
+        version: (_shareArgs_version = shareArgs.version) != null ? _shareArgs_version : '0',
+        scope: Array.isArray(shareArgs.scope) ? shareArgs.scope : [
+            (_shareArgs_scope = shareArgs.scope) != null ? _shareArgs_scope : 'default'
+        ],
+        strategy: ((_shareArgs_strategy = shareArgs.strategy) != null ? _shareArgs_strategy : shareStrategy) || 'version-first'
+    });
+}
+function formatShareConfigs(globalOptions, userOptions) {
+    const shareArgs = userOptions.shared || {};
+    const from = userOptions.name;
+    const shareInfos = Object.keys(shareArgs).reduce((res, pkgName)=>{
+        const arrayShareArgs = arrayOptions(shareArgs[pkgName]);
+        res[pkgName] = res[pkgName] || [];
+        arrayShareArgs.forEach((shareConfig)=>{
+            res[pkgName].push(formatShare(shareConfig, from, pkgName, userOptions.shareStrategy));
+        });
+        return res;
+    }, {});
+    const shared = polyfills._extends({}, globalOptions.shared);
+    Object.keys(shareInfos).forEach((shareKey)=>{
+        if (!shared[shareKey]) {
+            shared[shareKey] = shareInfos[shareKey];
+        } else {
+            shareInfos[shareKey].forEach((newUserSharedOptions)=>{
+                const isSameVersion = shared[shareKey].find((sharedVal)=>sharedVal.version === newUserSharedOptions.version);
+                if (!isSameVersion) {
+                    shared[shareKey].push(newUserSharedOptions);
+                }
+            });
+        }
+    });
+    return {
+        shared,
+        shareInfos
+    };
+}
+function versionLt(a, b) {
+    const transformInvalidVersion = (version)=>{
+        const isNumberVersion = !Number.isNaN(Number(version));
+        if (isNumberVersion) {
+            const splitArr = version.split('.');
+            let validVersion = version;
+            for(let i = 0; i < 3 - splitArr.length; i++){
+                validVersion += '.0';
+            }
+            return validVersion;
+        }
+        return version;
+    };
+    if (satisfy(transformInvalidVersion(a), `<=${transformInvalidVersion(b)}`)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+const findVersion = (shareVersionMap, cb)=>{
+    const callback = cb || function(prev, cur) {
+        return versionLt(prev, cur);
+    };
+    return Object.keys(shareVersionMap).reduce((prev, cur)=>{
+        if (!prev) {
+            return cur;
+        }
+        if (callback(prev, cur)) {
+            return cur;
+        }
+        // default version is '0' https://github.com/webpack/webpack/blob/main/lib/sharing/ProvideSharedModule.js#L136
+        if (prev === '0') {
+            return cur;
+        }
+        return prev;
+    }, 0);
+};
+const isLoaded = (shared)=>{
+    return Boolean(shared.loaded) || typeof shared.lib === 'function';
+};
+const isLoading = (shared)=>{
+    return Boolean(shared.loading);
+};
+function findSingletonVersionOrderByVersion(shareScopeMap, scope, pkgName) {
+    const versions = shareScopeMap[scope][pkgName];
+    const callback = function(prev, cur) {
+        return !isLoaded(versions[prev]) && versionLt(prev, cur);
+    };
+    return findVersion(shareScopeMap[scope][pkgName], callback);
+}
+function findSingletonVersionOrderByLoaded(shareScopeMap, scope, pkgName) {
+    const versions = shareScopeMap[scope][pkgName];
+    const callback = function(prev, cur) {
+        const isLoadingOrLoaded = (shared)=>{
+            return isLoaded(shared) || isLoading(shared);
+        };
+        if (isLoadingOrLoaded(versions[cur])) {
+            if (isLoadingOrLoaded(versions[prev])) {
+                return Boolean(versionLt(prev, cur));
+            } else {
+                return true;
+            }
+        }
+        if (isLoadingOrLoaded(versions[prev])) {
+            return false;
+        }
+        return versionLt(prev, cur);
+    };
+    return findVersion(shareScopeMap[scope][pkgName], callback);
+}
+function getFindShareFunction(strategy) {
+    if (strategy === 'loaded-first') {
+        return findSingletonVersionOrderByLoaded;
+    }
+    return findSingletonVersionOrderByVersion;
+}
+function getRegisteredShare(localShareScopeMap, pkgName, shareInfo, resolveShare) {
+    if (!localShareScopeMap) {
+        return;
+    }
+    const { shareConfig, scope = DEFAULT_SCOPE, strategy } = shareInfo;
+    const scopes = Array.isArray(scope) ? scope : [
+        scope
+    ];
+    for (const sc of scopes){
+        if (shareConfig && localShareScopeMap[sc] && localShareScopeMap[sc][pkgName]) {
+            const { requiredVersion } = shareConfig;
+            const findShareFunction = getFindShareFunction(strategy);
+            const maxOrSingletonVersion = findShareFunction(localShareScopeMap, sc, pkgName);
+            //@ts-ignore
+            const defaultResolver = ()=>{
+                if (shareConfig.singleton) {
+                    if (typeof requiredVersion === 'string' && !satisfy(maxOrSingletonVersion, requiredVersion)) {
+                        const msg = `Version ${maxOrSingletonVersion} from ${maxOrSingletonVersion && localShareScopeMap[sc][pkgName][maxOrSingletonVersion].from} of shared singleton module ${pkgName} does not satisfy the requirement of ${shareInfo.from} which needs ${requiredVersion})`;
+                        if (shareConfig.strictVersion) {
+                            error(msg);
+                        } else {
+                            warn(msg);
+                        }
+                    }
+                    return localShareScopeMap[sc][pkgName][maxOrSingletonVersion];
+                } else {
+                    if (requiredVersion === false || requiredVersion === '*') {
+                        return localShareScopeMap[sc][pkgName][maxOrSingletonVersion];
+                    }
+                    if (satisfy(maxOrSingletonVersion, requiredVersion)) {
+                        return localShareScopeMap[sc][pkgName][maxOrSingletonVersion];
+                    }
+                    for (const [versionKey, versionValue] of Object.entries(localShareScopeMap[sc][pkgName])){
+                        if (satisfy(versionKey, requiredVersion)) {
+                            return versionValue;
+                        }
+                    }
+                }
+            };
+            const params = {
+                shareScopeMap: localShareScopeMap,
+                scope: sc,
+                pkgName,
+                version: maxOrSingletonVersion,
+                GlobalFederation: Global.__FEDERATION__,
+                resolver: defaultResolver
+            };
+            const resolveShared = resolveShare.emit(params) || params;
+            return resolveShared.resolver();
+        }
+    }
+}
+function getGlobalShareScope() {
+    return Global.__FEDERATION__.__SHARE__;
+}
+function getTargetSharedOptions(options) {
+    const { pkgName, extraOptions, shareInfos } = options;
+    const defaultResolver = (sharedOptions)=>{
+        if (!sharedOptions) {
+            return undefined;
+        }
+        const shareVersionMap = {};
+        sharedOptions.forEach((shared)=>{
+            shareVersionMap[shared.version] = shared;
+        });
+        const callback = function(prev, cur) {
+            return !isLoaded(shareVersionMap[prev]) && versionLt(prev, cur);
+        };
+        const maxVersion = findVersion(shareVersionMap, callback);
+        return shareVersionMap[maxVersion];
+    };
+    var _extraOptions_resolver;
+    const resolver = (_extraOptions_resolver = extraOptions == null ? void 0 : extraOptions.resolver) != null ? _extraOptions_resolver : defaultResolver;
+    return Object.assign({}, resolver(shareInfos[pkgName]), extraOptions == null ? void 0 : extraOptions.customShareInfo);
+}
+
+function getBuilderId() {
+    //@ts-ignore
+    return typeof FEDERATION_BUILD_IDENTIFIER !== 'undefined' ? FEDERATION_BUILD_IDENTIFIER : '';
+}
+
+// Function to match a remote with its name and expose
+// id: pkgName(@federation/app1) + expose(button) = @federation/app1/button
+// id: alias(app1) + expose(button) = app1/button
+// id: alias(app1/utils) + expose(loadash/sort) = app1/utils/loadash/sort
+function matchRemoteWithNameAndExpose(remotes, id) {
+    for (const remote of remotes){
+        // match pkgName
+        const isNameMatched = id.startsWith(remote.name);
+        let expose = id.replace(remote.name, '');
+        if (isNameMatched) {
+            if (expose.startsWith('/')) {
+                const pkgNameOrAlias = remote.name;
+                expose = `.${expose}`;
+                return {
+                    pkgNameOrAlias,
+                    expose,
+                    remote
+                };
+            } else if (expose === '') {
+                return {
+                    pkgNameOrAlias: remote.name,
+                    expose: '.',
+                    remote
+                };
+            }
+        }
+        // match alias
+        const isAliasMatched = remote.alias && id.startsWith(remote.alias);
+        let exposeWithAlias = remote.alias && id.replace(remote.alias, '');
+        if (remote.alias && isAliasMatched) {
+            if (exposeWithAlias && exposeWithAlias.startsWith('/')) {
+                const pkgNameOrAlias = remote.alias;
+                exposeWithAlias = `.${exposeWithAlias}`;
+                return {
+                    pkgNameOrAlias,
+                    expose: exposeWithAlias,
+                    remote
+                };
+            } else if (exposeWithAlias === '') {
+                return {
+                    pkgNameOrAlias: remote.alias,
+                    expose: '.',
+                    remote
+                };
+            }
+        }
+    }
+    return;
+}
+// Function to match a remote with its name or alias
+function matchRemote(remotes, nameOrAlias) {
+    for (const remote of remotes){
+        const isNameMatched = nameOrAlias === remote.name;
+        if (isNameMatched) {
+            return remote;
+        }
+        const isAliasMatched = remote.alias && nameOrAlias === remote.alias;
+        if (isAliasMatched) {
+            return remote;
+        }
+    }
+    return;
+}
+
+function registerPlugins(plugins, instance) {
+    const globalPlugins = getGlobalHostPlugins();
+    const hookInstances = [
+        instance.hooks,
+        instance.remoteHandler.hooks,
+        instance.sharedHandler.hooks,
+        instance.snapshotHandler.hooks,
+        instance.loaderHook,
+        instance.bridgeHook
+    ];
+    // Incorporate global plugins
+    if (globalPlugins.length > 0) {
+        globalPlugins.forEach((plugin)=>{
+            if (plugins == null ? void 0 : plugins.find((item)=>item.name !== plugin.name)) {
+                plugins.push(plugin);
+            }
+        });
+    }
+    if (plugins && plugins.length > 0) {
+        plugins.forEach((plugin)=>{
+            hookInstances.forEach((hookInstance)=>{
+                hookInstance.applyPlugin(plugin, instance);
+            });
+        });
+    }
+    return plugins;
+}
+
+const importCallback = '.then(callbacks[0]).catch(callbacks[1])';
+async function loadEsmEntry({ entry, remoteEntryExports }) {
+    return new Promise((resolve, reject)=>{
+        try {
+            if (!remoteEntryExports) {
+                if (typeof FEDERATION_ALLOW_NEW_FUNCTION !== 'undefined') {
+                    new Function('callbacks', `import("${entry}")${importCallback}`)([
+                        resolve,
+                        reject
+                    ]);
+                } else {
+                    import(/* webpackIgnore: true */ /* @vite-ignore */ entry).then(resolve).catch(reject);
+                }
+            } else {
+                resolve(remoteEntryExports);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+async function loadSystemJsEntry({ entry, remoteEntryExports }) {
+    return new Promise((resolve, reject)=>{
+        try {
+            if (!remoteEntryExports) {
+                //@ts-ignore
+                if (false) {} else {
+                    new Function('callbacks', `System.import("${entry}")${importCallback}`)([
+                        resolve,
+                        reject
+                    ]);
+                }
+            } else {
+                resolve(remoteEntryExports);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+function handleRemoteEntryLoaded(name, globalName, entry) {
+    const { remoteEntryKey, entryExports } = getRemoteEntryExports(name, globalName);
+    assert(entryExports, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_001, errorCodes.runtimeDescMap, {
+        remoteName: name,
+        remoteEntryUrl: entry,
+        remoteEntryKey
+    }));
+    return entryExports;
+}
+async function loadEntryScript({ name, globalName, entry, loaderHook }) {
+    const { entryExports: remoteEntryExports } = getRemoteEntryExports(name, globalName);
+    if (remoteEntryExports) {
+        return remoteEntryExports;
+    }
+    return sdk.loadScript(entry, {
+        attrs: {},
+        createScriptHook: (url, attrs)=>{
+            const res = loaderHook.lifecycle.createScript.emit({
+                url,
+                attrs
+            });
+            if (!res) return;
+            if (res instanceof HTMLScriptElement) {
+                return res;
+            }
+            if ('script' in res || 'timeout' in res) {
+                return res;
+            }
+            return;
+        }
+    }).then(()=>{
+        return handleRemoteEntryLoaded(name, globalName, entry);
+    }).catch((e)=>{
+        assert(undefined, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_008, errorCodes.runtimeDescMap, {
+            remoteName: name,
+            resourceUrl: entry
+        }));
+        throw e;
+    });
+}
+async function loadEntryDom({ remoteInfo, remoteEntryExports, loaderHook }) {
+    const { entry, entryGlobalName: globalName, name, type } = remoteInfo;
+    switch(type){
+        case 'esm':
+        case 'module':
+            return loadEsmEntry({
+                entry,
+                remoteEntryExports
+            });
+        case 'system':
+            return loadSystemJsEntry({
+                entry,
+                remoteEntryExports
+            });
+        default:
+            return loadEntryScript({
+                entry,
+                globalName,
+                name,
+                loaderHook
+            });
+    }
+}
+async function loadEntryNode({ remoteInfo, loaderHook }) {
+    const { entry, entryGlobalName: globalName, name, type } = remoteInfo;
+    const { entryExports: remoteEntryExports } = getRemoteEntryExports(name, globalName);
+    if (remoteEntryExports) {
+        return remoteEntryExports;
+    }
+    return sdk.loadScriptNode(entry, {
+        attrs: {
+            name,
+            globalName,
+            type
+        },
+        loaderHook: {
+            createScriptHook: (url, attrs = {})=>{
+                const res = loaderHook.lifecycle.createScript.emit({
+                    url,
+                    attrs
+                });
+                if (!res) return;
+                if ('url' in res) {
+                    return res;
+                }
+                return;
+            }
+        }
+    }).then(()=>{
+        return handleRemoteEntryLoaded(name, globalName, entry);
+    }).catch((e)=>{
+        throw e;
+    });
+}
+function getRemoteEntryUniqueKey(remoteInfo) {
+    const { entry, name } = remoteInfo;
+    return sdk.composeKeyWithSeparator(name, entry);
+}
+async function getRemoteEntry({ origin, remoteEntryExports, remoteInfo }) {
+    const uniqueKey = getRemoteEntryUniqueKey(remoteInfo);
+    if (remoteEntryExports) {
+        return remoteEntryExports;
+    }
+    if (!globalLoading[uniqueKey]) {
+        const loadEntryHook = origin.remoteHandler.hooks.lifecycle.loadEntry;
+        const loaderHook = origin.loaderHook;
+        globalLoading[uniqueKey] = loadEntryHook.emit({
+            loaderHook,
+            remoteInfo,
+            remoteEntryExports
+        }).then((res)=>{
+            if (res) {
+                return res;
+            }
+            // Use ENV_TARGET if defined, otherwise fallback to isBrowserEnv, must keep this
+            const isWebEnvironment = typeof ENV_TARGET !== 'undefined' ? ENV_TARGET === 'web' : sdk.isBrowserEnv();
+            return isWebEnvironment ? loadEntryDom({
+                remoteInfo,
+                remoteEntryExports,
+                loaderHook
+            }) : loadEntryNode({
+                remoteInfo,
+                loaderHook
+            });
+        });
+    }
+    return globalLoading[uniqueKey];
+}
+function getRemoteInfo(remote) {
+    return polyfills._extends({}, remote, {
+        entry: 'entry' in remote ? remote.entry : '',
+        type: remote.type || DEFAULT_REMOTE_TYPE,
+        entryGlobalName: remote.entryGlobalName || remote.name,
+        shareScope: remote.shareScope || DEFAULT_SCOPE
+    });
+}
+
+function defaultPreloadArgs(preloadConfig) {
+    return polyfills._extends({
+        resourceCategory: 'sync',
+        share: true,
+        depsRemote: true,
+        prefetchInterface: false
+    }, preloadConfig);
+}
+function formatPreloadArgs(remotes, preloadArgs) {
+    return preloadArgs.map((args)=>{
+        const remoteInfo = matchRemote(remotes, args.nameOrAlias);
+        assert(remoteInfo, `Unable to preload ${args.nameOrAlias} as it is not included in ${!remoteInfo && sdk.safeToString({
+            remoteInfo,
+            remotes
+        })}`);
+        return {
+            remote: remoteInfo,
+            preloadConfig: defaultPreloadArgs(args)
+        };
+    });
+}
+function normalizePreloadExposes(exposes) {
+    if (!exposes) {
+        return [];
+    }
+    return exposes.map((expose)=>{
+        if (expose === '.') {
+            return expose;
+        }
+        if (expose.startsWith('./')) {
+            return expose.replace('./', '');
+        }
+        return expose;
+    });
+}
+function preloadAssets(remoteInfo, host, assets, // It is used to distinguish preload from load remote parallel loading
+useLinkPreload = true) {
+    const { cssAssets, jsAssetsWithoutEntry, entryAssets } = assets;
+    if (host.options.inBrowser) {
+        entryAssets.forEach((asset)=>{
+            const { moduleInfo } = asset;
+            const module = host.moduleCache.get(remoteInfo.name);
+            if (module) {
+                getRemoteEntry({
+                    origin: host,
+                    remoteInfo: moduleInfo,
+                    remoteEntryExports: module.remoteEntryExports
+                });
+            } else {
+                getRemoteEntry({
+                    origin: host,
+                    remoteInfo: moduleInfo,
+                    remoteEntryExports: undefined
+                });
+            }
+        });
+        if (useLinkPreload) {
+            const defaultAttrs = {
+                rel: 'preload',
+                as: 'style'
+            };
+            cssAssets.forEach((cssUrl)=>{
+                const { link: cssEl, needAttach } = sdk.createLink({
+                    url: cssUrl,
+                    cb: ()=>{
+                    // noop
+                    },
+                    attrs: defaultAttrs,
+                    createLinkHook: (url, attrs)=>{
+                        const res = host.loaderHook.lifecycle.createLink.emit({
+                            url,
+                            attrs
+                        });
+                        if (res instanceof HTMLLinkElement) {
+                            return res;
+                        }
+                        return;
+                    }
+                });
+                needAttach && document.head.appendChild(cssEl);
+            });
+        } else {
+            const defaultAttrs = {
+                rel: 'stylesheet',
+                type: 'text/css'
+            };
+            cssAssets.forEach((cssUrl)=>{
+                const { link: cssEl, needAttach } = sdk.createLink({
+                    url: cssUrl,
+                    cb: ()=>{
+                    // noop
+                    },
+                    attrs: defaultAttrs,
+                    createLinkHook: (url, attrs)=>{
+                        const res = host.loaderHook.lifecycle.createLink.emit({
+                            url,
+                            attrs
+                        });
+                        if (res instanceof HTMLLinkElement) {
+                            return res;
+                        }
+                        return;
+                    },
+                    needDeleteLink: false
+                });
+                needAttach && document.head.appendChild(cssEl);
+            });
+        }
+        if (useLinkPreload) {
+            const defaultAttrs = {
+                rel: 'preload',
+                as: 'script'
+            };
+            jsAssetsWithoutEntry.forEach((jsUrl)=>{
+                const { link: linkEl, needAttach } = sdk.createLink({
+                    url: jsUrl,
+                    cb: ()=>{
+                    // noop
+                    },
+                    attrs: defaultAttrs,
+                    createLinkHook: (url, attrs)=>{
+                        const res = host.loaderHook.lifecycle.createLink.emit({
+                            url,
+                            attrs
+                        });
+                        if (res instanceof HTMLLinkElement) {
+                            return res;
+                        }
+                        return;
+                    }
+                });
+                needAttach && document.head.appendChild(linkEl);
+            });
+        } else {
+            const defaultAttrs = {
+                fetchpriority: 'high',
+                type: (remoteInfo == null ? void 0 : remoteInfo.type) === 'module' ? 'module' : 'text/javascript'
+            };
+            jsAssetsWithoutEntry.forEach((jsUrl)=>{
+                const { script: scriptEl, needAttach } = sdk.createScript({
+                    url: jsUrl,
+                    cb: ()=>{
+                    // noop
+                    },
+                    attrs: defaultAttrs,
+                    createScriptHook: (url, attrs)=>{
+                        const res = host.loaderHook.lifecycle.createScript.emit({
+                            url,
+                            attrs
+                        });
+                        if (res instanceof HTMLScriptElement) {
+                            return res;
+                        }
+                        return;
+                    },
+                    needDeleteScript: true
+                });
+                needAttach && document.head.appendChild(scriptEl);
+            });
+        }
+    }
+}
+
+const ShareUtils = {
+    getRegisteredShare,
+    getGlobalShareScope
+};
+const GlobalUtils = {
+    Global,
+    nativeGlobal,
+    resetFederationGlobalInfo,
+    setGlobalFederationInstance,
+    getGlobalFederationConstructor,
+    setGlobalFederationConstructor,
+    getInfoWithoutType,
+    getGlobalSnapshot,
+    getTargetSnapshotInfoByModuleInfo,
+    getGlobalSnapshotInfoByModuleInfo,
+    setGlobalSnapshotInfoByModuleInfo,
+    addGlobalSnapshot,
+    getRemoteEntryExports,
+    registerGlobalPlugins,
+    getGlobalHostPlugins,
+    getPreloaded,
+    setPreloaded
+};
+var helpers = {
+    global: GlobalUtils,
+    share: ShareUtils,
+    utils: {
+        matchRemoteWithNameAndExpose,
+        preloadAssets,
+        getRemoteInfo
+    }
+};
+
+let Module = class Module {
+    async getEntry() {
+        if (this.remoteEntryExports) {
+            return this.remoteEntryExports;
+        }
+        let remoteEntryExports;
+        try {
+            remoteEntryExports = await getRemoteEntry({
+                origin: this.host,
+                remoteInfo: this.remoteInfo,
+                remoteEntryExports: this.remoteEntryExports
+            });
+        } catch (err) {
+            const uniqueKey = getRemoteEntryUniqueKey(this.remoteInfo);
+            remoteEntryExports = await this.host.loaderHook.lifecycle.loadEntryError.emit({
+                getRemoteEntry,
+                origin: this.host,
+                remoteInfo: this.remoteInfo,
+                remoteEntryExports: this.remoteEntryExports,
+                globalLoading,
+                uniqueKey
+            });
+        }
+        assert(remoteEntryExports, `remoteEntryExports is undefined \n ${sdk.safeToString(this.remoteInfo)}`);
+        this.remoteEntryExports = remoteEntryExports;
+        return this.remoteEntryExports;
+    }
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    async get(id, expose, options, remoteSnapshot) {
+        const { loadFactory = true } = options || {
+            loadFactory: true
+        };
+        // Get remoteEntry.js
+        const remoteEntryExports = await this.getEntry();
+        if (!this.inited) {
+            const localShareScopeMap = this.host.shareScopeMap;
+            const shareScopeKeys = Array.isArray(this.remoteInfo.shareScope) ? this.remoteInfo.shareScope : [
+                this.remoteInfo.shareScope
+            ];
+            if (!shareScopeKeys.length) {
+                shareScopeKeys.push('default');
+            }
+            shareScopeKeys.forEach((shareScopeKey)=>{
+                if (!localShareScopeMap[shareScopeKey]) {
+                    localShareScopeMap[shareScopeKey] = {};
+                }
+            });
+            // TODO: compate legacy init params, should use shareScopeMap if exist
+            const shareScope = localShareScopeMap[shareScopeKeys[0]];
+            const initScope = [];
+            const remoteEntryInitOptions = {
+                version: this.remoteInfo.version || '',
+                shareScopeKeys: Array.isArray(this.remoteInfo.shareScope) ? shareScopeKeys : this.remoteInfo.shareScope || 'default'
+            };
+            // Help to find host instance
+            Object.defineProperty(remoteEntryInitOptions, 'shareScopeMap', {
+                value: localShareScopeMap,
+                // remoteEntryInitOptions will be traversed and assigned during container init, ,so this attribute is not allowed to be traversed
+                enumerable: false
+            });
+            const initContainerOptions = await this.host.hooks.lifecycle.beforeInitContainer.emit({
+                shareScope,
+                // @ts-ignore shareScopeMap will be set by Object.defineProperty
+                remoteEntryInitOptions,
+                initScope,
+                remoteInfo: this.remoteInfo,
+                origin: this.host
+            });
+            if (typeof (remoteEntryExports == null ? void 0 : remoteEntryExports.init) === 'undefined') {
+                error(errorCodes.getShortErrorMsg(errorCodes.RUNTIME_002, errorCodes.runtimeDescMap, {
+                    hostName: this.host.name,
+                    remoteName: this.remoteInfo.name,
+                    remoteEntryUrl: this.remoteInfo.entry,
+                    remoteEntryKey: this.remoteInfo.entryGlobalName
+                }));
+            }
+            await remoteEntryExports.init(initContainerOptions.shareScope, initContainerOptions.initScope, initContainerOptions.remoteEntryInitOptions);
+            await this.host.hooks.lifecycle.initContainer.emit(polyfills._extends({}, initContainerOptions, {
+                id,
+                remoteSnapshot,
+                remoteEntryExports
+            }));
+        }
+        this.lib = remoteEntryExports;
+        this.inited = true;
+        let moduleFactory;
+        moduleFactory = await this.host.loaderHook.lifecycle.getModuleFactory.emit({
+            remoteEntryExports,
+            expose,
+            moduleInfo: this.remoteInfo
+        });
+        // get exposeGetter
+        if (!moduleFactory) {
+            moduleFactory = await remoteEntryExports.get(expose);
+        }
+        assert(moduleFactory, `${getFMId(this.remoteInfo)} remote don't export ${expose}.`);
+        // keep symbol for module name always one format
+        const symbolName = processModuleAlias(this.remoteInfo.name, expose);
+        const wrapModuleFactory = this.wraperFactory(moduleFactory, symbolName);
+        if (!loadFactory) {
+            return wrapModuleFactory;
+        }
+        const exposeContent = await wrapModuleFactory();
+        return exposeContent;
+    }
+    wraperFactory(moduleFactory, id) {
+        function defineModuleId(res, id) {
+            if (res && typeof res === 'object' && Object.isExtensible(res) && !Object.getOwnPropertyDescriptor(res, Symbol.for('mf_module_id'))) {
+                Object.defineProperty(res, Symbol.for('mf_module_id'), {
+                    value: id,
+                    enumerable: false
+                });
+            }
+        }
+        if (moduleFactory instanceof Promise) {
+            return async ()=>{
+                const res = await moduleFactory();
+                // This parameter is used for bridge debugging
+                defineModuleId(res, id);
+                return res;
+            };
+        } else {
+            return ()=>{
+                const res = moduleFactory();
+                // This parameter is used for bridge debugging
+                defineModuleId(res, id);
+                return res;
+            };
+        }
+    }
+    constructor({ remoteInfo, host }){
+        this.inited = false;
+        this.lib = undefined;
+        this.remoteInfo = remoteInfo;
+        this.host = host;
+    }
+};
+
+class SyncHook {
+    on(fn) {
+        if (typeof fn === 'function') {
+            this.listeners.add(fn);
+        }
+    }
+    once(fn) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const self = this;
+        this.on(function wrapper(...args) {
+            self.remove(wrapper);
+            // eslint-disable-next-line prefer-spread
+            return fn.apply(null, args);
+        });
+    }
+    emit(...data) {
+        let result;
+        if (this.listeners.size > 0) {
+            // eslint-disable-next-line prefer-spread
+            this.listeners.forEach((fn)=>{
+                result = fn(...data);
+            });
+        }
+        return result;
+    }
+    remove(fn) {
+        this.listeners.delete(fn);
+    }
+    removeAll() {
+        this.listeners.clear();
+    }
+    constructor(type){
+        this.type = '';
+        this.listeners = new Set();
+        if (type) {
+            this.type = type;
+        }
+    }
+}
+
+class AsyncHook extends SyncHook {
+    emit(...data) {
+        let result;
+        const ls = Array.from(this.listeners);
+        if (ls.length > 0) {
+            let i = 0;
+            const call = (prev)=>{
+                if (prev === false) {
+                    return false; // Abort process
+                } else if (i < ls.length) {
+                    return Promise.resolve(ls[i++].apply(null, data)).then(call);
+                } else {
+                    return prev;
+                }
+            };
+            result = call();
+        }
+        return Promise.resolve(result);
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function checkReturnData(originalData, returnedData) {
+    if (!isObject(returnedData)) {
+        return false;
+    }
+    if (originalData !== returnedData) {
+        // eslint-disable-next-line no-restricted-syntax
+        for(const key in originalData){
+            if (!(key in returnedData)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+class SyncWaterfallHook extends SyncHook {
+    emit(data) {
+        if (!isObject(data)) {
+            error(`The data for the "${this.type}" hook should be an object.`);
+        }
+        for (const fn of this.listeners){
+            try {
+                const tempData = fn(data);
+                if (checkReturnData(data, tempData)) {
+                    data = tempData;
+                } else {
+                    this.onerror(`A plugin returned an unacceptable value for the "${this.type}" type.`);
+                    break;
+                }
+            } catch (e) {
+                warn(e);
+                this.onerror(e);
+            }
+        }
+        return data;
+    }
+    constructor(type){
+        super(), this.onerror = error;
+        this.type = type;
+    }
+}
+
+class AsyncWaterfallHook extends SyncHook {
+    emit(data) {
+        if (!isObject(data)) {
+            error(`The response data for the "${this.type}" hook must be an object.`);
+        }
+        const ls = Array.from(this.listeners);
+        if (ls.length > 0) {
+            let i = 0;
+            const processError = (e)=>{
+                warn(e);
+                this.onerror(e);
+                return data;
+            };
+            const call = (prevData)=>{
+                if (checkReturnData(data, prevData)) {
+                    data = prevData;
+                    if (i < ls.length) {
+                        try {
+                            return Promise.resolve(ls[i++](data)).then(call, processError);
+                        } catch (e) {
+                            return processError(e);
+                        }
+                    }
+                } else {
+                    this.onerror(`A plugin returned an incorrect value for the "${this.type}" type.`);
+                }
+                return data;
+            };
+            return Promise.resolve(call(data));
+        }
+        return Promise.resolve(data);
+    }
+    constructor(type){
+        super(), this.onerror = error;
+        this.type = type;
+    }
+}
+
+class PluginSystem {
+    applyPlugin(plugin, instance) {
+        assert(isPlainObject(plugin), 'Plugin configuration is invalid.');
+        // The plugin's name is mandatory and must be unique
+        const pluginName = plugin.name;
+        assert(pluginName, 'A name must be provided by the plugin.');
+        if (!this.registerPlugins[pluginName]) {
+            this.registerPlugins[pluginName] = plugin;
+            plugin.apply == null ? void 0 : plugin.apply.call(plugin, instance);
+            Object.keys(this.lifecycle).forEach((key)=>{
+                const pluginLife = plugin[key];
+                if (pluginLife) {
+                    this.lifecycle[key].on(pluginLife);
+                }
+            });
+        }
+    }
+    removePlugin(pluginName) {
+        assert(pluginName, 'A name is required.');
+        const plugin = this.registerPlugins[pluginName];
+        assert(plugin, `The plugin "${pluginName}" is not registered.`);
+        Object.keys(plugin).forEach((key)=>{
+            if (key !== 'name') {
+                this.lifecycle[key].remove(plugin[key]);
+            }
+        });
+    }
+    constructor(lifecycle){
+        this.registerPlugins = {};
+        this.lifecycle = lifecycle;
+        this.lifecycleKeys = Object.keys(lifecycle);
+    }
+}
+
+function assignRemoteInfo(remoteInfo, remoteSnapshot) {
+    const remoteEntryInfo = getRemoteEntryInfoFromSnapshot(remoteSnapshot);
+    if (!remoteEntryInfo.url) {
+        error(`The attribute remoteEntry of ${remoteInfo.name} must not be undefined.`);
+    }
+    let entryUrl = sdk.getResourceUrl(remoteSnapshot, remoteEntryInfo.url);
+    if (!sdk.isBrowserEnv() && !entryUrl.startsWith('http')) {
+        entryUrl = `https:${entryUrl}`;
+    }
+    remoteInfo.type = remoteEntryInfo.type;
+    remoteInfo.entryGlobalName = remoteEntryInfo.globalName;
+    remoteInfo.entry = entryUrl;
+    remoteInfo.version = remoteSnapshot.version;
+    remoteInfo.buildVersion = remoteSnapshot.buildVersion;
+}
+function snapshotPlugin() {
+    return {
+        name: 'snapshot-plugin',
+        async afterResolve (args) {
+            const { remote, pkgNameOrAlias, expose, origin, remoteInfo, id } = args;
+            if (!isRemoteInfoWithEntry(remote) || !isPureRemoteEntry(remote)) {
+                const { remoteSnapshot, globalSnapshot } = await origin.snapshotHandler.loadRemoteSnapshotInfo({
+                    moduleInfo: remote,
+                    id
+                });
+                assignRemoteInfo(remoteInfo, remoteSnapshot);
+                // preloading assets
+                const preloadOptions = {
+                    remote,
+                    preloadConfig: {
+                        nameOrAlias: pkgNameOrAlias,
+                        exposes: [
+                            expose
+                        ],
+                        resourceCategory: 'sync',
+                        share: false,
+                        depsRemote: false
+                    }
+                };
+                const assets = await origin.remoteHandler.hooks.lifecycle.generatePreloadAssets.emit({
+                    origin,
+                    preloadOptions,
+                    remoteInfo,
+                    remote,
+                    remoteSnapshot,
+                    globalSnapshot
+                });
+                if (assets) {
+                    preloadAssets(remoteInfo, origin, assets, false);
+                }
+                return polyfills._extends({}, args, {
+                    remoteSnapshot
+                });
+            }
+            return args;
+        }
+    };
+}
+
+// name
+// name:version
+function splitId(id) {
+    const splitInfo = id.split(':');
+    if (splitInfo.length === 1) {
+        return {
+            name: splitInfo[0],
+            version: undefined
+        };
+    } else if (splitInfo.length === 2) {
+        return {
+            name: splitInfo[0],
+            version: splitInfo[1]
+        };
+    } else {
+        return {
+            name: splitInfo[1],
+            version: splitInfo[2]
+        };
+    }
+}
+// Traverse all nodes in moduleInfo and traverse the entire snapshot
+function traverseModuleInfo(globalSnapshot, remoteInfo, traverse, isRoot, memo = {}, remoteSnapshot) {
+    const id = getFMId(remoteInfo);
+    const { value: snapshotValue } = getInfoWithoutType(globalSnapshot, id);
+    const effectiveRemoteSnapshot = remoteSnapshot || snapshotValue;
+    if (effectiveRemoteSnapshot && !sdk.isManifestProvider(effectiveRemoteSnapshot)) {
+        traverse(effectiveRemoteSnapshot, remoteInfo, isRoot);
+        if (effectiveRemoteSnapshot.remotesInfo) {
+            const remoteKeys = Object.keys(effectiveRemoteSnapshot.remotesInfo);
+            for (const key of remoteKeys){
+                if (memo[key]) {
+                    continue;
+                }
+                memo[key] = true;
+                const subRemoteInfo = splitId(key);
+                const remoteValue = effectiveRemoteSnapshot.remotesInfo[key];
+                traverseModuleInfo(globalSnapshot, {
+                    name: subRemoteInfo.name,
+                    version: remoteValue.matchedVersion
+                }, traverse, false, memo, undefined);
+            }
+        }
+    }
+}
+const isExisted = (type, url)=>{
+    return document.querySelector(`${type}[${type === 'link' ? 'href' : 'src'}="${url}"]`);
+};
+// eslint-disable-next-line max-lines-per-function
+function generatePreloadAssets(origin, preloadOptions, remote, globalSnapshot, remoteSnapshot) {
+    const cssAssets = [];
+    const jsAssets = [];
+    const entryAssets = [];
+    const loadedSharedJsAssets = new Set();
+    const loadedSharedCssAssets = new Set();
+    const { options } = origin;
+    const { preloadConfig: rootPreloadConfig } = preloadOptions;
+    const { depsRemote } = rootPreloadConfig;
+    const memo = {};
+    traverseModuleInfo(globalSnapshot, remote, (moduleInfoSnapshot, remoteInfo, isRoot)=>{
+        let preloadConfig;
+        if (isRoot) {
+            preloadConfig = rootPreloadConfig;
+        } else {
+            if (Array.isArray(depsRemote)) {
+                // eslint-disable-next-line array-callback-return
+                const findPreloadConfig = depsRemote.find((remoteConfig)=>{
+                    if (remoteConfig.nameOrAlias === remoteInfo.name || remoteConfig.nameOrAlias === remoteInfo.alias) {
+                        return true;
+                    }
+                    return false;
+                });
+                if (!findPreloadConfig) {
+                    return;
+                }
+                preloadConfig = defaultPreloadArgs(findPreloadConfig);
+            } else if (depsRemote === true) {
+                preloadConfig = rootPreloadConfig;
+            } else {
+                return;
+            }
+        }
+        const remoteEntryUrl = sdk.getResourceUrl(moduleInfoSnapshot, getRemoteEntryInfoFromSnapshot(moduleInfoSnapshot).url);
+        if (remoteEntryUrl) {
+            entryAssets.push({
+                name: remoteInfo.name,
+                moduleInfo: {
+                    name: remoteInfo.name,
+                    entry: remoteEntryUrl,
+                    type: 'remoteEntryType' in moduleInfoSnapshot ? moduleInfoSnapshot.remoteEntryType : 'global',
+                    entryGlobalName: 'globalName' in moduleInfoSnapshot ? moduleInfoSnapshot.globalName : remoteInfo.name,
+                    shareScope: '',
+                    version: 'version' in moduleInfoSnapshot ? moduleInfoSnapshot.version : undefined
+                },
+                url: remoteEntryUrl
+            });
+        }
+        let moduleAssetsInfo = 'modules' in moduleInfoSnapshot ? moduleInfoSnapshot.modules : [];
+        const normalizedPreloadExposes = normalizePreloadExposes(preloadConfig.exposes);
+        if (normalizedPreloadExposes.length && 'modules' in moduleInfoSnapshot) {
+            var _moduleInfoSnapshot_modules;
+            moduleAssetsInfo = moduleInfoSnapshot == null ? void 0 : (_moduleInfoSnapshot_modules = moduleInfoSnapshot.modules) == null ? void 0 : _moduleInfoSnapshot_modules.reduce((assets, moduleAssetInfo)=>{
+                if ((normalizedPreloadExposes == null ? void 0 : normalizedPreloadExposes.indexOf(moduleAssetInfo.moduleName)) !== -1) {
+                    assets.push(moduleAssetInfo);
+                }
+                return assets;
+            }, []);
+        }
+        function handleAssets(assets) {
+            const assetsRes = assets.map((asset)=>sdk.getResourceUrl(moduleInfoSnapshot, asset));
+            if (preloadConfig.filter) {
+                return assetsRes.filter(preloadConfig.filter);
+            }
+            return assetsRes;
+        }
+        if (moduleAssetsInfo) {
+            const assetsLength = moduleAssetsInfo.length;
+            for(let index = 0; index < assetsLength; index++){
+                const assetsInfo = moduleAssetsInfo[index];
+                const exposeFullPath = `${remoteInfo.name}/${assetsInfo.moduleName}`;
+                origin.remoteHandler.hooks.lifecycle.handlePreloadModule.emit({
+                    id: assetsInfo.moduleName === '.' ? remoteInfo.name : exposeFullPath,
+                    name: remoteInfo.name,
+                    remoteSnapshot: moduleInfoSnapshot,
+                    preloadConfig,
+                    remote: remoteInfo,
+                    origin
+                });
+                const preloaded = getPreloaded(exposeFullPath);
+                if (preloaded) {
+                    continue;
+                }
+                if (preloadConfig.resourceCategory === 'all') {
+                    cssAssets.push(...handleAssets(assetsInfo.assets.css.async));
+                    cssAssets.push(...handleAssets(assetsInfo.assets.css.sync));
+                    jsAssets.push(...handleAssets(assetsInfo.assets.js.async));
+                    jsAssets.push(...handleAssets(assetsInfo.assets.js.sync));
+                // eslint-disable-next-line no-constant-condition
+                } else if (preloadConfig.resourceCategory = 'sync') {
+                    cssAssets.push(...handleAssets(assetsInfo.assets.css.sync));
+                    jsAssets.push(...handleAssets(assetsInfo.assets.js.sync));
+                }
+                setPreloaded(exposeFullPath);
+            }
+        }
+    }, true, memo, remoteSnapshot);
+    if (remoteSnapshot.shared && remoteSnapshot.shared.length > 0) {
+        const collectSharedAssets = (shareInfo, snapshotShared)=>{
+            const registeredShared = getRegisteredShare(origin.shareScopeMap, snapshotShared.sharedName, shareInfo, origin.sharedHandler.hooks.lifecycle.resolveShare);
+            // If the global share does not exist, or the lib function does not exist, it means that the shared has not been loaded yet and can be preloaded.
+            if (registeredShared && typeof registeredShared.lib === 'function') {
+                snapshotShared.assets.js.sync.forEach((asset)=>{
+                    loadedSharedJsAssets.add(asset);
+                });
+                snapshotShared.assets.css.sync.forEach((asset)=>{
+                    loadedSharedCssAssets.add(asset);
+                });
+            }
+        };
+        remoteSnapshot.shared.forEach((shared)=>{
+            var _options_shared;
+            const shareInfos = (_options_shared = options.shared) == null ? void 0 : _options_shared[shared.sharedName];
+            if (!shareInfos) {
+                return;
+            }
+            // if no version, preload all shared
+            const sharedOptions = shared.version ? shareInfos.find((s)=>s.version === shared.version) : shareInfos;
+            if (!sharedOptions) {
+                return;
+            }
+            const arrayShareInfo = arrayOptions(sharedOptions);
+            arrayShareInfo.forEach((s)=>{
+                collectSharedAssets(s, shared);
+            });
+        });
+    }
+    const needPreloadJsAssets = jsAssets.filter((asset)=>!loadedSharedJsAssets.has(asset) && !isExisted('script', asset));
+    const needPreloadCssAssets = cssAssets.filter((asset)=>!loadedSharedCssAssets.has(asset) && !isExisted('link', asset));
+    return {
+        cssAssets: needPreloadCssAssets,
+        jsAssetsWithoutEntry: needPreloadJsAssets,
+        entryAssets: entryAssets.filter((entry)=>!isExisted('script', entry.url))
+    };
+}
+const generatePreloadAssetsPlugin = function() {
+    return {
+        name: 'generate-preload-assets-plugin',
+        async generatePreloadAssets (args) {
+            const { origin, preloadOptions, remoteInfo, remote, globalSnapshot, remoteSnapshot } = args;
+            if (!sdk.isBrowserEnv()) {
+                return {
+                    cssAssets: [],
+                    jsAssetsWithoutEntry: [],
+                    entryAssets: []
+                };
+            }
+            if (isRemoteInfoWithEntry(remote) && isPureRemoteEntry(remote)) {
+                return {
+                    cssAssets: [],
+                    jsAssetsWithoutEntry: [],
+                    entryAssets: [
+                        {
+                            name: remote.name,
+                            url: remote.entry,
+                            moduleInfo: {
+                                name: remoteInfo.name,
+                                entry: remote.entry,
+                                type: remoteInfo.type || 'global',
+                                entryGlobalName: '',
+                                shareScope: ''
+                            }
+                        }
+                    ]
+                };
+            }
+            assignRemoteInfo(remoteInfo, remoteSnapshot);
+            const assets = generatePreloadAssets(origin, preloadOptions, remoteInfo, globalSnapshot, remoteSnapshot);
+            return assets;
+        }
+    };
+};
+
+function getGlobalRemoteInfo(moduleInfo, origin) {
+    const hostGlobalSnapshot = getGlobalSnapshotInfoByModuleInfo({
+        name: origin.name,
+        version: origin.options.version
+    });
+    // get remote detail info from global
+    const globalRemoteInfo = hostGlobalSnapshot && 'remotesInfo' in hostGlobalSnapshot && hostGlobalSnapshot.remotesInfo && getInfoWithoutType(hostGlobalSnapshot.remotesInfo, moduleInfo.name).value;
+    if (globalRemoteInfo && globalRemoteInfo.matchedVersion) {
+        return {
+            hostGlobalSnapshot,
+            globalSnapshot: getGlobalSnapshot(),
+            remoteSnapshot: getGlobalSnapshotInfoByModuleInfo({
+                name: moduleInfo.name,
+                version: globalRemoteInfo.matchedVersion
+            })
+        };
+    }
+    return {
+        hostGlobalSnapshot: undefined,
+        globalSnapshot: getGlobalSnapshot(),
+        remoteSnapshot: getGlobalSnapshotInfoByModuleInfo({
+            name: moduleInfo.name,
+            version: 'version' in moduleInfo ? moduleInfo.version : undefined
+        })
+    };
+}
+class SnapshotHandler {
+    // eslint-disable-next-line max-lines-per-function
+    async loadRemoteSnapshotInfo({ moduleInfo, id, expose }) {
+        const { options } = this.HostInstance;
+        await this.hooks.lifecycle.beforeLoadRemoteSnapshot.emit({
+            options,
+            moduleInfo
+        });
+        let hostSnapshot = getGlobalSnapshotInfoByModuleInfo({
+            name: this.HostInstance.options.name,
+            version: this.HostInstance.options.version
+        });
+        if (!hostSnapshot) {
+            hostSnapshot = {
+                version: this.HostInstance.options.version || '',
+                remoteEntry: '',
+                remotesInfo: {}
+            };
+            addGlobalSnapshot({
+                [this.HostInstance.options.name]: hostSnapshot
+            });
+        }
+        // In dynamic loadRemote scenarios, incomplete remotesInfo delivery may occur. In such cases, the remotesInfo in the host needs to be completed in the snapshot at runtime.
+        // This ensures the snapshot's integrity and helps the chrome plugin correctly identify all producer modules, ensuring that proxyable producer modules will not be missing.
+        if (hostSnapshot && 'remotesInfo' in hostSnapshot && !getInfoWithoutType(hostSnapshot.remotesInfo, moduleInfo.name).value) {
+            if ('version' in moduleInfo || 'entry' in moduleInfo) {
+                hostSnapshot.remotesInfo = polyfills._extends({}, hostSnapshot == null ? void 0 : hostSnapshot.remotesInfo, {
+                    [moduleInfo.name]: {
+                        matchedVersion: 'version' in moduleInfo ? moduleInfo.version : moduleInfo.entry
+                    }
+                });
+            }
+        }
+        const { hostGlobalSnapshot, remoteSnapshot, globalSnapshot } = this.getGlobalRemoteInfo(moduleInfo);
+        const { remoteSnapshot: globalRemoteSnapshot, globalSnapshot: globalSnapshotRes } = await this.hooks.lifecycle.loadSnapshot.emit({
+            options,
+            moduleInfo,
+            hostGlobalSnapshot,
+            remoteSnapshot,
+            globalSnapshot
+        });
+        let mSnapshot;
+        let gSnapshot;
+        // global snapshot includes manifest or module info includes manifest
+        if (globalRemoteSnapshot) {
+            if (sdk.isManifestProvider(globalRemoteSnapshot)) {
+                const remoteEntry = sdk.isBrowserEnv() ? globalRemoteSnapshot.remoteEntry : globalRemoteSnapshot.ssrRemoteEntry || globalRemoteSnapshot.remoteEntry || '';
+                const moduleSnapshot = await this.getManifestJson(remoteEntry, moduleInfo, {});
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                const globalSnapshotRes = setGlobalSnapshotInfoByModuleInfo(polyfills._extends({}, moduleInfo, {
+                    // The global remote may be overridden
+                    // Therefore, set the snapshot key to the global address of the actual request
+                    entry: remoteEntry
+                }), moduleSnapshot);
+                mSnapshot = moduleSnapshot;
+                gSnapshot = globalSnapshotRes;
+            } else {
+                const { remoteSnapshot: remoteSnapshotRes } = await this.hooks.lifecycle.loadRemoteSnapshot.emit({
+                    options: this.HostInstance.options,
+                    moduleInfo,
+                    remoteSnapshot: globalRemoteSnapshot,
+                    from: 'global'
+                });
+                mSnapshot = remoteSnapshotRes;
+                gSnapshot = globalSnapshotRes;
+            }
+        } else {
+            if (isRemoteInfoWithEntry(moduleInfo)) {
+                // get from manifest.json and merge remote info from remote server
+                const moduleSnapshot = await this.getManifestJson(moduleInfo.entry, moduleInfo, {});
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                const globalSnapshotRes = setGlobalSnapshotInfoByModuleInfo(moduleInfo, moduleSnapshot);
+                const { remoteSnapshot: remoteSnapshotRes } = await this.hooks.lifecycle.loadRemoteSnapshot.emit({
+                    options: this.HostInstance.options,
+                    moduleInfo,
+                    remoteSnapshot: moduleSnapshot,
+                    from: 'global'
+                });
+                mSnapshot = remoteSnapshotRes;
+                gSnapshot = globalSnapshotRes;
+            } else {
+                error(errorCodes.getShortErrorMsg(errorCodes.RUNTIME_007, errorCodes.runtimeDescMap, {
+                    hostName: moduleInfo.name,
+                    hostVersion: moduleInfo.version,
+                    globalSnapshot: JSON.stringify(globalSnapshotRes)
+                }));
+            }
+        }
+        await this.hooks.lifecycle.afterLoadSnapshot.emit({
+            id,
+            host: this.HostInstance,
+            options,
+            moduleInfo,
+            remoteSnapshot: mSnapshot
+        });
+        return {
+            remoteSnapshot: mSnapshot,
+            globalSnapshot: gSnapshot
+        };
+    }
+    getGlobalRemoteInfo(moduleInfo) {
+        return getGlobalRemoteInfo(moduleInfo, this.HostInstance);
+    }
+    async getManifestJson(manifestUrl, moduleInfo, extraOptions) {
+        const getManifest = async ()=>{
+            let manifestJson = this.manifestCache.get(manifestUrl);
+            if (manifestJson) {
+                return manifestJson;
+            }
+            try {
+                let res = await this.loaderHook.lifecycle.fetch.emit(manifestUrl, {});
+                if (!res || !(res instanceof Response)) {
+                    res = await fetch(manifestUrl, {});
+                }
+                manifestJson = await res.json();
+            } catch (err) {
+                manifestJson = await this.HostInstance.remoteHandler.hooks.lifecycle.errorLoadRemote.emit({
+                    id: manifestUrl,
+                    error: err,
+                    from: 'runtime',
+                    lifecycle: 'afterResolve',
+                    origin: this.HostInstance
+                });
+                if (!manifestJson) {
+                    delete this.manifestLoading[manifestUrl];
+                    error(errorCodes.getShortErrorMsg(errorCodes.RUNTIME_003, errorCodes.runtimeDescMap, {
+                        manifestUrl,
+                        moduleName: moduleInfo.name,
+                        hostName: this.HostInstance.options.name
+                    }, `${err}`));
+                }
+            }
+            assert(manifestJson.metaData && manifestJson.exposes && manifestJson.shared, `${manifestUrl} is not a federation manifest`);
+            this.manifestCache.set(manifestUrl, manifestJson);
+            return manifestJson;
+        };
+        const asyncLoadProcess = async ()=>{
+            const manifestJson = await getManifest();
+            const remoteSnapshot = sdk.generateSnapshotFromManifest(manifestJson, {
+                version: manifestUrl
+            });
+            const { remoteSnapshot: remoteSnapshotRes } = await this.hooks.lifecycle.loadRemoteSnapshot.emit({
+                options: this.HostInstance.options,
+                moduleInfo,
+                manifestJson,
+                remoteSnapshot,
+                manifestUrl,
+                from: 'manifest'
+            });
+            return remoteSnapshotRes;
+        };
+        if (!this.manifestLoading[manifestUrl]) {
+            this.manifestLoading[manifestUrl] = asyncLoadProcess().then((res)=>res);
+        }
+        return this.manifestLoading[manifestUrl];
+    }
+    constructor(HostInstance){
+        this.loadingHostSnapshot = null;
+        this.manifestCache = new Map();
+        this.hooks = new PluginSystem({
+            beforeLoadRemoteSnapshot: new AsyncHook('beforeLoadRemoteSnapshot'),
+            loadSnapshot: new AsyncWaterfallHook('loadGlobalSnapshot'),
+            loadRemoteSnapshot: new AsyncWaterfallHook('loadRemoteSnapshot'),
+            afterLoadSnapshot: new AsyncWaterfallHook('afterLoadSnapshot')
+        });
+        this.manifestLoading = Global.__FEDERATION__.__MANIFEST_LOADING__;
+        this.HostInstance = HostInstance;
+        this.loaderHook = HostInstance.loaderHook;
+    }
+}
+
+class SharedHandler {
+    // register shared in shareScopeMap
+    registerShared(globalOptions, userOptions) {
+        const { shareInfos, shared } = formatShareConfigs(globalOptions, userOptions);
+        const sharedKeys = Object.keys(shareInfos);
+        sharedKeys.forEach((sharedKey)=>{
+            const sharedVals = shareInfos[sharedKey];
+            sharedVals.forEach((sharedVal)=>{
+                const registeredShared = getRegisteredShare(this.shareScopeMap, sharedKey, sharedVal, this.hooks.lifecycle.resolveShare);
+                if (!registeredShared && sharedVal && sharedVal.lib) {
+                    this.setShared({
+                        pkgName: sharedKey,
+                        lib: sharedVal.lib,
+                        get: sharedVal.get,
+                        loaded: true,
+                        shared: sharedVal,
+                        from: userOptions.name
+                    });
+                }
+            });
+        });
+        return {
+            shareInfos,
+            shared
+        };
+    }
+    async loadShare(pkgName, extraOptions) {
+        const { host } = this;
+        // This function performs the following steps:
+        // 1. Checks if the currently loaded share already exists, if not, it throws an error
+        // 2. Searches globally for a matching share, if found, it uses it directly
+        // 3. If not found, it retrieves it from the current share and stores the obtained share globally.
+        const shareInfo = getTargetSharedOptions({
+            pkgName,
+            extraOptions,
+            shareInfos: host.options.shared
+        });
+        if (shareInfo == null ? void 0 : shareInfo.scope) {
+            await Promise.all(shareInfo.scope.map(async (shareScope)=>{
+                await Promise.all(this.initializeSharing(shareScope, {
+                    strategy: shareInfo.strategy
+                }));
+                return;
+            }));
+        }
+        const loadShareRes = await this.hooks.lifecycle.beforeLoadShare.emit({
+            pkgName,
+            shareInfo,
+            shared: host.options.shared,
+            origin: host
+        });
+        const { shareInfo: shareInfoRes } = loadShareRes;
+        // Assert that shareInfoRes exists, if not, throw an error
+        assert(shareInfoRes, `Cannot find ${pkgName} Share in the ${host.options.name}. Please ensure that the ${pkgName} Share parameters have been injected`);
+        // Retrieve from cache
+        const registeredShared = getRegisteredShare(this.shareScopeMap, pkgName, shareInfoRes, this.hooks.lifecycle.resolveShare);
+        const addUseIn = (shared)=>{
+            if (!shared.useIn) {
+                shared.useIn = [];
+            }
+            addUniqueItem(shared.useIn, host.options.name);
+        };
+        if (registeredShared && registeredShared.lib) {
+            addUseIn(registeredShared);
+            return registeredShared.lib;
+        } else if (registeredShared && registeredShared.loading && !registeredShared.loaded) {
+            const factory = await registeredShared.loading;
+            registeredShared.loaded = true;
+            if (!registeredShared.lib) {
+                registeredShared.lib = factory;
+            }
+            addUseIn(registeredShared);
+            return factory;
+        } else if (registeredShared) {
+            const asyncLoadProcess = async ()=>{
+                const factory = await registeredShared.get();
+                shareInfoRes.lib = factory;
+                shareInfoRes.loaded = true;
+                addUseIn(shareInfoRes);
+                const gShared = getRegisteredShare(this.shareScopeMap, pkgName, shareInfoRes, this.hooks.lifecycle.resolveShare);
+                if (gShared) {
+                    gShared.lib = factory;
+                    gShared.loaded = true;
+                }
+                return factory;
+            };
+            const loading = asyncLoadProcess();
+            this.setShared({
+                pkgName,
+                loaded: false,
+                shared: registeredShared,
+                from: host.options.name,
+                lib: null,
+                loading
+            });
+            return loading;
+        } else {
+            if (extraOptions == null ? void 0 : extraOptions.customShareInfo) {
+                return false;
+            }
+            const asyncLoadProcess = async ()=>{
+                const factory = await shareInfoRes.get();
+                shareInfoRes.lib = factory;
+                shareInfoRes.loaded = true;
+                addUseIn(shareInfoRes);
+                const gShared = getRegisteredShare(this.shareScopeMap, pkgName, shareInfoRes, this.hooks.lifecycle.resolveShare);
+                if (gShared) {
+                    gShared.lib = factory;
+                    gShared.loaded = true;
+                }
+                return factory;
+            };
+            const loading = asyncLoadProcess();
+            this.setShared({
+                pkgName,
+                loaded: false,
+                shared: shareInfoRes,
+                from: host.options.name,
+                lib: null,
+                loading
+            });
+            return loading;
+        }
+    }
+    /**
+   * This function initializes the sharing sequence (executed only once per share scope).
+   * It accepts one argument, the name of the share scope.
+   * If the share scope does not exist, it creates one.
+   */ // eslint-disable-next-line @typescript-eslint/member-ordering
+    initializeSharing(shareScopeName = DEFAULT_SCOPE, extraOptions) {
+        const { host } = this;
+        const from = extraOptions == null ? void 0 : extraOptions.from;
+        const strategy = extraOptions == null ? void 0 : extraOptions.strategy;
+        let initScope = extraOptions == null ? void 0 : extraOptions.initScope;
+        const promises = [];
+        if (from !== 'build') {
+            const { initTokens } = this;
+            if (!initScope) initScope = [];
+            let initToken = initTokens[shareScopeName];
+            if (!initToken) initToken = initTokens[shareScopeName] = {
+                from: this.host.name
+            };
+            if (initScope.indexOf(initToken) >= 0) return promises;
+            initScope.push(initToken);
+        }
+        const shareScope = this.shareScopeMap;
+        const hostName = host.options.name;
+        // Creates a new share scope if necessary
+        if (!shareScope[shareScopeName]) {
+            shareScope[shareScopeName] = {};
+        }
+        // Executes all initialization snippets from all accessible modules
+        const scope = shareScope[shareScopeName];
+        const register = (name, shared)=>{
+            var _activeVersion_shareConfig;
+            const { version, eager } = shared;
+            scope[name] = scope[name] || {};
+            const versions = scope[name];
+            const activeVersion = versions[version];
+            const activeVersionEager = Boolean(activeVersion && (activeVersion.eager || ((_activeVersion_shareConfig = activeVersion.shareConfig) == null ? void 0 : _activeVersion_shareConfig.eager)));
+            if (!activeVersion || activeVersion.strategy !== 'loaded-first' && !activeVersion.loaded && (Boolean(!eager) !== !activeVersionEager ? eager : hostName > activeVersion.from)) {
+                versions[version] = shared;
+            }
+        };
+        const initFn = (mod)=>mod && mod.init && mod.init(shareScope[shareScopeName], initScope);
+        const initRemoteModule = async (key)=>{
+            const { module } = await host.remoteHandler.getRemoteModuleAndOptions({
+                id: key
+            });
+            if (module.getEntry) {
+                let remoteEntryExports;
+                try {
+                    remoteEntryExports = await module.getEntry();
+                } catch (error) {
+                    remoteEntryExports = await host.remoteHandler.hooks.lifecycle.errorLoadRemote.emit({
+                        id: key,
+                        error,
+                        from: 'runtime',
+                        lifecycle: 'beforeLoadShare',
+                        origin: host
+                    });
+                }
+                if (!module.inited) {
+                    await initFn(remoteEntryExports);
+                    module.inited = true;
+                }
+            }
+        };
+        Object.keys(host.options.shared).forEach((shareName)=>{
+            const sharedArr = host.options.shared[shareName];
+            sharedArr.forEach((shared)=>{
+                if (shared.scope.includes(shareScopeName)) {
+                    register(shareName, shared);
+                }
+            });
+        });
+        // TODO: strategy==='version-first' need to be removed in the future
+        if (host.options.shareStrategy === 'version-first' || strategy === 'version-first') {
+            host.options.remotes.forEach((remote)=>{
+                if (remote.shareScope === shareScopeName) {
+                    promises.push(initRemoteModule(remote.name));
+                }
+            });
+        }
+        return promises;
+    }
+    // The lib function will only be available if the shared set by eager or runtime init is set or the shared is successfully loaded.
+    // 1. If the loaded shared already exists globally, then it will be reused
+    // 2. If lib exists in local shared, it will be used directly
+    // 3. If the local get returns something other than Promise, then it will be used directly
+    loadShareSync(pkgName, extraOptions) {
+        const { host } = this;
+        const shareInfo = getTargetSharedOptions({
+            pkgName,
+            extraOptions,
+            shareInfos: host.options.shared
+        });
+        if (shareInfo == null ? void 0 : shareInfo.scope) {
+            shareInfo.scope.forEach((shareScope)=>{
+                this.initializeSharing(shareScope, {
+                    strategy: shareInfo.strategy
+                });
+            });
+        }
+        const registeredShared = getRegisteredShare(this.shareScopeMap, pkgName, shareInfo, this.hooks.lifecycle.resolveShare);
+        const addUseIn = (shared)=>{
+            if (!shared.useIn) {
+                shared.useIn = [];
+            }
+            addUniqueItem(shared.useIn, host.options.name);
+        };
+        if (registeredShared) {
+            if (typeof registeredShared.lib === 'function') {
+                addUseIn(registeredShared);
+                if (!registeredShared.loaded) {
+                    registeredShared.loaded = true;
+                    if (registeredShared.from === host.options.name) {
+                        shareInfo.loaded = true;
+                    }
+                }
+                return registeredShared.lib;
+            }
+            if (typeof registeredShared.get === 'function') {
+                const module = registeredShared.get();
+                if (!(module instanceof Promise)) {
+                    addUseIn(registeredShared);
+                    this.setShared({
+                        pkgName,
+                        loaded: true,
+                        from: host.options.name,
+                        lib: module,
+                        shared: registeredShared
+                    });
+                    return module;
+                }
+            }
+        }
+        if (shareInfo.lib) {
+            if (!shareInfo.loaded) {
+                shareInfo.loaded = true;
+            }
+            return shareInfo.lib;
+        }
+        if (shareInfo.get) {
+            const module = shareInfo.get();
+            if (module instanceof Promise) {
+                const errorCode = (extraOptions == null ? void 0 : extraOptions.from) === 'build' ? errorCodes.RUNTIME_005 : errorCodes.RUNTIME_006;
+                throw new Error(errorCodes.getShortErrorMsg(errorCode, errorCodes.runtimeDescMap, {
+                    hostName: host.options.name,
+                    sharedPkgName: pkgName
+                }));
+            }
+            shareInfo.lib = module;
+            this.setShared({
+                pkgName,
+                loaded: true,
+                from: host.options.name,
+                lib: shareInfo.lib,
+                shared: shareInfo
+            });
+            return shareInfo.lib;
+        }
+        throw new Error(errorCodes.getShortErrorMsg(errorCodes.RUNTIME_006, errorCodes.runtimeDescMap, {
+            hostName: host.options.name,
+            sharedPkgName: pkgName
+        }));
+    }
+    initShareScopeMap(scopeName, shareScope, extraOptions = {}) {
+        const { host } = this;
+        this.shareScopeMap[scopeName] = shareScope;
+        this.hooks.lifecycle.initContainerShareScopeMap.emit({
+            shareScope,
+            options: host.options,
+            origin: host,
+            scopeName,
+            hostShareScopeMap: extraOptions.hostShareScopeMap
+        });
+    }
+    setShared({ pkgName, shared, from, lib, loading, loaded, get }) {
+        const { version, scope = 'default' } = shared, shareInfo = polyfills._object_without_properties_loose(shared, [
+            "version",
+            "scope"
+        ]);
+        const scopes = Array.isArray(scope) ? scope : [
+            scope
+        ];
+        scopes.forEach((sc)=>{
+            if (!this.shareScopeMap[sc]) {
+                this.shareScopeMap[sc] = {};
+            }
+            if (!this.shareScopeMap[sc][pkgName]) {
+                this.shareScopeMap[sc][pkgName] = {};
+            }
+            if (!this.shareScopeMap[sc][pkgName][version]) {
+                this.shareScopeMap[sc][pkgName][version] = polyfills._extends({
+                    version,
+                    scope: [
+                        'default'
+                    ]
+                }, shareInfo, {
+                    lib,
+                    loaded,
+                    loading
+                });
+                if (get) {
+                    this.shareScopeMap[sc][pkgName][version].get = get;
+                }
+                return;
+            }
+            const registeredShared = this.shareScopeMap[sc][pkgName][version];
+            if (loading && !registeredShared.loading) {
+                registeredShared.loading = loading;
+            }
+        });
+    }
+    _setGlobalShareScopeMap(hostOptions) {
+        const globalShareScopeMap = getGlobalShareScope();
+        const identifier = hostOptions.id || hostOptions.name;
+        if (identifier && !globalShareScopeMap[identifier]) {
+            globalShareScopeMap[identifier] = this.shareScopeMap;
+        }
+    }
+    constructor(host){
+        this.hooks = new PluginSystem({
+            afterResolve: new AsyncWaterfallHook('afterResolve'),
+            beforeLoadShare: new AsyncWaterfallHook('beforeLoadShare'),
+            // not used yet
+            loadShare: new AsyncHook(),
+            resolveShare: new SyncWaterfallHook('resolveShare'),
+            // maybe will change, temporarily for internal use only
+            initContainerShareScopeMap: new SyncWaterfallHook('initContainerShareScopeMap')
+        });
+        this.host = host;
+        this.shareScopeMap = {};
+        this.initTokens = {};
+        this._setGlobalShareScopeMap(host.options);
+    }
+}
+
+class RemoteHandler {
+    formatAndRegisterRemote(globalOptions, userOptions) {
+        const userRemotes = userOptions.remotes || [];
+        return userRemotes.reduce((res, remote)=>{
+            this.registerRemote(remote, res, {
+                force: false
+            });
+            return res;
+        }, globalOptions.remotes);
+    }
+    setIdToRemoteMap(id, remoteMatchInfo) {
+        const { remote, expose } = remoteMatchInfo;
+        const { name, alias } = remote;
+        this.idToRemoteMap[id] = {
+            name: remote.name,
+            expose
+        };
+        if (alias && id.startsWith(name)) {
+            const idWithAlias = id.replace(name, alias);
+            this.idToRemoteMap[idWithAlias] = {
+                name: remote.name,
+                expose
+            };
+            return;
+        }
+        if (alias && id.startsWith(alias)) {
+            const idWithName = id.replace(alias, name);
+            this.idToRemoteMap[idWithName] = {
+                name: remote.name,
+                expose
+            };
+        }
+    }
+    // eslint-disable-next-line max-lines-per-function
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    async loadRemote(id, options) {
+        const { host } = this;
+        try {
+            const { loadFactory = true } = options || {
+                loadFactory: true
+            };
+            // 1. Validate the parameters of the retrieved module. There are two module request methods: pkgName + expose and alias + expose.
+            // 2. Request the snapshot information of the current host and globally store the obtained snapshot information. The retrieved module information is partially offline and partially online. The online module information will retrieve the modules used online.
+            // 3. Retrieve the detailed information of the current module from global (remoteEntry address, expose resource address)
+            // 4. After retrieving remoteEntry, call the init of the module, and then retrieve the exported content of the module through get
+            // id: pkgName(@federation/app1) + expose(button) = @federation/app1/button
+            // id: alias(app1) + expose(button) = app1/button
+            // id: alias(app1/utils) + expose(loadash/sort) = app1/utils/loadash/sort
+            const { module, moduleOptions, remoteMatchInfo } = await this.getRemoteModuleAndOptions({
+                id
+            });
+            const { pkgNameOrAlias, remote, expose, id: idRes, remoteSnapshot } = remoteMatchInfo;
+            const moduleOrFactory = await module.get(idRes, expose, options, remoteSnapshot);
+            const moduleWrapper = await this.hooks.lifecycle.onLoad.emit({
+                id: idRes,
+                pkgNameOrAlias,
+                expose,
+                exposeModule: loadFactory ? moduleOrFactory : undefined,
+                exposeModuleFactory: loadFactory ? undefined : moduleOrFactory,
+                remote,
+                options: moduleOptions,
+                moduleInstance: module,
+                origin: host
+            });
+            this.setIdToRemoteMap(id, remoteMatchInfo);
+            if (typeof moduleWrapper === 'function') {
+                return moduleWrapper;
+            }
+            return moduleOrFactory;
+        } catch (error) {
+            const { from = 'runtime' } = options || {
+                from: 'runtime'
+            };
+            const failOver = await this.hooks.lifecycle.errorLoadRemote.emit({
+                id,
+                error,
+                from,
+                lifecycle: 'onLoad',
+                origin: host
+            });
+            if (!failOver) {
+                throw error;
+            }
+            return failOver;
+        }
+    }
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    async preloadRemote(preloadOptions) {
+        const { host } = this;
+        await this.hooks.lifecycle.beforePreloadRemote.emit({
+            preloadOps: preloadOptions,
+            options: host.options,
+            origin: host
+        });
+        const preloadOps = formatPreloadArgs(host.options.remotes, preloadOptions);
+        await Promise.all(preloadOps.map(async (ops)=>{
+            const { remote } = ops;
+            const remoteInfo = getRemoteInfo(remote);
+            const { globalSnapshot, remoteSnapshot } = await host.snapshotHandler.loadRemoteSnapshotInfo({
+                moduleInfo: remote
+            });
+            const assets = await this.hooks.lifecycle.generatePreloadAssets.emit({
+                origin: host,
+                preloadOptions: ops,
+                remote,
+                remoteInfo,
+                globalSnapshot,
+                remoteSnapshot
+            });
+            if (!assets) {
+                return;
+            }
+            preloadAssets(remoteInfo, host, assets);
+        }));
+    }
+    registerRemotes(remotes, options) {
+        const { host } = this;
+        remotes.forEach((remote)=>{
+            this.registerRemote(remote, host.options.remotes, {
+                force: options == null ? void 0 : options.force
+            });
+        });
+    }
+    async getRemoteModuleAndOptions(options) {
+        const { host } = this;
+        const { id } = options;
+        let loadRemoteArgs;
+        try {
+            loadRemoteArgs = await this.hooks.lifecycle.beforeRequest.emit({
+                id,
+                options: host.options,
+                origin: host
+            });
+        } catch (error) {
+            loadRemoteArgs = await this.hooks.lifecycle.errorLoadRemote.emit({
+                id,
+                options: host.options,
+                origin: host,
+                from: 'runtime',
+                error,
+                lifecycle: 'beforeRequest'
+            });
+            if (!loadRemoteArgs) {
+                throw error;
+            }
+        }
+        const { id: idRes } = loadRemoteArgs;
+        const remoteSplitInfo = matchRemoteWithNameAndExpose(host.options.remotes, idRes);
+        assert(remoteSplitInfo, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_004, errorCodes.runtimeDescMap, {
+            hostName: host.options.name,
+            requestId: idRes
+        }));
+        const { remote: rawRemote } = remoteSplitInfo;
+        const remoteInfo = getRemoteInfo(rawRemote);
+        const matchInfo = await host.sharedHandler.hooks.lifecycle.afterResolve.emit(polyfills._extends({
+            id: idRes
+        }, remoteSplitInfo, {
+            options: host.options,
+            origin: host,
+            remoteInfo
+        }));
+        const { remote, expose } = matchInfo;
+        assert(remote && expose, `The 'beforeRequest' hook was executed, but it failed to return the correct 'remote' and 'expose' values while loading ${idRes}.`);
+        let module = host.moduleCache.get(remote.name);
+        const moduleOptions = {
+            host: host,
+            remoteInfo
+        };
+        if (!module) {
+            module = new Module(moduleOptions);
+            host.moduleCache.set(remote.name, module);
+        }
+        return {
+            module,
+            moduleOptions,
+            remoteMatchInfo: matchInfo
+        };
+    }
+    registerRemote(remote, targetRemotes, options) {
+        const { host } = this;
+        const normalizeRemote = ()=>{
+            if (remote.alias) {
+                // Validate if alias equals the prefix of remote.name and remote.alias, if so, throw an error
+                // As multi-level path references cannot guarantee unique names, alias being a prefix of remote.name is not supported
+                const findEqual = targetRemotes.find((item)=>{
+                    var _item_alias;
+                    return remote.alias && (item.name.startsWith(remote.alias) || ((_item_alias = item.alias) == null ? void 0 : _item_alias.startsWith(remote.alias)));
+                });
+                assert(!findEqual, `The alias ${remote.alias} of remote ${remote.name} is not allowed to be the prefix of ${findEqual && findEqual.name} name or alias`);
+            }
+            // Set the remote entry to a complete path
+            if ('entry' in remote) {
+                if (sdk.isBrowserEnv() && !remote.entry.startsWith('http')) {
+                    remote.entry = new URL(remote.entry, window.location.origin).href;
+                }
+            }
+            if (!remote.shareScope) {
+                remote.shareScope = DEFAULT_SCOPE;
+            }
+            if (!remote.type) {
+                remote.type = DEFAULT_REMOTE_TYPE;
+            }
+        };
+        this.hooks.lifecycle.beforeRegisterRemote.emit({
+            remote,
+            origin: host
+        });
+        const registeredRemote = targetRemotes.find((item)=>item.name === remote.name);
+        if (!registeredRemote) {
+            normalizeRemote();
+            targetRemotes.push(remote);
+            this.hooks.lifecycle.registerRemote.emit({
+                remote,
+                origin: host
+            });
+        } else {
+            const messages = [
+                `The remote "${remote.name}" is already registered.`,
+                'Please note that overriding it may cause unexpected errors.'
+            ];
+            if (options == null ? void 0 : options.force) {
+                // remove registered remote
+                this.removeRemote(registeredRemote);
+                normalizeRemote();
+                targetRemotes.push(remote);
+                this.hooks.lifecycle.registerRemote.emit({
+                    remote,
+                    origin: host
+                });
+                sdk.warn(messages.join(' '));
+            }
+        }
+    }
+    removeRemote(remote) {
+        try {
+            const { host } = this;
+            const { name } = remote;
+            const remoteIndex = host.options.remotes.findIndex((item)=>item.name === name);
+            if (remoteIndex !== -1) {
+                host.options.remotes.splice(remoteIndex, 1);
+            }
+            const loadedModule = host.moduleCache.get(remote.name);
+            if (loadedModule) {
+                const remoteInfo = loadedModule.remoteInfo;
+                const key = remoteInfo.entryGlobalName;
+                if (CurrentGlobal[key]) {
+                    var _Object_getOwnPropertyDescriptor;
+                    if ((_Object_getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor(CurrentGlobal, key)) == null ? void 0 : _Object_getOwnPropertyDescriptor.configurable) {
+                        delete CurrentGlobal[key];
+                    } else {
+                        // @ts-ignore
+                        CurrentGlobal[key] = undefined;
+                    }
+                }
+                const remoteEntryUniqueKey = getRemoteEntryUniqueKey(loadedModule.remoteInfo);
+                if (globalLoading[remoteEntryUniqueKey]) {
+                    delete globalLoading[remoteEntryUniqueKey];
+                }
+                host.snapshotHandler.manifestCache.delete(remoteInfo.entry);
+                // delete unloaded shared and instance
+                let remoteInsId = remoteInfo.buildVersion ? sdk.composeKeyWithSeparator(remoteInfo.name, remoteInfo.buildVersion) : remoteInfo.name;
+                const remoteInsIndex = CurrentGlobal.__FEDERATION__.__INSTANCES__.findIndex((ins)=>{
+                    if (remoteInfo.buildVersion) {
+                        return ins.options.id === remoteInsId;
+                    } else {
+                        return ins.name === remoteInsId;
+                    }
+                });
+                if (remoteInsIndex !== -1) {
+                    const remoteIns = CurrentGlobal.__FEDERATION__.__INSTANCES__[remoteInsIndex];
+                    remoteInsId = remoteIns.options.id || remoteInsId;
+                    const globalShareScopeMap = getGlobalShareScope();
+                    let isAllSharedNotUsed = true;
+                    const needDeleteKeys = [];
+                    Object.keys(globalShareScopeMap).forEach((instId)=>{
+                        const shareScopeMap = globalShareScopeMap[instId];
+                        shareScopeMap && Object.keys(shareScopeMap).forEach((shareScope)=>{
+                            const shareScopeVal = shareScopeMap[shareScope];
+                            shareScopeVal && Object.keys(shareScopeVal).forEach((shareName)=>{
+                                const sharedPkgs = shareScopeVal[shareName];
+                                sharedPkgs && Object.keys(sharedPkgs).forEach((shareVersion)=>{
+                                    const shared = sharedPkgs[shareVersion];
+                                    if (shared && typeof shared === 'object' && shared.from === remoteInfo.name) {
+                                        if (shared.loaded || shared.loading) {
+                                            shared.useIn = shared.useIn.filter((usedHostName)=>usedHostName !== remoteInfo.name);
+                                            if (shared.useIn.length) {
+                                                isAllSharedNotUsed = false;
+                                            } else {
+                                                needDeleteKeys.push([
+                                                    instId,
+                                                    shareScope,
+                                                    shareName,
+                                                    shareVersion
+                                                ]);
+                                            }
+                                        } else {
+                                            needDeleteKeys.push([
+                                                instId,
+                                                shareScope,
+                                                shareName,
+                                                shareVersion
+                                            ]);
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    });
+                    if (isAllSharedNotUsed) {
+                        remoteIns.shareScopeMap = {};
+                        delete globalShareScopeMap[remoteInsId];
+                    }
+                    needDeleteKeys.forEach(([insId, shareScope, shareName, shareVersion])=>{
+                        var _globalShareScopeMap_insId_shareScope_shareName, _globalShareScopeMap_insId_shareScope, _globalShareScopeMap_insId;
+                        (_globalShareScopeMap_insId = globalShareScopeMap[insId]) == null ? true : (_globalShareScopeMap_insId_shareScope = _globalShareScopeMap_insId[shareScope]) == null ? true : (_globalShareScopeMap_insId_shareScope_shareName = _globalShareScopeMap_insId_shareScope[shareName]) == null ? true : delete _globalShareScopeMap_insId_shareScope_shareName[shareVersion];
+                    });
+                    CurrentGlobal.__FEDERATION__.__INSTANCES__.splice(remoteInsIndex, 1);
+                }
+                const { hostGlobalSnapshot } = getGlobalRemoteInfo(remote, host);
+                if (hostGlobalSnapshot) {
+                    const remoteKey = hostGlobalSnapshot && 'remotesInfo' in hostGlobalSnapshot && hostGlobalSnapshot.remotesInfo && getInfoWithoutType(hostGlobalSnapshot.remotesInfo, remote.name).key;
+                    if (remoteKey) {
+                        delete hostGlobalSnapshot.remotesInfo[remoteKey];
+                        if (//eslint-disable-next-line no-extra-boolean-cast
+                        Boolean(Global.__FEDERATION__.__MANIFEST_LOADING__[remoteKey])) {
+                            delete Global.__FEDERATION__.__MANIFEST_LOADING__[remoteKey];
+                        }
+                    }
+                }
+                host.moduleCache.delete(remote.name);
+            }
+        } catch (err) {
+            logger.log('removeRemote fail: ', err);
+        }
+    }
+    constructor(host){
+        this.hooks = new PluginSystem({
+            beforeRegisterRemote: new SyncWaterfallHook('beforeRegisterRemote'),
+            registerRemote: new SyncWaterfallHook('registerRemote'),
+            beforeRequest: new AsyncWaterfallHook('beforeRequest'),
+            onLoad: new AsyncHook('onLoad'),
+            handlePreloadModule: new SyncHook('handlePreloadModule'),
+            errorLoadRemote: new AsyncHook('errorLoadRemote'),
+            beforePreloadRemote: new AsyncHook('beforePreloadRemote'),
+            generatePreloadAssets: new AsyncHook('generatePreloadAssets'),
+            // not used yet
+            afterPreloadRemote: new AsyncHook(),
+            loadEntry: new AsyncHook()
+        });
+        this.host = host;
+        this.idToRemoteMap = {};
+    }
+}
+
+const USE_SNAPSHOT = typeof FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN === 'boolean' ? !FEDERATION_OPTIMIZE_NO_SNAPSHOT_PLUGIN : true; // Default to true (use snapshot) when not explicitly defined
+class ModuleFederation {
+    initOptions(userOptions) {
+        this.registerPlugins(userOptions.plugins);
+        const options = this.formatOptions(this.options, userOptions);
+        this.options = options;
+        return options;
+    }
+    async loadShare(pkgName, extraOptions) {
+        return this.sharedHandler.loadShare(pkgName, extraOptions);
+    }
+    // The lib function will only be available if the shared set by eager or runtime init is set or the shared is successfully loaded.
+    // 1. If the loaded shared already exists globally, then it will be reused
+    // 2. If lib exists in local shared, it will be used directly
+    // 3. If the local get returns something other than Promise, then it will be used directly
+    loadShareSync(pkgName, extraOptions) {
+        return this.sharedHandler.loadShareSync(pkgName, extraOptions);
+    }
+    initializeSharing(shareScopeName = DEFAULT_SCOPE, extraOptions) {
+        return this.sharedHandler.initializeSharing(shareScopeName, extraOptions);
+    }
+    initRawContainer(name, url, container) {
+        const remoteInfo = getRemoteInfo({
+            name,
+            entry: url
+        });
+        const module = new Module({
+            host: this,
+            remoteInfo
+        });
+        module.remoteEntryExports = container;
+        this.moduleCache.set(name, module);
+        return module;
+    }
+    // eslint-disable-next-line max-lines-per-function
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    async loadRemote(id, options) {
+        return this.remoteHandler.loadRemote(id, options);
+    }
+    // eslint-disable-next-line @typescript-eslint/member-ordering
+    async preloadRemote(preloadOptions) {
+        return this.remoteHandler.preloadRemote(preloadOptions);
+    }
+    initShareScopeMap(scopeName, shareScope, extraOptions = {}) {
+        this.sharedHandler.initShareScopeMap(scopeName, shareScope, extraOptions);
+    }
+    formatOptions(globalOptions, userOptions) {
+        const { shared } = formatShareConfigs(globalOptions, userOptions);
+        const { userOptions: userOptionsRes, options: globalOptionsRes } = this.hooks.lifecycle.beforeInit.emit({
+            origin: this,
+            userOptions,
+            options: globalOptions,
+            shareInfo: shared
+        });
+        const remotes = this.remoteHandler.formatAndRegisterRemote(globalOptionsRes, userOptionsRes);
+        const { shared: handledShared } = this.sharedHandler.registerShared(globalOptionsRes, userOptionsRes);
+        const plugins = [
+            ...globalOptionsRes.plugins
+        ];
+        if (userOptionsRes.plugins) {
+            userOptionsRes.plugins.forEach((plugin)=>{
+                if (!plugins.includes(plugin)) {
+                    plugins.push(plugin);
+                }
+            });
+        }
+        const optionsRes = polyfills._extends({}, globalOptions, userOptions, {
+            plugins,
+            remotes,
+            shared: handledShared
+        });
+        this.hooks.lifecycle.init.emit({
+            origin: this,
+            options: optionsRes
+        });
+        return optionsRes;
+    }
+    registerPlugins(plugins) {
+        const pluginRes = registerPlugins(plugins, this);
+        // Merge plugin
+        this.options.plugins = this.options.plugins.reduce((res, plugin)=>{
+            if (!plugin) return res;
+            if (res && !res.find((item)=>item.name === plugin.name)) {
+                res.push(plugin);
+            }
+            return res;
+        }, pluginRes || []);
+    }
+    registerRemotes(remotes, options) {
+        return this.remoteHandler.registerRemotes(remotes, options);
+    }
+    registerShared(shared) {
+        this.sharedHandler.registerShared(this.options, polyfills._extends({}, this.options, {
+            shared
+        }));
+    }
+    constructor(userOptions){
+        this.hooks = new PluginSystem({
+            beforeInit: new SyncWaterfallHook('beforeInit'),
+            init: new SyncHook(),
+            // maybe will change, temporarily for internal use only
+            beforeInitContainer: new AsyncWaterfallHook('beforeInitContainer'),
+            // maybe will change, temporarily for internal use only
+            initContainer: new AsyncWaterfallHook('initContainer')
+        });
+        this.version = "0.17.0";
+        this.moduleCache = new Map();
+        this.loaderHook = new PluginSystem({
+            // FIXME: may not be suitable , not open to the public yet
+            getModuleInfo: new SyncHook(),
+            createScript: new SyncHook(),
+            createLink: new SyncHook(),
+            fetch: new AsyncHook(),
+            loadEntryError: new AsyncHook(),
+            getModuleFactory: new AsyncHook()
+        });
+        this.bridgeHook = new PluginSystem({
+            beforeBridgeRender: new SyncHook(),
+            afterBridgeRender: new SyncHook(),
+            beforeBridgeDestroy: new SyncHook(),
+            afterBridgeDestroy: new SyncHook()
+        });
+        const plugins = USE_SNAPSHOT ? [
+            snapshotPlugin(),
+            generatePreloadAssetsPlugin()
+        ] : [];
+        // TODO: Validate the details of the options
+        // Initialize options with default values
+        const defaultOptions = {
+            id: getBuilderId(),
+            name: userOptions.name,
+            plugins,
+            remotes: [],
+            shared: {},
+            inBrowser: sdk.isBrowserEnv()
+        };
+        this.name = userOptions.name;
+        this.options = defaultOptions;
+        this.snapshotHandler = new SnapshotHandler(this);
+        this.sharedHandler = new SharedHandler(this);
+        this.remoteHandler = new RemoteHandler(this);
+        this.shareScopeMap = this.sharedHandler.shareScopeMap;
+        this.registerPlugins([
+            ...defaultOptions.plugins,
+            ...userOptions.plugins || []
+        ]);
+        this.options = this.formatOptions(defaultOptions, userOptions);
+    }
+}
+
+var index = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+exports.loadScript = sdk.loadScript;
+exports.loadScriptNode = sdk.loadScriptNode;
+exports.CurrentGlobal = CurrentGlobal;
+exports.Global = Global;
+exports.Module = Module;
+exports.ModuleFederation = ModuleFederation;
+exports.addGlobalSnapshot = addGlobalSnapshot;
+exports.assert = assert;
+exports.getGlobalFederationConstructor = getGlobalFederationConstructor;
+exports.getGlobalSnapshot = getGlobalSnapshot;
+exports.getInfoWithoutType = getInfoWithoutType;
+exports.getRegisteredShare = getRegisteredShare;
+exports.getRemoteEntry = getRemoteEntry;
+exports.getRemoteInfo = getRemoteInfo;
+exports.helpers = helpers;
+exports.isStaticResourcesEqual = isStaticResourcesEqual;
+exports.matchRemoteWithNameAndExpose = matchRemoteWithNameAndExpose;
+exports.registerGlobalPlugins = registerGlobalPlugins;
+exports.resetFederationGlobalInfo = resetFederationGlobalInfo;
+exports.safeWrapper = safeWrapper;
+exports.satisfy = satisfy;
+exports.setGlobalFederationConstructor = setGlobalFederationConstructor;
+exports.setGlobalFederationInstance = setGlobalFederationInstance;
+exports.types = index;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/polyfills.cjs.cjs": 
+/*!**********************************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/polyfills.cjs.cjs ***!
+  \**********************************************************************************************************************************************/
+(function (__unused_webpack_module, exports) {
+
+
+function _extends() {
+    _extends = Object.assign || function assign(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+
+function _object_without_properties_loose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+
+exports._extends = _extends;
+exports._object_without_properties_loose = _object_without_properties_loose;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/index.cjs.cjs": 
+/*!********************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/index.cjs.cjs ***!
+  \********************************************************************************************************************************/
+(function (__unused_webpack_module, exports, __webpack_require__) {
+
+
+var runtimeCore = __webpack_require__(/*! @module-federation/runtime-core */ "../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/index.cjs.cjs");
+var errorCodes = __webpack_require__(/*! @module-federation/error-codes */ "../../../node_modules/.pnpm/@module-federation+error-codes@0.17.0/node_modules/@module-federation/error-codes/dist/index.cjs.js");
+var utils = __webpack_require__(/*! ./utils.cjs.cjs */ "../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/utils.cjs.cjs");
+
+function createInstance(options) {
+    // Retrieve debug constructor
+    const ModuleFederationConstructor = runtimeCore.getGlobalFederationConstructor() || runtimeCore.ModuleFederation;
+    return new ModuleFederationConstructor(options);
+}
+let FederationInstance = null;
+/**
+ * @deprecated Use createInstance or getInstance instead
+ */ function init(options) {
+    // Retrieve the same instance with the same name
+    const instance = utils.getGlobalFederationInstance(options.name, options.version);
+    if (!instance) {
+        FederationInstance = createInstance(options);
+        runtimeCore.setGlobalFederationInstance(FederationInstance);
+        return FederationInstance;
+    } else {
+        // Merge options
+        instance.initOptions(options);
+        if (!FederationInstance) {
+            FederationInstance = instance;
+        }
+        return instance;
+    }
+}
+function loadRemote(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    const loadRemote1 = FederationInstance.loadRemote;
+    // eslint-disable-next-line prefer-spread
+    return loadRemote1.apply(FederationInstance, args);
+}
+function loadShare(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    // eslint-disable-next-line prefer-spread
+    const loadShare1 = FederationInstance.loadShare;
+    return loadShare1.apply(FederationInstance, args);
+}
+function loadShareSync(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    const loadShareSync1 = FederationInstance.loadShareSync;
+    // eslint-disable-next-line prefer-spread
+    return loadShareSync1.apply(FederationInstance, args);
+}
+function preloadRemote(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    // eslint-disable-next-line prefer-spread
+    return FederationInstance.preloadRemote.apply(FederationInstance, args);
+}
+function registerRemotes(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    // eslint-disable-next-line prefer-spread
+    return FederationInstance.registerRemotes.apply(FederationInstance, args);
+}
+function registerPlugins(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    // eslint-disable-next-line prefer-spread
+    return FederationInstance.registerPlugins.apply(FederationInstance, args);
+}
+function getInstance() {
+    return FederationInstance;
+}
+function registerShared(...args) {
+    runtimeCore.assert(FederationInstance, errorCodes.getShortErrorMsg(errorCodes.RUNTIME_009, errorCodes.runtimeDescMap));
+    // eslint-disable-next-line prefer-spread
+    return FederationInstance.registerShared.apply(FederationInstance, args);
+}
+// Inject for debug
+runtimeCore.setGlobalFederationConstructor(runtimeCore.ModuleFederation);
+
+exports.Module = runtimeCore.Module;
+exports.ModuleFederation = runtimeCore.ModuleFederation;
+exports.getRemoteEntry = runtimeCore.getRemoteEntry;
+exports.getRemoteInfo = runtimeCore.getRemoteInfo;
+exports.loadScript = runtimeCore.loadScript;
+exports.loadScriptNode = runtimeCore.loadScriptNode;
+exports.registerGlobalPlugins = runtimeCore.registerGlobalPlugins;
+exports.createInstance = createInstance;
+exports.getInstance = getInstance;
+exports.init = init;
+exports.loadRemote = loadRemote;
+exports.loadShare = loadShare;
+exports.loadShareSync = loadShareSync;
+exports.preloadRemote = preloadRemote;
+exports.registerPlugins = registerPlugins;
+exports.registerRemotes = registerRemotes;
+exports.registerShared = registerShared;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/utils.cjs.cjs": 
+/*!********************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/utils.cjs.cjs ***!
+  \********************************************************************************************************************************/
+(function (__unused_webpack_module, exports, __webpack_require__) {
+
+
+var runtimeCore = __webpack_require__(/*! @module-federation/runtime-core */ "../../../node_modules/.pnpm/@module-federation+runtime-core@0.17.0/node_modules/@module-federation/runtime-core/dist/index.cjs.cjs");
+
+// injected by bundler, so it can not use runtime-core stuff
+function getBuilderId() {
+    //@ts-ignore
+    return typeof FEDERATION_BUILD_IDENTIFIER !== 'undefined' ? FEDERATION_BUILD_IDENTIFIER : '';
+}
+function getGlobalFederationInstance(name, version) {
+    const buildId = getBuilderId();
+    return runtimeCore.CurrentGlobal.__FEDERATION__.__INSTANCES__.find((GMInstance)=>{
+        if (buildId && GMInstance.options.id === buildId) {
+            return true;
+        }
+        if (GMInstance.options.name === name && !GMInstance.options.version && !version) {
+            return true;
+        }
+        if (GMInstance.options.name === name && version && GMInstance.options.version === version) {
+            return true;
+        }
+        return false;
+    });
+}
+
+exports.getGlobalFederationInstance = getGlobalFederationInstance;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/index.cjs.cjs": 
+/*!************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/index.cjs.cjs ***!
+  \************************************************************************************************************************/
+(function (__unused_webpack_module, exports, __webpack_require__) {
+
+
+var polyfills = __webpack_require__(/*! ./polyfills.cjs.cjs */ "../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/polyfills.cjs.cjs");
+
+const FederationModuleManifest = 'federation-manifest.json';
+const MANIFEST_EXT = '.json';
+const BROWSER_LOG_KEY = 'FEDERATION_DEBUG';
+const NameTransformSymbol = {
+    AT: '@',
+    HYPHEN: '-',
+    SLASH: '/'
+};
+const NameTransformMap = {
+    [NameTransformSymbol.AT]: 'scope_',
+    [NameTransformSymbol.HYPHEN]: '_',
+    [NameTransformSymbol.SLASH]: '__'
+};
+const EncodedNameTransformMap = {
+    [NameTransformMap[NameTransformSymbol.AT]]: NameTransformSymbol.AT,
+    [NameTransformMap[NameTransformSymbol.HYPHEN]]: NameTransformSymbol.HYPHEN,
+    [NameTransformMap[NameTransformSymbol.SLASH]]: NameTransformSymbol.SLASH
+};
+const SEPARATOR = ':';
+const ManifestFileName = 'mf-manifest.json';
+const StatsFileName = 'mf-stats.json';
+const MFModuleType = {
+    NPM: 'npm',
+    APP: 'app'
+};
+const MODULE_DEVTOOL_IDENTIFIER = '__MF_DEVTOOLS_MODULE_INFO__';
+const ENCODE_NAME_PREFIX = 'ENCODE_NAME_PREFIX';
+const TEMP_DIR = '.federation';
+const MFPrefetchCommon = {
+    identifier: 'MFDataPrefetch',
+    globalKey: '__PREFETCH__',
+    library: 'mf-data-prefetch',
+    exportsKey: '__PREFETCH_EXPORTS__',
+    fileName: 'bootstrap.js'
+};
+
+var ContainerPlugin = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+var ContainerReferencePlugin = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+var ModuleFederationPlugin = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+var SharePlugin = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+function isBrowserEnv() {
+    return typeof window !== 'undefined' && typeof window.document !== 'undefined';
+}
+function isReactNativeEnv() {
+    var _navigator;
+    return typeof navigator !== 'undefined' && ((_navigator = navigator) == null ? void 0 : _navigator.product) === 'ReactNative';
+}
+function isBrowserDebug() {
+    try {
+        if (isBrowserEnv() && window.localStorage) {
+            return Boolean(localStorage.getItem(BROWSER_LOG_KEY));
+        }
+    } catch (error) {
+        return false;
+    }
+    return false;
+}
+function isDebugMode() {
+    if (typeof process !== 'undefined' && process.env && process.env['FEDERATION_DEBUG']) {
+        return Boolean(process.env['FEDERATION_DEBUG']);
+    }
+    if (typeof FEDERATION_DEBUG !== 'undefined' && Boolean(FEDERATION_DEBUG)) {
+        return true;
+    }
+    return isBrowserDebug();
+}
+const getProcessEnv = function() {
+    return typeof process !== 'undefined' && process.env ? process.env : {};
+};
+
+const LOG_CATEGORY = '[ Federation Runtime ]';
+// entry: name:version   version : 1.0.0 | ^1.2.3
+// entry: name:entry  entry:  https://localhost:9000/federation-manifest.json
+const parseEntry = (str, devVerOrUrl, separator = SEPARATOR)=>{
+    const strSplit = str.split(separator);
+    const devVersionOrUrl = getProcessEnv()['NODE_ENV'] === 'development' && devVerOrUrl;
+    const defaultVersion = '*';
+    const isEntry = (s)=>s.startsWith('http') || s.includes(MANIFEST_EXT);
+    // Check if the string starts with a type
+    if (strSplit.length >= 2) {
+        let [name, ...versionOrEntryArr] = strSplit;
+        // @name@manifest-url.json
+        if (str.startsWith(separator)) {
+            name = strSplit.slice(0, 2).join(separator);
+            versionOrEntryArr = [
+                devVersionOrUrl || strSplit.slice(2).join(separator)
+            ];
+        }
+        let versionOrEntry = devVersionOrUrl || versionOrEntryArr.join(separator);
+        if (isEntry(versionOrEntry)) {
+            return {
+                name,
+                entry: versionOrEntry
+            };
+        } else {
+            // Apply version rule
+            // devVersionOrUrl => inputVersion => defaultVersion
+            return {
+                name,
+                version: versionOrEntry || defaultVersion
+            };
+        }
+    } else if (strSplit.length === 1) {
+        const [name] = strSplit;
+        if (devVersionOrUrl && isEntry(devVersionOrUrl)) {
+            return {
+                name,
+                entry: devVersionOrUrl
+            };
+        }
+        return {
+            name,
+            version: devVersionOrUrl || defaultVersion
+        };
+    } else {
+        throw `Invalid entry value: ${str}`;
+    }
+};
+const composeKeyWithSeparator = function(...args) {
+    if (!args.length) {
+        return '';
+    }
+    return args.reduce((sum, cur)=>{
+        if (!cur) {
+            return sum;
+        }
+        if (!sum) {
+            return cur;
+        }
+        return `${sum}${SEPARATOR}${cur}`;
+    }, '');
+};
+const encodeName = function(name, prefix = '', withExt = false) {
+    try {
+        const ext = withExt ? '.js' : '';
+        return `${prefix}${name.replace(new RegExp(`${NameTransformSymbol.AT}`, 'g'), NameTransformMap[NameTransformSymbol.AT]).replace(new RegExp(`${NameTransformSymbol.HYPHEN}`, 'g'), NameTransformMap[NameTransformSymbol.HYPHEN]).replace(new RegExp(`${NameTransformSymbol.SLASH}`, 'g'), NameTransformMap[NameTransformSymbol.SLASH])}${ext}`;
+    } catch (err) {
+        throw err;
+    }
+};
+const decodeName = function(name, prefix, withExt) {
+    try {
+        let decodedName = name;
+        if (prefix) {
+            if (!decodedName.startsWith(prefix)) {
+                return decodedName;
+            }
+            decodedName = decodedName.replace(new RegExp(prefix, 'g'), '');
+        }
+        decodedName = decodedName.replace(new RegExp(`${NameTransformMap[NameTransformSymbol.AT]}`, 'g'), EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.AT]]).replace(new RegExp(`${NameTransformMap[NameTransformSymbol.SLASH]}`, 'g'), EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.SLASH]]).replace(new RegExp(`${NameTransformMap[NameTransformSymbol.HYPHEN]}`, 'g'), EncodedNameTransformMap[NameTransformMap[NameTransformSymbol.HYPHEN]]);
+        if (withExt) {
+            decodedName = decodedName.replace('.js', '');
+        }
+        return decodedName;
+    } catch (err) {
+        throw err;
+    }
+};
+const generateExposeFilename = (exposeName, withExt)=>{
+    if (!exposeName) {
+        return '';
+    }
+    let expose = exposeName;
+    if (expose === '.') {
+        expose = 'default_export';
+    }
+    if (expose.startsWith('./')) {
+        expose = expose.replace('./', '');
+    }
+    return encodeName(expose, '__federation_expose_', withExt);
+};
+const generateShareFilename = (pkgName, withExt)=>{
+    if (!pkgName) {
+        return '';
+    }
+    return encodeName(pkgName, '__federation_shared_', withExt);
+};
+const getResourceUrl = (module, sourceUrl)=>{
+    if ('getPublicPath' in module) {
+        let publicPath;
+        if (!module.getPublicPath.startsWith('function')) {
+            publicPath = new Function(module.getPublicPath)();
+        } else {
+            publicPath = new Function('return ' + module.getPublicPath)()();
+        }
+        return `${publicPath}${sourceUrl}`;
+    } else if ('publicPath' in module) {
+        if (!isBrowserEnv() && !isReactNativeEnv() && 'ssrPublicPath' in module) {
+            return `${module.ssrPublicPath}${sourceUrl}`;
+        }
+        return `${module.publicPath}${sourceUrl}`;
+    } else {
+        console.warn('Cannot get resource URL. If in debug mode, please ignore.', module, sourceUrl);
+        return '';
+    }
+};
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const assert = (condition, msg)=>{
+    if (!condition) {
+        error(msg);
+    }
+};
+const error = (msg)=>{
+    throw new Error(`${LOG_CATEGORY}: ${msg}`);
+};
+const warn = (msg)=>{
+    console.warn(`${LOG_CATEGORY}: ${msg}`);
+};
+function safeToString(info) {
+    try {
+        return JSON.stringify(info, null, 2);
+    } catch (e) {
+        return '';
+    }
+}
+// RegExp for version string
+const VERSION_PATTERN_REGEXP = /^([\d^=v<>~]|[*xX]$)/;
+function isRequiredVersion(str) {
+    return VERSION_PATTERN_REGEXP.test(str);
+}
+
+const simpleJoinRemoteEntry = (rPath, rName)=>{
+    if (!rPath) {
+        return rName;
+    }
+    const transformPath = (str)=>{
+        if (str === '.') {
+            return '';
+        }
+        if (str.startsWith('./')) {
+            return str.replace('./', '');
+        }
+        if (str.startsWith('/')) {
+            const strWithoutSlash = str.slice(1);
+            if (strWithoutSlash.endsWith('/')) {
+                return strWithoutSlash.slice(0, -1);
+            }
+            return strWithoutSlash;
+        }
+        return str;
+    };
+    const transformedPath = transformPath(rPath);
+    if (!transformedPath) {
+        return rName;
+    }
+    if (transformedPath.endsWith('/')) {
+        return `${transformedPath}${rName}`;
+    }
+    return `${transformedPath}/${rName}`;
+};
+function inferAutoPublicPath(url) {
+    return url.replace(/#.*$/, '').replace(/\?.*$/, '').replace(/\/[^\/]+$/, '/');
+}
+// Priority: overrides > remotes
+// eslint-disable-next-line max-lines-per-function
+function generateSnapshotFromManifest(manifest, options = {}) {
+    var _manifest_metaData, _manifest_metaData1;
+    const { remotes = {}, overrides = {}, version } = options;
+    let remoteSnapshot;
+    const getPublicPath = ()=>{
+        if ('publicPath' in manifest.metaData) {
+            if (manifest.metaData.publicPath === 'auto' && version) {
+                // use same implementation as publicPath auto runtime module implements
+                return inferAutoPublicPath(version);
+            }
+            return manifest.metaData.publicPath;
+        } else {
+            return manifest.metaData.getPublicPath;
+        }
+    };
+    const overridesKeys = Object.keys(overrides);
+    let remotesInfo = {};
+    // If remotes are not provided, only the remotes in the manifest will be read
+    if (!Object.keys(remotes).length) {
+        var _manifest_remotes;
+        remotesInfo = ((_manifest_remotes = manifest.remotes) == null ? void 0 : _manifest_remotes.reduce((res, next)=>{
+            let matchedVersion;
+            const name = next.federationContainerName;
+            // overrides have higher priority
+            if (overridesKeys.includes(name)) {
+                matchedVersion = overrides[name];
+            } else {
+                if ('version' in next) {
+                    matchedVersion = next.version;
+                } else {
+                    matchedVersion = next.entry;
+                }
+            }
+            res[name] = {
+                matchedVersion
+            };
+            return res;
+        }, {})) || {};
+    }
+    // If remotes (deploy scenario) are specified, they need to be traversed again
+    Object.keys(remotes).forEach((key)=>remotesInfo[key] = {
+            // overrides will override dependencies
+            matchedVersion: overridesKeys.includes(key) ? overrides[key] : remotes[key]
+        });
+    const { remoteEntry: { path: remoteEntryPath, name: remoteEntryName, type: remoteEntryType }, types: remoteTypes, buildInfo: { buildVersion }, globalName, ssrRemoteEntry } = manifest.metaData;
+    const { exposes } = manifest;
+    let basicRemoteSnapshot = {
+        version: version ? version : '',
+        buildVersion,
+        globalName,
+        remoteEntry: simpleJoinRemoteEntry(remoteEntryPath, remoteEntryName),
+        remoteEntryType,
+        remoteTypes: simpleJoinRemoteEntry(remoteTypes.path, remoteTypes.name),
+        remoteTypesZip: remoteTypes.zip || '',
+        remoteTypesAPI: remoteTypes.api || '',
+        remotesInfo,
+        shared: manifest == null ? void 0 : manifest.shared.map((item)=>({
+                assets: item.assets,
+                sharedName: item.name,
+                version: item.version
+            })),
+        modules: exposes == null ? void 0 : exposes.map((expose)=>({
+                moduleName: expose.name,
+                modulePath: expose.path,
+                assets: expose.assets
+            }))
+    };
+    if ((_manifest_metaData = manifest.metaData) == null ? void 0 : _manifest_metaData.prefetchInterface) {
+        const prefetchInterface = manifest.metaData.prefetchInterface;
+        basicRemoteSnapshot = polyfills._({}, basicRemoteSnapshot, {
+            prefetchInterface
+        });
+    }
+    if ((_manifest_metaData1 = manifest.metaData) == null ? void 0 : _manifest_metaData1.prefetchEntry) {
+        const { path, name, type } = manifest.metaData.prefetchEntry;
+        basicRemoteSnapshot = polyfills._({}, basicRemoteSnapshot, {
+            prefetchEntry: simpleJoinRemoteEntry(path, name),
+            prefetchEntryType: type
+        });
+    }
+    if ('publicPath' in manifest.metaData) {
+        remoteSnapshot = polyfills._({}, basicRemoteSnapshot, {
+            publicPath: getPublicPath(),
+            ssrPublicPath: manifest.metaData.ssrPublicPath
+        });
+    } else {
+        remoteSnapshot = polyfills._({}, basicRemoteSnapshot, {
+            getPublicPath: getPublicPath()
+        });
+    }
+    if (ssrRemoteEntry) {
+        const fullSSRRemoteEntry = simpleJoinRemoteEntry(ssrRemoteEntry.path, ssrRemoteEntry.name);
+        remoteSnapshot.ssrRemoteEntry = fullSSRRemoteEntry;
+        remoteSnapshot.ssrRemoteEntryType = ssrRemoteEntry.type || 'commonjs-module';
+    }
+    return remoteSnapshot;
+}
+function isManifestProvider(moduleInfo) {
+    if ('remoteEntry' in moduleInfo && moduleInfo.remoteEntry.includes(MANIFEST_EXT)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+const PREFIX = '[ Module Federation ]';
+let Logger = class Logger {
+    setPrefix(prefix) {
+        this.prefix = prefix;
+    }
+    log(...args) {
+        console.log(this.prefix, ...args);
+    }
+    warn(...args) {
+        console.log(this.prefix, ...args);
+    }
+    error(...args) {
+        console.log(this.prefix, ...args);
+    }
+    success(...args) {
+        console.log(this.prefix, ...args);
+    }
+    info(...args) {
+        console.log(this.prefix, ...args);
+    }
+    ready(...args) {
+        console.log(this.prefix, ...args);
+    }
+    debug(...args) {
+        if (isDebugMode()) {
+            console.log(this.prefix, ...args);
+        }
+    }
+    constructor(prefix){
+        this.prefix = prefix;
+    }
+};
+function createLogger(prefix) {
+    return new Logger(prefix);
+}
+const logger = createLogger(PREFIX);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function safeWrapper(callback, disableWarn) {
+    try {
+        const res = await callback();
+        return res;
+    } catch (e) {
+        !disableWarn && warn(e);
+        return;
+    }
+}
+function isStaticResourcesEqual(url1, url2) {
+    const REG_EXP = /^(https?:)?\/\//i;
+    // Transform url1 and url2 into relative paths
+    const relativeUrl1 = url1.replace(REG_EXP, '').replace(/\/$/, '');
+    const relativeUrl2 = url2.replace(REG_EXP, '').replace(/\/$/, '');
+    // Check if the relative paths are identical
+    return relativeUrl1 === relativeUrl2;
+}
+function createScript(info) {
+    // Retrieve the existing script element by its src attribute
+    let script = null;
+    let needAttach = true;
+    let timeout = 20000;
+    let timeoutId;
+    const scripts = document.getElementsByTagName('script');
+    for(let i = 0; i < scripts.length; i++){
+        const s = scripts[i];
+        const scriptSrc = s.getAttribute('src');
+        if (scriptSrc && isStaticResourcesEqual(scriptSrc, info.url)) {
+            script = s;
+            needAttach = false;
+            break;
+        }
+    }
+    if (!script) {
+        const attrs = info.attrs;
+        script = document.createElement('script');
+        script.type = (attrs == null ? void 0 : attrs['type']) === 'module' ? 'module' : 'text/javascript';
+        let createScriptRes = undefined;
+        if (info.createScriptHook) {
+            createScriptRes = info.createScriptHook(info.url, info.attrs);
+            if (createScriptRes instanceof HTMLScriptElement) {
+                script = createScriptRes;
+            } else if (typeof createScriptRes === 'object') {
+                if ('script' in createScriptRes && createScriptRes.script) {
+                    script = createScriptRes.script;
+                }
+                if ('timeout' in createScriptRes && createScriptRes.timeout) {
+                    timeout = createScriptRes.timeout;
+                }
+            }
+        }
+        if (!script.src) {
+            script.src = info.url;
+        }
+        if (attrs && !createScriptRes) {
+            Object.keys(attrs).forEach((name)=>{
+                if (script) {
+                    if (name === 'async' || name === 'defer') {
+                        script[name] = attrs[name];
+                    // Attributes that do not exist are considered overridden
+                    } else if (!script.getAttribute(name)) {
+                        script.setAttribute(name, attrs[name]);
+                    }
+                }
+            });
+        }
+    }
+    const onScriptComplete = async (prev, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    event)=>{
+        clearTimeout(timeoutId);
+        const onScriptCompleteCallback = ()=>{
+            if ((event == null ? void 0 : event.type) === 'error') {
+                (info == null ? void 0 : info.onErrorCallback) && (info == null ? void 0 : info.onErrorCallback(event));
+            } else {
+                (info == null ? void 0 : info.cb) && (info == null ? void 0 : info.cb());
+            }
+        };
+        // Prevent memory leaks in IE.
+        if (script) {
+            script.onerror = null;
+            script.onload = null;
+            safeWrapper(()=>{
+                const { needDeleteScript = true } = info;
+                if (needDeleteScript) {
+                    (script == null ? void 0 : script.parentNode) && script.parentNode.removeChild(script);
+                }
+            });
+            if (prev && typeof prev === 'function') {
+                const result = prev(event);
+                if (result instanceof Promise) {
+                    const res = await result;
+                    onScriptCompleteCallback();
+                    return res;
+                }
+                onScriptCompleteCallback();
+                return result;
+            }
+        }
+        onScriptCompleteCallback();
+    };
+    script.onerror = onScriptComplete.bind(null, script.onerror);
+    script.onload = onScriptComplete.bind(null, script.onload);
+    timeoutId = setTimeout(()=>{
+        onScriptComplete(null, new Error(`Remote script "${info.url}" time-outed.`));
+    }, timeout);
+    return {
+        script,
+        needAttach
+    };
+}
+function createLink(info) {
+    // <link rel="preload" href="script.js" as="script">
+    // Retrieve the existing script element by its src attribute
+    let link = null;
+    let needAttach = true;
+    const links = document.getElementsByTagName('link');
+    for(let i = 0; i < links.length; i++){
+        const l = links[i];
+        const linkHref = l.getAttribute('href');
+        const linkRel = l.getAttribute('rel');
+        if (linkHref && isStaticResourcesEqual(linkHref, info.url) && linkRel === info.attrs['rel']) {
+            link = l;
+            needAttach = false;
+            break;
+        }
+    }
+    if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('href', info.url);
+        let createLinkRes = undefined;
+        const attrs = info.attrs;
+        if (info.createLinkHook) {
+            createLinkRes = info.createLinkHook(info.url, attrs);
+            if (createLinkRes instanceof HTMLLinkElement) {
+                link = createLinkRes;
+            }
+        }
+        if (attrs && !createLinkRes) {
+            Object.keys(attrs).forEach((name)=>{
+                if (link && !link.getAttribute(name)) {
+                    link.setAttribute(name, attrs[name]);
+                }
+            });
+        }
+    }
+    const onLinkComplete = (prev, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    event)=>{
+        const onLinkCompleteCallback = ()=>{
+            if ((event == null ? void 0 : event.type) === 'error') {
+                (info == null ? void 0 : info.onErrorCallback) && (info == null ? void 0 : info.onErrorCallback(event));
+            } else {
+                (info == null ? void 0 : info.cb) && (info == null ? void 0 : info.cb());
+            }
+        };
+        // Prevent memory leaks in IE.
+        if (link) {
+            link.onerror = null;
+            link.onload = null;
+            safeWrapper(()=>{
+                const { needDeleteLink = true } = info;
+                if (needDeleteLink) {
+                    (link == null ? void 0 : link.parentNode) && link.parentNode.removeChild(link);
+                }
+            });
+            if (prev) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const res = prev(event);
+                onLinkCompleteCallback();
+                return res;
+            }
+        }
+        onLinkCompleteCallback();
+    };
+    link.onerror = onLinkComplete.bind(null, link.onerror);
+    link.onload = onLinkComplete.bind(null, link.onload);
+    return {
+        link,
+        needAttach
+    };
+}
+function loadScript(url, info) {
+    const { attrs = {}, createScriptHook } = info;
+    return new Promise((resolve, reject)=>{
+        const { script, needAttach } = createScript({
+            url,
+            cb: resolve,
+            onErrorCallback: reject,
+            attrs: polyfills._({
+                fetchpriority: 'high'
+            }, attrs),
+            createScriptHook,
+            needDeleteScript: true
+        });
+        needAttach && document.head.appendChild(script);
+    });
+}
+
+function importNodeModule(name) {
+    if (!name) {
+        throw new Error('import specifier is required');
+    }
+    const importModule = new Function('name', `return import(name)`);
+    return importModule(name).then((res)=>res).catch((error)=>{
+        console.error(`Error importing module ${name}:`, error);
+        throw error;
+    });
+}
+const loadNodeFetch = async ()=>{
+    const fetchModule = await importNodeModule('node-fetch');
+    return fetchModule.default || fetchModule;
+};
+const lazyLoaderHookFetch = async (input, init, loaderHook)=>{
+    const hook = (url, init)=>{
+        return loaderHook.lifecycle.fetch.emit(url, init);
+    };
+    const res = await hook(input, init || {});
+    if (!res || !(res instanceof Response)) {
+        const fetchFunction = typeof fetch === 'undefined' ? await loadNodeFetch() : fetch;
+        return fetchFunction(input, init || {});
+    }
+    return res;
+};
+const createScriptNode = typeof ENV_TARGET === 'undefined' || ENV_TARGET !== 'web' ? (url, cb, attrs, loaderHook)=>{
+    if (loaderHook == null ? void 0 : loaderHook.createScriptHook) {
+        const hookResult = loaderHook.createScriptHook(url);
+        if (hookResult && typeof hookResult === 'object' && 'url' in hookResult) {
+            url = hookResult.url;
+        }
+    }
+    let urlObj;
+    try {
+        urlObj = new URL(url);
+    } catch (e) {
+        console.error('Error constructing URL:', e);
+        cb(new Error(`Invalid URL: ${e}`));
+        return;
+    }
+    const getFetch = async ()=>{
+        if (loaderHook == null ? void 0 : loaderHook.fetch) {
+            return (input, init)=>lazyLoaderHookFetch(input, init, loaderHook);
+        }
+        return typeof fetch === 'undefined' ? loadNodeFetch() : fetch;
+    };
+    const handleScriptFetch = async (f, urlObj)=>{
+        try {
+            var //@ts-ignore
+            _vm_constants;
+            const res = await f(urlObj.href);
+            const data = await res.text();
+            const [path, vm] = await Promise.all([
+                importNodeModule('path'),
+                importNodeModule('vm')
+            ]);
+            const scriptContext = {
+                exports: {},
+                module: {
+                    exports: {}
+                }
+            };
+            const urlDirname = urlObj.pathname.split('/').slice(0, -1).join('/');
+            const filename = path.basename(urlObj.pathname);
+            var _vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER;
+            const script = new vm.Script(`(function(exports, module, require, __dirname, __filename) {${data}\n})`, {
+                filename,
+                importModuleDynamically: (_vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER = (_vm_constants = vm.constants) == null ? void 0 : _vm_constants.USE_MAIN_CONTEXT_DEFAULT_LOADER) != null ? _vm_constants_USE_MAIN_CONTEXT_DEFAULT_LOADER : importNodeModule
+            });
+            script.runInThisContext()(scriptContext.exports, scriptContext.module, eval('require'), urlDirname, filename);
+            const exportedInterface = scriptContext.module.exports || scriptContext.exports;
+            if (attrs && exportedInterface && attrs['globalName']) {
+                const container = exportedInterface[attrs['globalName']] || exportedInterface;
+                cb(undefined, container);
+                return;
+            }
+            cb(undefined, exportedInterface);
+        } catch (e) {
+            cb(e instanceof Error ? e : new Error(`Script execution error: ${e}`));
+        }
+    };
+    getFetch().then(async (f)=>{
+        if ((attrs == null ? void 0 : attrs['type']) === 'esm' || (attrs == null ? void 0 : attrs['type']) === 'module') {
+            return loadModule(urlObj.href, {
+                fetch: f,
+                vm: await importNodeModule('vm')
+            }).then(async (module)=>{
+                await module.evaluate();
+                cb(undefined, module.namespace);
+            }).catch((e)=>{
+                cb(e instanceof Error ? e : new Error(`Script execution error: ${e}`));
+            });
+        }
+        handleScriptFetch(f, urlObj);
+    }).catch((err)=>{
+        cb(err);
+    });
+} : (url, cb, attrs, loaderHook)=>{
+    cb(new Error('createScriptNode is disabled in non-Node.js environment'));
+};
+const loadScriptNode = typeof ENV_TARGET === 'undefined' || ENV_TARGET !== 'web' ? (url, info)=>{
+    return new Promise((resolve, reject)=>{
+        createScriptNode(url, (error, scriptContext)=>{
+            if (error) {
+                reject(error);
+            } else {
+                var _info_attrs, _info_attrs1;
+                const remoteEntryKey = (info == null ? void 0 : (_info_attrs = info.attrs) == null ? void 0 : _info_attrs['globalName']) || `__FEDERATION_${info == null ? void 0 : (_info_attrs1 = info.attrs) == null ? void 0 : _info_attrs1['name']}:custom__`;
+                const entryExports = globalThis[remoteEntryKey] = scriptContext;
+                resolve(entryExports);
+            }
+        }, info.attrs, info.loaderHook);
+    });
+} : (url, info)=>{
+    throw new Error('loadScriptNode is disabled in non-Node.js environment');
+};
+async function loadModule(url, options) {
+    const { fetch: fetch1, vm } = options;
+    const response = await fetch1(url);
+    const code = await response.text();
+    const module = new vm.SourceTextModule(code, {
+        // @ts-ignore
+        importModuleDynamically: async (specifier, script)=>{
+            const resolvedUrl = new URL(specifier, url).href;
+            return loadModule(resolvedUrl, options);
+        }
+    });
+    await module.link(async (specifier)=>{
+        const resolvedUrl = new URL(specifier, url).href;
+        const module = await loadModule(resolvedUrl, options);
+        return module;
+    });
+    return module;
+}
+
+function normalizeOptions(enableDefault, defaultOptions, key) {
+    return function(options) {
+        if (options === false) {
+            return false;
+        }
+        if (typeof options === 'undefined') {
+            if (enableDefault) {
+                return defaultOptions;
+            } else {
+                return false;
+            }
+        }
+        if (options === true) {
+            return defaultOptions;
+        }
+        if (options && typeof options === 'object') {
+            return polyfills._({}, defaultOptions, options);
+        }
+        throw new Error(`Unexpected type for \`${key}\`, expect boolean/undefined/object, got: ${typeof options}`);
+    };
+}
+
+const createModuleFederationConfig = (options)=>{
+    return options;
+};
+
+exports.BROWSER_LOG_KEY = BROWSER_LOG_KEY;
+exports.ENCODE_NAME_PREFIX = ENCODE_NAME_PREFIX;
+exports.EncodedNameTransformMap = EncodedNameTransformMap;
+exports.FederationModuleManifest = FederationModuleManifest;
+exports.MANIFEST_EXT = MANIFEST_EXT;
+exports.MFModuleType = MFModuleType;
+exports.MFPrefetchCommon = MFPrefetchCommon;
+exports.MODULE_DEVTOOL_IDENTIFIER = MODULE_DEVTOOL_IDENTIFIER;
+exports.ManifestFileName = ManifestFileName;
+exports.NameTransformMap = NameTransformMap;
+exports.NameTransformSymbol = NameTransformSymbol;
+exports.SEPARATOR = SEPARATOR;
+exports.StatsFileName = StatsFileName;
+exports.TEMP_DIR = TEMP_DIR;
+exports.assert = assert;
+exports.composeKeyWithSeparator = composeKeyWithSeparator;
+exports.containerPlugin = ContainerPlugin;
+exports.containerReferencePlugin = ContainerReferencePlugin;
+exports.createLink = createLink;
+exports.createLogger = createLogger;
+exports.createModuleFederationConfig = createModuleFederationConfig;
+exports.createScript = createScript;
+exports.createScriptNode = createScriptNode;
+exports.decodeName = decodeName;
+exports.encodeName = encodeName;
+exports.error = error;
+exports.generateExposeFilename = generateExposeFilename;
+exports.generateShareFilename = generateShareFilename;
+exports.generateSnapshotFromManifest = generateSnapshotFromManifest;
+exports.getProcessEnv = getProcessEnv;
+exports.getResourceUrl = getResourceUrl;
+exports.inferAutoPublicPath = inferAutoPublicPath;
+exports.isBrowserEnv = isBrowserEnv;
+exports.isDebugMode = isDebugMode;
+exports.isManifestProvider = isManifestProvider;
+exports.isReactNativeEnv = isReactNativeEnv;
+exports.isRequiredVersion = isRequiredVersion;
+exports.isStaticResourcesEqual = isStaticResourcesEqual;
+exports.loadScript = loadScript;
+exports.loadScriptNode = loadScriptNode;
+exports.logger = logger;
+exports.moduleFederationPlugin = ModuleFederationPlugin;
+exports.normalizeOptions = normalizeOptions;
+exports.parseEntry = parseEntry;
+exports.safeToString = safeToString;
+exports.safeWrapper = safeWrapper;
+exports.sharePlugin = SharePlugin;
+exports.simpleJoinRemoteEntry = simpleJoinRemoteEntry;
+exports.warn = warn;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/polyfills.cjs.cjs": 
+/*!****************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/polyfills.cjs.cjs ***!
+  \****************************************************************************************************************************/
+(function (__unused_webpack_module, exports) {
+
+
+function _extends() {
+    _extends = Object.assign || function assign(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+
+exports._ = _extends;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/constant.cjs.cjs": 
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/constant.cjs.cjs ***!
+  \*******************************************************************************************************************************************************************/
+(function (__unused_webpack_module, exports) {
+
+
+const FEDERATION_SUPPORTED_TYPES = [
+    'script'
+];
+
+exports.FEDERATION_SUPPORTED_TYPES = FEDERATION_SUPPORTED_TYPES;
+
+
+}),
+"../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs": 
+/*!****************************************************************************************************************************************************************!*\
+  !*** ../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs ***!
+  \****************************************************************************************************************************************************************/
+(function (module, __unused_webpack_exports, __webpack_require__) {
+
+
+var runtime = __webpack_require__(/*! @module-federation/runtime */ "../../../node_modules/.pnpm/@module-federation+runtime@0.17.0/node_modules/@module-federation/runtime/dist/index.cjs.cjs");
+var constant = __webpack_require__(/*! ./constant.cjs.cjs */ "../../../node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/constant.cjs.cjs");
+var sdk = __webpack_require__(/*! @module-federation/sdk */ "../../../node_modules/.pnpm/@module-federation+sdk@0.17.0/node_modules/@module-federation/sdk/dist/index.cjs.cjs");
+
+function _interopNamespaceDefault(e) {
+  var n = Object.create(null);
+  if (e) {
+    for (var k in e) {
+      n[k] = e[k];
+    }
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+
+var runtime__namespace = /*#__PURE__*/_interopNamespaceDefault(runtime);
+
+function attachShareScopeMap(webpackRequire) {
+    if (!webpackRequire.S || webpackRequire.federation.hasAttachShareScopeMap || !webpackRequire.federation.instance || !webpackRequire.federation.instance.shareScopeMap) {
+        return;
+    }
+    webpackRequire.S = webpackRequire.federation.instance.shareScopeMap;
+    webpackRequire.federation.hasAttachShareScopeMap = true;
+}
+
+function remotes(options) {
+    const { chunkId, promises, chunkMapping, idToExternalAndNameMapping, webpackRequire, idToRemoteMap } = options;
+    attachShareScopeMap(webpackRequire);
+    if (webpackRequire.o(chunkMapping, chunkId)) {
+        chunkMapping[chunkId].forEach((id)=>{
+            let getScope = webpackRequire.R;
+            if (!getScope) {
+                getScope = [];
+            }
+            const data = idToExternalAndNameMapping[id];
+            const remoteInfos = idToRemoteMap[id];
+            // @ts-ignore seems not work
+            if (getScope.indexOf(data) >= 0) {
+                return;
+            }
+            // @ts-ignore seems not work
+            getScope.push(data);
+            if (data.p) {
+                return promises.push(data.p);
+            }
+            const onError = (error)=>{
+                if (!error) {
+                    error = new Error('Container missing');
+                }
+                if (typeof error.message === 'string') {
+                    error.message += `\nwhile loading "${data[1]}" from ${data[2]}`;
+                }
+                webpackRequire.m[id] = ()=>{
+                    throw error;
+                };
+                data.p = 0;
+            };
+            const handleFunction = (fn, arg1, arg2, d, next, first)=>{
+                try {
+                    const promise = fn(arg1, arg2);
+                    if (promise && promise.then) {
+                        const p = promise.then((result)=>next(result, d), onError);
+                        if (first) {
+                            promises.push(data.p = p);
+                        } else {
+                            return p;
+                        }
+                    } else {
+                        return next(promise, d, first);
+                    }
+                } catch (error) {
+                    onError(error);
+                }
+            };
+            const onExternal = (external, _, first)=>external ? handleFunction(webpackRequire.I, data[0], 0, external, onInitialized, first) : onError();
+            // eslint-disable-next-line no-var
+            var onInitialized = (_, external, first)=>handleFunction(external.get, data[1], getScope, 0, onFactory, first);
+            // eslint-disable-next-line no-var
+            var onFactory = (factory)=>{
+                data.p = 1;
+                webpackRequire.m[id] = (module)=>{
+                    module.exports = factory();
+                };
+            };
+            const onRemoteLoaded = ()=>{
+                try {
+                    const remoteName = sdk.decodeName(remoteInfos[0].name, sdk.ENCODE_NAME_PREFIX);
+                    const remoteModuleName = remoteName + data[1].slice(1);
+                    const instance = webpackRequire.federation.instance;
+                    const loadRemote = ()=>webpackRequire.federation.instance.loadRemote(remoteModuleName, {
+                            loadFactory: false,
+                            from: 'build'
+                        });
+                    if (instance.options.shareStrategy === 'version-first') {
+                        return Promise.all(instance.sharedHandler.initializeSharing(data[0])).then(()=>{
+                            return loadRemote();
+                        });
+                    }
+                    return loadRemote();
+                } catch (error) {
+                    onError(error);
+                }
+            };
+            const useRuntimeLoad = remoteInfos.length === 1 && constant.FEDERATION_SUPPORTED_TYPES.includes(remoteInfos[0].externalType) && remoteInfos[0].name;
+            if (useRuntimeLoad) {
+                handleFunction(onRemoteLoaded, data[2], 0, 0, onFactory, 1);
+            } else {
+                handleFunction(webpackRequire, data[2], 0, 0, onExternal, 1);
+            }
+        });
+    }
+}
+
+function consumes(options) {
+    const { chunkId, promises, chunkMapping, installedModules, moduleToHandlerMapping, webpackRequire } = options;
+    attachShareScopeMap(webpackRequire);
+    if (webpackRequire.o(chunkMapping, chunkId)) {
+        chunkMapping[chunkId].forEach((id)=>{
+            if (webpackRequire.o(installedModules, id)) {
+                return promises.push(installedModules[id]);
+            }
+            const onFactory = (factory)=>{
+                installedModules[id] = 0;
+                webpackRequire.m[id] = (module)=>{
+                    delete webpackRequire.c[id];
+                    module.exports = factory();
+                };
+            };
+            const onError = (error)=>{
+                delete installedModules[id];
+                webpackRequire.m[id] = (module)=>{
+                    delete webpackRequire.c[id];
+                    throw error;
+                };
+            };
+            try {
+                const federationInstance = webpackRequire.federation.instance;
+                if (!federationInstance) {
+                    throw new Error('Federation instance not found!');
+                }
+                const { shareKey, getter, shareInfo } = moduleToHandlerMapping[id];
+                const promise = federationInstance.loadShare(shareKey, {
+                    customShareInfo: shareInfo
+                }).then((factory)=>{
+                    if (factory === false) {
+                        return getter();
+                    }
+                    return factory;
+                });
+                if (promise.then) {
+                    promises.push(installedModules[id] = promise.then(onFactory).catch(onError));
+                } else {
+                    // @ts-ignore maintain previous logic
+                    onFactory(promise);
+                }
+            } catch (e) {
+                onError(e);
+            }
+        });
+    }
+}
+
+function initializeSharing({ shareScopeName, webpackRequire, initPromises, initTokens, initScope }) {
+    const shareScopeKeys = Array.isArray(shareScopeName) ? shareScopeName : [
+        shareScopeName
+    ];
+    var initializeSharingPromises = [];
+    var _initializeSharing = function(shareScopeKey) {
+        if (!initScope) initScope = [];
+        const mfInstance = webpackRequire.federation.instance;
+        // handling circular init calls
+        var initToken = initTokens[shareScopeKey];
+        if (!initToken) initToken = initTokens[shareScopeKey] = {
+            from: mfInstance.name
+        };
+        if (initScope.indexOf(initToken) >= 0) return;
+        initScope.push(initToken);
+        const promise = initPromises[shareScopeKey];
+        if (promise) return promise;
+        var warn = (msg)=>typeof console !== 'undefined' && console.warn && console.warn(msg);
+        var initExternal = (id)=>{
+            var handleError = (err)=>warn('Initialization of sharing external failed: ' + err);
+            try {
+                var module = webpackRequire(id);
+                if (!module) return;
+                var initFn = (module)=>module && module.init && // @ts-ignore compat legacy mf shared behavior
+                    module.init(webpackRequire.S[shareScopeKey], initScope, {
+                        shareScopeMap: webpackRequire.S || {},
+                        shareScopeKeys: shareScopeName
+                    });
+                if (module.then) return promises.push(module.then(initFn, handleError));
+                var initResult = initFn(module);
+                // @ts-ignore
+                if (initResult && typeof initResult !== 'boolean' && initResult.then) // @ts-ignore
+                return promises.push(initResult['catch'](handleError));
+            } catch (err) {
+                handleError(err);
+            }
+        };
+        const promises = mfInstance.initializeSharing(shareScopeKey, {
+            strategy: mfInstance.options.shareStrategy,
+            initScope,
+            from: 'build'
+        });
+        attachShareScopeMap(webpackRequire);
+        const bundlerRuntimeRemotesOptions = webpackRequire.federation.bundlerRuntimeOptions.remotes;
+        if (bundlerRuntimeRemotesOptions) {
+            Object.keys(bundlerRuntimeRemotesOptions.idToRemoteMap).forEach((moduleId)=>{
+                const info = bundlerRuntimeRemotesOptions.idToRemoteMap[moduleId];
+                const externalModuleId = bundlerRuntimeRemotesOptions.idToExternalAndNameMapping[moduleId][2];
+                if (info.length > 1) {
+                    initExternal(externalModuleId);
+                } else if (info.length === 1) {
+                    const remoteInfo = info[0];
+                    if (!constant.FEDERATION_SUPPORTED_TYPES.includes(remoteInfo.externalType)) {
+                        initExternal(externalModuleId);
+                    }
+                }
+            });
+        }
+        if (!promises.length) {
+            return initPromises[shareScopeKey] = true;
+        }
+        return initPromises[shareScopeKey] = Promise.all(promises).then(()=>initPromises[shareScopeKey] = true);
+    };
+    shareScopeKeys.forEach((key)=>{
+        initializeSharingPromises.push(_initializeSharing(key));
+    });
+    return Promise.all(initializeSharingPromises).then(()=>true);
+}
+
+function handleInitialConsumes(options) {
+    const { moduleId, moduleToHandlerMapping, webpackRequire } = options;
+    const federationInstance = webpackRequire.federation.instance;
+    if (!federationInstance) {
+        throw new Error('Federation instance not found!');
+    }
+    const { shareKey, shareInfo } = moduleToHandlerMapping[moduleId];
+    try {
+        return federationInstance.loadShareSync(shareKey, {
+            customShareInfo: shareInfo
+        });
+    } catch (err) {
+        console.error('loadShareSync failed! The function should not be called unless you set "eager:true". If you do not set it, and encounter this issue, you can check whether an async boundary is implemented.');
+        console.error('The original error message is as follows: ');
+        throw err;
+    }
+}
+function installInitialConsumes(options) {
+    const { moduleToHandlerMapping, webpackRequire, installedModules, initialConsumes } = options;
+    initialConsumes.forEach((id)=>{
+        webpackRequire.m[id] = (module)=>{
+            // Handle scenario when module is used synchronously
+            installedModules[id] = 0;
+            delete webpackRequire.c[id];
+            const factory = handleInitialConsumes({
+                moduleId: id,
+                moduleToHandlerMapping,
+                webpackRequire
+            });
+            if (typeof factory !== 'function') {
+                throw new Error(`Shared module is not available for eager consumption: ${id}`);
+            }
+            module.exports = factory();
+        };
+    });
+}
+
+function _extends() {
+    _extends = Object.assign || function assign(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+
+function initContainerEntry(options) {
+    const { webpackRequire, shareScope, initScope, shareScopeKey, remoteEntryInitOptions } = options;
+    if (!webpackRequire.S) return;
+    if (!webpackRequire.federation || !webpackRequire.federation.instance || !webpackRequire.federation.initOptions) return;
+    const federationInstance = webpackRequire.federation.instance;
+    federationInstance.initOptions(_extends({
+        name: webpackRequire.federation.initOptions.name,
+        remotes: []
+    }, remoteEntryInitOptions));
+    const hostShareScopeKeys = remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeKeys;
+    const hostShareScopeMap = remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeMap;
+    // host: 'default' remote: 'default'  remote['default'] = hostShareScopeMap['default']
+    // host: ['default', 'scope1'] remote: 'default'  remote['default'] = hostShareScopeMap['default']; remote['scope1'] = hostShareScopeMap['scop1']
+    // host: 'default' remote: ['default','scope1']  remote['default'] = hostShareScopeMap['default']; remote['scope1'] = hostShareScopeMap['scope1'] = {}
+    // host: ['scope1','default'] remote: ['scope1','scope2'] => remote['scope1'] = hostShareScopeMap['scope1']; remote['scope2'] = hostShareScopeMap['scope2'] = {};
+    if (!shareScopeKey || typeof shareScopeKey === 'string') {
+        const key = shareScopeKey || 'default';
+        if (Array.isArray(hostShareScopeKeys)) {
+            // const sc = hostShareScopeMap![key];
+            // if (!sc) {
+            //   throw new Error('shareScopeKey is not exist in hostShareScopeMap');
+            // }
+            // federationInstance.initShareScopeMap(key, sc, {
+            //   hostShareScopeMap: remoteEntryInitOptions?.shareScopeMap || {},
+            // });
+            hostShareScopeKeys.forEach((hostKey)=>{
+                if (!hostShareScopeMap[hostKey]) {
+                    hostShareScopeMap[hostKey] = {};
+                }
+                const sc = hostShareScopeMap[hostKey];
+                federationInstance.initShareScopeMap(hostKey, sc, {
+                    hostShareScopeMap: (remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeMap) || {}
+                });
+            });
+        } else {
+            federationInstance.initShareScopeMap(key, shareScope, {
+                hostShareScopeMap: (remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeMap) || {}
+            });
+        }
+    } else {
+        shareScopeKey.forEach((key)=>{
+            if (!hostShareScopeKeys || !hostShareScopeMap) {
+                federationInstance.initShareScopeMap(key, shareScope, {
+                    hostShareScopeMap: (remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeMap) || {}
+                });
+                return;
+            }
+            if (!hostShareScopeMap[key]) {
+                hostShareScopeMap[key] = {};
+            }
+            const sc = hostShareScopeMap[key];
+            federationInstance.initShareScopeMap(key, sc, {
+                hostShareScopeMap: (remoteEntryInitOptions == null ? void 0 : remoteEntryInitOptions.shareScopeMap) || {}
+            });
+        });
+    }
+    if (webpackRequire.federation.attachShareScopeMap) {
+        webpackRequire.federation.attachShareScopeMap(webpackRequire);
+    }
+    if (typeof webpackRequire.federation.prefetch === 'function') {
+        webpackRequire.federation.prefetch();
+    }
+    if (!Array.isArray(shareScopeKey)) {
+        // @ts-ignore
+        return webpackRequire.I(shareScopeKey || 'default', initScope);
+    }
+    var proxyInitializeSharing = Boolean(webpackRequire.federation.initOptions.shared);
+    if (proxyInitializeSharing) {
+        // @ts-ignore
+        return webpackRequire.I(shareScopeKey, initScope);
+    }
+    // @ts-ignore
+    return Promise.all(shareScopeKey.map((key)=>{
+        // @ts-ignore
+        return webpackRequire.I(key, initScope);
+    })).then(()=>true);
+}
+
+const federation = {
+    runtime: runtime__namespace,
+    instance: undefined,
+    initOptions: undefined,
+    bundlerRuntime: {
+        remotes,
+        consumes,
+        I: initializeSharing,
+        S: {},
+        installInitialConsumes,
+        initContainerEntry
+    },
+    attachShareScopeMap,
+    bundlerRuntimeOptions: {}
+};
+
+module.exports = federation;
+
+
+}),
+
+});
+/************************************************************************/
+// The module cache
+var __webpack_module_cache__ = {};
+
+// The require function
+function __webpack_require__(moduleId) {
+
+// Check if module is in cache
+var cachedModule = __webpack_module_cache__[moduleId];
+if (cachedModule !== undefined) {
+return cachedModule.exports;
+}
+// Create a new module (and put it into the cache)
+var module = (__webpack_module_cache__[moduleId] = {
+id: moduleId,
+loaded: false,
+exports: {}
+});
+// Execute the module function
+__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+// Flag the module as loaded
+module.loaded = true;
+// Return the exports of the module
+return module.exports;
+
+}
+
+// expose the modules object (__webpack_modules__)
+__webpack_require__.m = __webpack_modules__;
+
+// expose the module cache
+__webpack_require__.c = __webpack_module_cache__;
+
+// the startup function
+__webpack_require__.x = () => {
+// Load entry module and return exports
+var __webpack_exports__ = __webpack_require__("webpack/container/entry/remote");
+return __webpack_exports__
+};
+
+/************************************************************************/
+// module_federation/runtime
+(() => {
+
+if(!__webpack_require__.federation){
+    __webpack_require__.federation = {
+        
+chunkMatcher: function(chunkId) {
+    return !/^webpack_sharing_consume_default_(ant(\-design_icons_ant\-design_icons|d_antd)|react(\-chartjs\-2_react\-chartjs\-2|\-dom_react\-dom|_react)|(chart_js_chart_j|dayjs_dayj|lodash\-es_lodash\-e)s)$/.test(chunkId);
+},
+rootOutputDir: "",
+
+    };
+}
+
+})();
+// webpack/runtime/compat_get_default_export
+(() => {
+// getDefaultExport function for compatibility with non-ESM modules
+__webpack_require__.n = (module) => {
+	var getter = module && module.__esModule ?
+		() => (module['default']) :
+		() => (module);
+	__webpack_require__.d(getter, { a: getter });
+	return getter;
+};
+
+})();
+// webpack/runtime/define_property_getters
+(() => {
+__webpack_require__.d = (exports, definition) => {
+	for(var key in definition) {
+        if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+            Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+        }
+    }
+};
+})();
+// webpack/runtime/embed_federation_runtime
+(() => {
+var prevStartup = __webpack_require__.x;
+var hasRun = false;
+__webpack_require__.x = function() {
+	if (!hasRun) {
+		hasRun = true;
+		__webpack_require__("@module-federation/runtime/rspack.js!=!data:text/javascript,import __module_federation_bundler_runtime__ from \"/Users/bytedance/dev/swc_macro_sys/node_modules/.pnpm/@module-federation+webpack-bundler-runtime@0.17.0/node_modules/@module-federation/webpack-bundler-runtime/dist/index.cjs.cjs\";const __module_federation_runtime_plugins__ = [];const __module_federation_remote_infos__ = {};const __module_federation_container_name__ = \"remote\";const __module_federation_share_strategy__ = \"version-first\";if((__webpack_require__.initializeSharingData||__webpack_require__.initializeExposesData)&&__webpack_require__.federation){var __webpack_require___remotesLoadingData,__webpack_require___remotesLoadingData1,__webpack_require___initializeSharingData,__webpack_require___consumesLoadingData,__webpack_require___consumesLoadingData1,__webpack_require___initializeExposesData,__webpack_require___consumesLoadingData2;const override=(obj,key,value)=>{if(!obj)return;if(obj[key])obj[key]=value};const merge=(obj,key,fn)=>{const value=fn();if(Array.isArray(value)){var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=[];obj[key].push(...value)}else if(typeof value===\"object\"&&value!==null){var _obj1,_key1;var _1;(_1=(_obj1=obj)[_key1=key])!==null&&_1!==void 0?_1:_obj1[_key1]={};Object.assign(obj[key],value)}};const early=(obj,key,initial)=>{var _obj,_key;var _;(_=(_obj=obj)[_key=key])!==null&&_!==void 0?_:_obj[_key]=initial()};var __webpack_require___remotesLoadingData_chunkMapping;const remotesLoadingChunkMapping=(__webpack_require___remotesLoadingData_chunkMapping=(__webpack_require___remotesLoadingData=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData===void 0?void 0:__webpack_require___remotesLoadingData.chunkMapping)!==null&&__webpack_require___remotesLoadingData_chunkMapping!==void 0?__webpack_require___remotesLoadingData_chunkMapping:{};var __webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping;const remotesLoadingModuleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping=(__webpack_require___remotesLoadingData1=__webpack_require__.remotesLoadingData)===null||__webpack_require___remotesLoadingData1===void 0?void 0:__webpack_require___remotesLoadingData1.moduleIdToRemoteDataMapping)!==null&&__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping!==void 0?__webpack_require___remotesLoadingData_moduleIdToRemoteDataMapping:{};var __webpack_require___initializeSharingData_scopeToSharingDataMapping;const initializeSharingScopeToInitDataMapping=(__webpack_require___initializeSharingData_scopeToSharingDataMapping=(__webpack_require___initializeSharingData=__webpack_require__.initializeSharingData)===null||__webpack_require___initializeSharingData===void 0?void 0:__webpack_require___initializeSharingData.scopeToSharingDataMapping)!==null&&__webpack_require___initializeSharingData_scopeToSharingDataMapping!==void 0?__webpack_require___initializeSharingData_scopeToSharingDataMapping:{};var __webpack_require___consumesLoadingData_chunkMapping;const consumesLoadingChunkMapping=(__webpack_require___consumesLoadingData_chunkMapping=(__webpack_require___consumesLoadingData=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData===void 0?void 0:__webpack_require___consumesLoadingData.chunkMapping)!==null&&__webpack_require___consumesLoadingData_chunkMapping!==void 0?__webpack_require___consumesLoadingData_chunkMapping:{};var __webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping;const consumesLoadingModuleToConsumeDataMapping=(__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping=(__webpack_require___consumesLoadingData1=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData1===void 0?void 0:__webpack_require___consumesLoadingData1.moduleIdToConsumeDataMapping)!==null&&__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping!==void 0?__webpack_require___consumesLoadingData_moduleIdToConsumeDataMapping:{};const consumesLoadinginstalledModules={};const initializeSharingInitPromises=[];const initializeSharingInitTokens={};const containerShareScope=(__webpack_require___initializeExposesData=__webpack_require__.initializeExposesData)===null||__webpack_require___initializeExposesData===void 0?void 0:__webpack_require___initializeExposesData.shareScope;for(const key in __module_federation_bundler_runtime__){__webpack_require__.federation[key]=__module_federation_bundler_runtime__[key]}early(__webpack_require__.federation,\"consumesLoadingModuleToHandlerMapping\",()=>{const consumesLoadingModuleToHandlerMapping={};for(let[moduleId,data]of Object.entries(consumesLoadingModuleToConsumeDataMapping)){consumesLoadingModuleToHandlerMapping[moduleId]={getter:data.fallback,shareInfo:{shareConfig:{fixedDependencies:false,requiredVersion:data.requiredVersion,strictVersion:data.strictVersion,singleton:data.singleton,eager:data.eager},scope:[data.shareScope]},shareKey:data.shareKey}}return consumesLoadingModuleToHandlerMapping});early(__webpack_require__.federation,\"initOptions\",()=>({}));early(__webpack_require__.federation.initOptions,\"name\",()=>__module_federation_container_name__);early(__webpack_require__.federation.initOptions,\"shareStrategy\",()=>__module_federation_share_strategy__);early(__webpack_require__.federation.initOptions,\"shared\",()=>{const shared={};for(let[scope,stages]of Object.entries(initializeSharingScopeToInitDataMapping)){for(let stage of stages){if(typeof stage===\"object\"&&stage!==null){const{name,version,factory,eager,singleton,requiredVersion,strictVersion}=stage;const shareConfig={};const isValidValue=function(val){return typeof val!==\"undefined\"};if(isValidValue(singleton)){shareConfig.singleton=singleton}if(isValidValue(requiredVersion)){shareConfig.requiredVersion=requiredVersion}if(isValidValue(eager)){shareConfig.eager=eager}if(isValidValue(strictVersion)){shareConfig.strictVersion=strictVersion}const options={version,scope:[scope],shareConfig,get:factory};if(shared[name]){shared[name].push(options)}else{shared[name]=[options]}}}}return shared});merge(__webpack_require__.federation.initOptions,\"remotes\",()=>Object.values(__module_federation_remote_infos__).flat().filter(remote=>remote.externalType===\"script\"));merge(__webpack_require__.federation.initOptions,\"plugins\",()=>__module_federation_runtime_plugins__);early(__webpack_require__.federation,\"bundlerRuntimeOptions\",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions,\"remotes\",()=>({}));early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"chunkMapping\",()=>remotesLoadingChunkMapping);early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"idToExternalAndNameMapping\",()=>{const remotesLoadingIdToExternalAndNameMappingMapping={};for(let[moduleId,data]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){remotesLoadingIdToExternalAndNameMappingMapping[moduleId]=[data.shareScope,data.name,data.externalModuleId,data.remoteName]}return remotesLoadingIdToExternalAndNameMappingMapping});early(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"webpackRequire\",()=>__webpack_require__);merge(__webpack_require__.federation.bundlerRuntimeOptions.remotes,\"idToRemoteMap\",()=>{const idToRemoteMap={};for(let[id,remoteData]of Object.entries(remotesLoadingModuleIdToRemoteDataMapping)){const info=__module_federation_remote_infos__[remoteData.remoteName];if(info)idToRemoteMap[id]=info}return idToRemoteMap});override(__webpack_require__,\"S\",__webpack_require__.federation.bundlerRuntime.S);if(__webpack_require__.federation.attachShareScopeMap){__webpack_require__.federation.attachShareScopeMap(__webpack_require__)}override(__webpack_require__.f,\"remotes\",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.remotes({chunkId,promises,chunkMapping:remotesLoadingChunkMapping,idToExternalAndNameMapping:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToExternalAndNameMapping,idToRemoteMap:__webpack_require__.federation.bundlerRuntimeOptions.remotes.idToRemoteMap,webpackRequire:__webpack_require__}));override(__webpack_require__.f,\"consumes\",(chunkId,promises)=>__webpack_require__.federation.bundlerRuntime.consumes({chunkId,promises,chunkMapping:consumesLoadingChunkMapping,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping,installedModules:consumesLoadinginstalledModules,webpackRequire:__webpack_require__}));override(__webpack_require__,\"I\",(name,initScope)=>__webpack_require__.federation.bundlerRuntime.I({shareScopeName:name,initScope,initPromises:initializeSharingInitPromises,initTokens:initializeSharingInitTokens,webpackRequire:__webpack_require__}));override(__webpack_require__,\"initContainer\",(shareScope,initScope,remoteEntryInitOptions)=>__webpack_require__.federation.bundlerRuntime.initContainerEntry({shareScope,initScope,remoteEntryInitOptions,shareScopeKey:containerShareScope,webpackRequire:__webpack_require__}));override(__webpack_require__,\"getContainer\",(module1,getScope)=>{var moduleMap=__webpack_require__.initializeExposesData.moduleMap;__webpack_require__.R=getScope;getScope=Object.prototype.hasOwnProperty.call(moduleMap,module1)?moduleMap[module1]():Promise.resolve().then(()=>{throw new Error('Module \"'+module1+'\" does not exist in container.')});__webpack_require__.R=undefined;return getScope});__webpack_require__.federation.instance=__webpack_require__.federation.runtime.init(__webpack_require__.federation.initOptions);if((__webpack_require___consumesLoadingData2=__webpack_require__.consumesLoadingData)===null||__webpack_require___consumesLoadingData2===void 0?void 0:__webpack_require___consumesLoadingData2.initialConsumes){__webpack_require__.federation.bundlerRuntime.installInitialConsumes({webpackRequire:__webpack_require__,installedModules:consumesLoadinginstalledModules,initialConsumes:__webpack_require__.consumesLoadingData.initialConsumes,moduleToHandlerMapping:__webpack_require__.federation.consumesLoadingModuleToHandlerMapping})}}")
+	}
+	if (typeof prevStartup === 'function') {
+		return prevStartup();
+	} else {
+		console.warn('[MF] Invalid prevStartup');
+	}
+};
+})();
+// webpack/runtime/ensure_chunk
+(() => {
+__webpack_require__.f = {};
+// This file contains only the entry chunk.
+// The chunk loading function for additional chunks
+__webpack_require__.e = (chunkId) => {
+	return Promise.all(
+		Object.keys(__webpack_require__.f).reduce((promises, key) => {
+			__webpack_require__.f[key](chunkId, promises);
+			return promises;
+		}, [])
+	);
+};
+})();
+// webpack/runtime/esm_module_decorator
+(() => {
+__webpack_require__.hmd = (module) => {
+  module = Object.create(module);
+  if (!module.children) module.children = [];
+  Object.defineProperty(module, 'exports', {
+      enumerable: true,
+      set: () => {
+          throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+      }
+  });
+  return module;
+};
+})();
+// webpack/runtime/get javascript chunk filename
+(() => {
+// This function allow to reference chunks
+__webpack_require__.u = (chunkId) => {
+  // return url for filenames not based on template
+  
+  // return url for filenames based on template
+  return "" + chunkId + "." + {"node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e0": "3db0018e57efedc9","node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e1": "20e4ee5bd267f4e4","src_components_ChartWidget_jsx": "42535b5047145211","src_components_DataTable_jsx": "58a0f168924d26fd","src_components_FormBuilder_jsx": "3091e54ab3aac203","src_components_UserCard_jsx": "b16748c7ad9f42ba","src_store_slices_js": "e3e60297bdaaebae","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-8d3b95": "65be1c85ef69ef7f","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28": "1c7615bc2a101bec","vendors-node_modules_pnpm_antd_5_27_0_react-dom_18_3_1_react_18_3_1_node_modules_antd_es_index_js": "2c4521b0e28c6302","vendors-node_modules_pnpm_chart_js_4_5_0_node_modules_chart_js_dist_chart_js": "36d3ee2ca889dd63","vendors-node_modules_pnpm_dayjs_1_11_13_node_modules_dayjs_dayjs_min_js": "376dd385a4efc4d8","vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js": "109c234c81309e95","vendors-node_modules_pnpm_react-dom_18_3_1_react_18_3_1_node_modules_react-dom_index_js": "48dbc16582969103","vendors-node_modules_pnpm_react_18_3_1_node_modules_react_index_js": "1a04e81ff105870e","vendors-node_modules_pnpm_reduxjs_toolkit_2_8_2_react-redux_9_2_0_react_18_3_1_node_modules_r-327980": "8304811f6bfb5234",}[chunkId] + ".js"
+}
+})();
+// webpack/runtime/global
+(() => {
+__webpack_require__.g = (() => {
+	if (typeof globalThis === 'object') return globalThis;
+	try {
+		return this || new Function('return this')();
+	} catch (e) {
+		if (typeof window === 'object') return window;
+	}
+})();
+})();
+// webpack/runtime/has_own_property
+(() => {
+__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+})();
+// webpack/runtime/load_script
+(() => {
+var inProgress = {};
+
+var dataWebpackPrefix = "@mf-react/remote:";
+// loadScript function to load a script via script tag
+__webpack_require__.l = function (url, done, key, chunkId) {
+	if (inProgress[url]) {
+		inProgress[url].push(done);
+		return;
+	}
+	var script, needAttach;
+	if (key !== undefined) {
+		var scripts = document.getElementsByTagName("script");
+		for (var i = 0; i < scripts.length; i++) {
+			var s = scripts[i];
+			if (s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) {
+				script = s;
+				break;
+			}
+		}
+	}
+	if (!script) {
+		needAttach = true;
+		
+    script = document.createElement('script');
+    
+		script.charset = 'utf-8';
+		script.timeout = 120;
+		if (__webpack_require__.nc) {
+			script.setAttribute("nonce", __webpack_require__.nc);
+		}
+		script.setAttribute("data-webpack", dataWebpackPrefix + key);
+		
+		script.src = url;
+		
+    
+	}
+	inProgress[url] = [done];
+	var onScriptComplete = function (prev, event) {
+		script.onerror = script.onload = null;
+		clearTimeout(timeout);
+		var doneFns = inProgress[url];
+		delete inProgress[url];
+		script.parentNode && script.parentNode.removeChild(script);
+		doneFns &&
+			doneFns.forEach(function (fn) {
+				return fn(event);
+			});
+		if (prev) return prev(event);
+	};
+	var timeout = setTimeout(
+		onScriptComplete.bind(null, undefined, {
+			type: 'timeout',
+			target: script
+		}),
+		120000
+	);
+	script.onerror = onScriptComplete.bind(null, script.onerror);
+	script.onload = onScriptComplete.bind(null, script.onload);
+	needAttach && document.head.appendChild(script);
+};
+
+})();
+// webpack/runtime/make_namespace_object
+(() => {
+// define __esModule on exports
+__webpack_require__.r = (exports) => {
+	if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+		Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+	}
+	Object.defineProperty(exports, '__esModule', { value: true });
+};
+})();
+// webpack/runtime/node_module_decorator
+(() => {
+__webpack_require__.nmd = (module) => {
+  module.paths = [];
+  if (!module.children) module.children = [];
+  return module;
+};
+})();
+// webpack/runtime/public_path
+(() => {
+__webpack_require__.p = "http://localhost:3002/";
+})();
+// webpack/runtime/rspack_version
+(() => {
+__webpack_require__.rv = () => ("1.4.11-canary-1c16f486-20250724191319")
+})();
+// webpack/runtime/sharing
+(() => {
+
+__webpack_require__.S = {};
+__webpack_require__.initializeSharingData = { scopeToSharingDataMapping: { "default": [{ name: "@ant-design/icons", version: "5.6.1", factory: () => (Promise.all([__webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28"), __webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-8d3b95"), __webpack_require__.e("webpack_sharing_consume_default_react_react")]).then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/@ant-design+icons@5.6.1_react-dom@18.3.1_react@18.3.1/node_modules/@ant-design/icons/es/index.js */ "../../../node_modules/.pnpm/@ant-design+icons@5.6.1_react-dom@18.3.1_react@18.3.1/node_modules/@ant-design/icons/es/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^5.5.2" }, { name: "@reduxjs/toolkit", version: "2.8.2", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_reduxjs_toolkit_2_8_2_react-redux_9_2_0_react_18_3_1_node_modules_r-327980").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/@reduxjs+toolkit@2.8.2_react-redux@9.2.0_react@18.3.1/node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs */ "../../../node_modules/.pnpm/@reduxjs+toolkit@2.8.2_react-redux@9.2.0_react@18.3.1/node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs"))))), eager: 0, singleton: 1, requiredVersion: "^2.5.0" }, { name: "antd", version: "5.27.0", factory: () => (Promise.all([__webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28"), __webpack_require__.e("vendors-node_modules_pnpm_antd_5_27_0_react-dom_18_3_1_react_18_3_1_node_modules_antd_es_index_js"), __webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_dayjs_dayjs"), __webpack_require__.e("webpack_sharing_consume_default_ant-design_icons_ant-design_icons"), __webpack_require__.e("webpack_sharing_consume_default_react-dom_react-dom")]).then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/antd@5.27.0_react-dom@18.3.1_react@18.3.1/node_modules/antd/es/index.js */ "../../../node_modules/.pnpm/antd@5.27.0_react-dom@18.3.1_react@18.3.1/node_modules/antd/es/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^5.21.8" }, { name: "chart.js", version: "4.5.0", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_chart_js_4_5_0_node_modules_chart_js_dist_chart_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/chart.js@4.5.0/node_modules/chart.js/dist/chart.js */ "../../../node_modules/.pnpm/chart.js@4.5.0/node_modules/chart.js/dist/chart.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.4.7" }, { name: "dayjs", version: "1.11.13", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_dayjs_1_11_13_node_modules_dayjs_dayjs_min_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/dayjs@1.11.13/node_modules/dayjs/dayjs.min.js */ "../../../node_modules/.pnpm/dayjs@1.11.13/node_modules/dayjs/dayjs.min.js"))))), eager: 0, singleton: 1, requiredVersion: "^1.11.13" }, { name: "lodash-es", version: "4.17.21", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))), eager: 0, singleton: 1, requiredVersion: "^4.17.21" }, { name: "react-chartjs-2", version: "5.3.0", factory: () => (Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_chart_js_chart_js"), __webpack_require__.e("node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e0")]).then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/react-chartjs-2@5.3.0_chart.js@4.5.0_react@18.3.1/node_modules/react-chartjs-2/dist/index.js */ "../../../node_modules/.pnpm/react-chartjs-2@5.3.0_chart.js@4.5.0_react@18.3.1/node_modules/react-chartjs-2/dist/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^5.2.0" }, { name: "react-dom", version: "18.3.1", factory: () => (Promise.all([__webpack_require__.e("vendors-node_modules_pnpm_react-dom_18_3_1_react_18_3_1_node_modules_react-dom_index_js"), __webpack_require__.e("webpack_sharing_consume_default_react_react")]).then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/index.js */ "../../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^18.3.1" }, { name: "react", version: "18.3.1", factory: () => (__webpack_require__.e("vendors-node_modules_pnpm_react_18_3_1_node_modules_react_index_js").then(() => (() => (__webpack_require__(/*! ../../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js */ "../../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js"))))), eager: 0, singleton: 1, requiredVersion: "^18.3.1" }] }, uniqueName: "@mf-react/remote" };
+__webpack_require__.I = __webpack_require__.I || function() { throw new Error("should have __webpack_require__.I") }
+
+})();
+// webpack/runtime/consumes_loading
+(() => {
+
+__webpack_require__.consumesLoadingData = { chunkMapping: {"webpack_sharing_consume_default_react-dom_react-dom":["webpack/sharing/consume/default/react-dom/react-dom"],"webpack_sharing_consume_default_react-chartjs-2_react-chartjs-2":["webpack/sharing/consume/default/react-chartjs-2/react-chartjs-2"],"webpack_sharing_consume_default_lodash-es_lodash-es":["webpack/sharing/consume/default/lodash-es/lodash-es"],"webpack_sharing_consume_default_antd_antd":["webpack/sharing/consume/default/antd/antd"],"webpack_sharing_consume_default_ant-design_icons_ant-design_icons":["webpack/sharing/consume/default/@ant-design/icons/@ant-design/icons"],"webpack_sharing_consume_default_dayjs_dayjs":["webpack/sharing/consume/default/dayjs/dayjs"],"webpack_sharing_consume_default_chart_js_chart_js":["webpack/sharing/consume/default/chart.js/chart.js"],"src_store_slices_js":["webpack/sharing/consume/default/@reduxjs/toolkit/@reduxjs/toolkit"],"webpack_sharing_consume_default_react_react":["webpack/sharing/consume/default/react/react"]}, moduleIdToConsumeDataMapping: { "webpack/sharing/consume/default/dayjs/dayjs": { shareScope: "default", shareKey: "dayjs", import: "dayjs", requiredVersion: "^1.11.13", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_dayjs_1_11_13_node_modules_dayjs_dayjs_min_js").then(() => (() => (__webpack_require__(/*! dayjs */ "../../../node_modules/.pnpm/dayjs@1.11.13/node_modules/dayjs/dayjs.min.js"))))) }, "webpack/sharing/consume/default/react-chartjs-2/react-chartjs-2": { shareScope: "default", shareKey: "react-chartjs-2", import: "react-chartjs-2", requiredVersion: "^5.2.0", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e1").then(() => (() => (__webpack_require__(/*! react-chartjs-2 */ "../../../node_modules/.pnpm/react-chartjs-2@5.3.0_chart.js@4.5.0_react@18.3.1/node_modules/react-chartjs-2/dist/index.js"))))) }, "webpack/sharing/consume/default/antd/antd": { shareScope: "default", shareKey: "antd", import: "antd", requiredVersion: "^5.21.8", strictVersion: false, singleton: true, eager: false, fallback: () => (Promise.all([__webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28"), __webpack_require__.e("vendors-node_modules_pnpm_antd_5_27_0_react-dom_18_3_1_react_18_3_1_node_modules_antd_es_index_js"), __webpack_require__.e("webpack_sharing_consume_default_dayjs_dayjs"), __webpack_require__.e("webpack_sharing_consume_default_react-dom_react-dom")]).then(() => (() => (__webpack_require__(/*! antd */ "../../../node_modules/.pnpm/antd@5.27.0_react-dom@18.3.1_react@18.3.1/node_modules/antd/es/index.js"))))) }, "webpack/sharing/consume/default/react-dom/react-dom": { shareScope: "default", shareKey: "react-dom", import: "react-dom", requiredVersion: "^18.3.1", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_react-dom_18_3_1_react_18_3_1_node_modules_react-dom_index_js").then(() => (() => (__webpack_require__(/*! react-dom */ "../../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/index.js"))))) }, "webpack/sharing/consume/default/react/react": { shareScope: "default", shareKey: "react", import: "react", requiredVersion: "^18.3.1", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_react_18_3_1_node_modules_react_index_js").then(() => (() => (__webpack_require__(/*! react */ "../../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js"))))) }, "webpack/sharing/consume/default/@reduxjs/toolkit/@reduxjs/toolkit": { shareScope: "default", shareKey: "@reduxjs/toolkit", import: "@reduxjs/toolkit", requiredVersion: "^2.5.0", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_reduxjs_toolkit_2_8_2_react-redux_9_2_0_react_18_3_1_node_modules_r-327980").then(() => (() => (__webpack_require__(/*! @reduxjs/toolkit */ "../../../node_modules/.pnpm/@reduxjs+toolkit@2.8.2_react-redux@9.2.0_react@18.3.1/node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs"))))) }, "webpack/sharing/consume/default/@ant-design/icons/@ant-design/icons": { shareScope: "default", shareKey: "@ant-design/icons", import: "@ant-design/icons", requiredVersion: "^5.5.2", strictVersion: false, singleton: true, eager: false, fallback: () => (Promise.all([__webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28"), __webpack_require__.e("vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-8d3b95")]).then(() => (() => (__webpack_require__(/*! @ant-design/icons */ "../../../node_modules/.pnpm/@ant-design+icons@5.6.1_react-dom@18.3.1_react@18.3.1/node_modules/@ant-design/icons/es/index.js"))))) }, "webpack/sharing/consume/default/lodash-es/lodash-es": { shareScope: "default", shareKey: "lodash-es", import: "lodash-es", requiredVersion: "^4.17.21", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js").then(() => (() => (__webpack_require__(/*! lodash-es */ "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"))))) }, "webpack/sharing/consume/default/chart.js/chart.js": { shareScope: "default", shareKey: "chart.js", import: "chart.js", requiredVersion: "^4.4.7", strictVersion: false, singleton: true, eager: false, fallback: () => (__webpack_require__.e("vendors-node_modules_pnpm_chart_js_4_5_0_node_modules_chart_js_dist_chart_js").then(() => (() => (__webpack_require__(/*! chart.js */ "../../../node_modules/.pnpm/chart.js@4.5.0/node_modules/chart.js/dist/chart.js"))))) } }, initialConsumes: [] };
+__webpack_require__.f.consumes = __webpack_require__.f.consumes || function() { throw new Error("should have __webpack_require__.f.consumes") }
+})();
+// webpack/runtime/initialize_exposes
+(() => {
+
+__webpack_require__.initializeExposesData = {
+  moduleMap: {
+  "./UserCard": () => {
+return Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_lodash-es_lodash-es"), __webpack_require__.e("webpack_sharing_consume_default_dayjs_dayjs"), __webpack_require__.e("webpack_sharing_consume_default_ant-design_icons_ant-design_icons"), __webpack_require__.e("webpack_sharing_consume_default_antd_antd"), __webpack_require__.e("src_components_UserCard_jsx")]).then(() => (() => (__webpack_require__(/*! ./src/components/UserCard */ "./src/components/UserCard.jsx"))));
+},
+"./DataTable": () => {
+return Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_lodash-es_lodash-es"), __webpack_require__.e("webpack_sharing_consume_default_dayjs_dayjs"), __webpack_require__.e("webpack_sharing_consume_default_ant-design_icons_ant-design_icons"), __webpack_require__.e("webpack_sharing_consume_default_antd_antd"), __webpack_require__.e("src_components_DataTable_jsx")]).then(() => (() => (__webpack_require__(/*! ./src/components/DataTable */ "./src/components/DataTable.jsx"))));
+},
+"./ChartWidget": () => {
+return Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_lodash-es_lodash-es"), __webpack_require__.e("webpack_sharing_consume_default_chart_js_chart_js"), __webpack_require__.e("webpack_sharing_consume_default_react-chartjs-2_react-chartjs-2"), __webpack_require__.e("src_components_ChartWidget_jsx")]).then(() => (() => (__webpack_require__(/*! ./src/components/ChartWidget */ "./src/components/ChartWidget.jsx"))));
+},
+"./FormBuilder": () => {
+return Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("webpack_sharing_consume_default_lodash-es_lodash-es"), __webpack_require__.e("webpack_sharing_consume_default_ant-design_icons_ant-design_icons"), __webpack_require__.e("webpack_sharing_consume_default_antd_antd"), __webpack_require__.e("src_components_FormBuilder_jsx")]).then(() => (() => (__webpack_require__(/*! ./src/components/FormBuilder */ "./src/components/FormBuilder.jsx"))));
+},
+"./store": () => {
+return __webpack_require__.e("src_store_slices_js").then(() => (() => (__webpack_require__(/*! ./src/store/slices */ "./src/store/slices.js"))));
+},
+},
+  shareScope: "default",
+};
+__webpack_require__.getContainer = __webpack_require__.getContainer || function() { throw new Error("should have __webpack_require__.getContainer") };__webpack_require__.initContainer = __webpack_require__.initContainer || function() { throw new Error("should have __webpack_require__.initContainer") };
+})();
+// webpack/runtime/jsonp_chunk_loading
+(() => {
+
+      // object to store loaded and loading chunks
+      // undefined = chunk not loaded, null = chunk preloaded/prefetched
+      // [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+      var installedChunks = {"remote": 0,};
+      
+        __webpack_require__.f.j = function (chunkId, promises) {
+          // JSONP chunk loading for javascript
+var installedChunkData = __webpack_require__.o(installedChunks, chunkId)
+	? installedChunks[chunkId]
+	: undefined;
+if (installedChunkData !== 0) {
+	// 0 means "already installed".
+
+	// a Promise means "currently loading".
+	if (installedChunkData) {
+		promises.push(installedChunkData[2]);
+	} else {
+		if (!/^webpack_sharing_consume_default_(ant(\-design_icons_ant\-design_icons|d_antd)|react(\-chartjs\-2_react\-chartjs\-2|\-dom_react\-dom|_react)|(chart_js_chart_j|dayjs_dayj|lodash\-es_lodash\-e)s)$/.test(chunkId)) {
+			// setup Promise in chunk cache
+			var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+			promises.push((installedChunkData[2] = promise));
+
+			// start chunk loading
+			var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+			// create error before stack unwound to get useful stacktrace later
+			var error = new Error();
+			var loadingEnded = function (event) {
+				if (__webpack_require__.o(installedChunks, chunkId)) {
+					installedChunkData = installedChunks[chunkId];
+					if (installedChunkData !== 0) installedChunks[chunkId] = undefined;
+					if (installedChunkData) {
+						var errorType =
+							event && (event.type === 'load' ? 'missing' : event.type);
+						var realSrc = event && event.target && event.target.src;
+						error.message =
+							'Loading chunk ' +
+							chunkId +
+							' failed.\n(' +
+							errorType +
+							': ' +
+							realSrc +
+							')';
+						error.name = 'ChunkLoadError';
+						error.type = errorType;
+						error.request = realSrc;
+						installedChunkData[1](error);
+					}
+				}
+			};
+			__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+		} else installedChunks[chunkId] = 0;
+
+	}
+}
+
+        }
+        // install a JSONP callback for chunk loading
+var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+	var [chunkIds, moreModules, runtime] = data;
+	// add "moreModules" to the modules object,
+	// then flag all "chunkIds" as loaded and fire callback
+	var moduleId, chunkId, i = 0;
+	if (chunkIds.some((id) => (installedChunks[id] !== 0))) {
+		for (moduleId in moreModules) {
+			if (__webpack_require__.o(moreModules, moduleId)) {
+				__webpack_require__.m[moduleId] = moreModules[moduleId];
+			}
+		}
+		if (runtime) var result = runtime(__webpack_require__);
+	}
+	if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+	for (; i < chunkIds.length; i++) {
+		chunkId = chunkIds[i];
+		if (
+			__webpack_require__.o(installedChunks, chunkId) &&
+			installedChunks[chunkId]
+		) {
+			installedChunks[chunkId][0]();
+		}
+		installedChunks[chunkId] = 0;
+	}
+	
+};
+
+var chunkLoadingGlobal = self["webpackChunk_mf_react_remote"] = self["webpackChunk_mf_react_remote"] || [];
+chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+
+})();
+// webpack/runtime/rspack_unique_id
+(() => {
+__webpack_require__.ruid = "bundler=rspack@1.4.11-canary-1c16f486-20250724191319";
+
+})();
+/************************************************************************/
+// module cache are used so entry inlining is disabled
+// run startup
+var __webpack_exports__ = __webpack_require__.x();
+remote = __webpack_exports__;
+})()
+;

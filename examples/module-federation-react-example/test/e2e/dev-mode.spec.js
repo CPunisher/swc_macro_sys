@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
 
 test.describe('Development Mode Tests', () => {
   test('should access host app on port 3001', async ({ page }) => {

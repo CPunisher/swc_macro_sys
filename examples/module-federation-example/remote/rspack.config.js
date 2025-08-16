@@ -1,5 +1,6 @@
 const rspack = require('@rspack/core');
 const { ModuleFederationPlugin } = rspack.container;
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: 'development',
@@ -35,6 +36,19 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimize: false,
+    sideEffects: false,
+    usedExports: false,
+    providedExports: false,
+    concatenateModules: false,
+    mangleExports: false,
+    nodeEnv: false,
+    mergeDuplicateChunks: false,
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: 'remote',
@@ -47,6 +61,16 @@ module.exports = {
         './functionalUtils': './src/functionalUtils',
       },
       shared: {
+        react: {
+          singleton: true,
+          requiredVersion: '^18.3.1',
+          eager: false,
+        },
+        'react-dom': {
+          singleton: true,
+          requiredVersion: '^18.3.1',
+          eager: false,
+        },
         'lodash-es': {
           singleton: true,
           strictVersion: true,
@@ -67,8 +91,6 @@ module.exports = {
         },
       },
     }),
-    new rspack.HtmlRspackPlugin({
-      template: './src/index.html',
-    }),
+
   ],
 };

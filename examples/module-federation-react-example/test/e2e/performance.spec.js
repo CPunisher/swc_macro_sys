@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
 
 test.describe('Performance Tests', () => {
   test('should load the main application within performance budgets', async ({ page }) => {

@@ -85,8 +85,14 @@ exports.modules = {
             "enableHelper1": true,
             "enableHelper2": false
         },
-        "entryModules": {
-            "utils": "utils/index.js"
+        "treeShake": {
+            "utils": {
+                "chunk_characteristics": {
+                    "entry_module_id": "utils/index.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
+            }
         }
     });
     
@@ -281,11 +287,13 @@ exports.modules = {
         "treeShake": {
             "lodash-es": {
                 "sortBy": true,
-                "uniq": false
+                "uniq": false,
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
             }
-        },
-        "entryModules": {
-            "lodash-es": "../../node_modules/lodash-es/lodash.js"
         }
     });
     
@@ -442,10 +450,27 @@ exports.modules = {
 
     println!("\n=== COMMONJS MODULE REMOVAL TEST ===");
     
-    // Configure with entry module ID - should remove orphaned uniq module
+    // Configure strictly via chunk_characteristics with entry_module_id
     let config = json!({
-        "entryModules": {
-            "lodash-es": "../../node_modules/lodash-es/lodash.js"
+        "treeShake": {
+            "lodash-es": {
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "has_runtime": false,
+                    "is_entrypoint": false,
+                    "can_be_initial": false,
+                    "is_only_initial": false,
+                    "chunk_format": "async-node",
+                    "chunk_loading_type": null,
+                    "runtime_names": ["main"],
+                    "entry_name": null,
+                    "has_async_chunks": false,
+                    "chunk_files": ["vendors-node_modules_lodash-es_lodash_js.js"],
+                    "is_shared_chunk": false,
+                    "shared_modules": []
+                }
+            }
         }
     });
     
@@ -459,7 +484,7 @@ exports.modules = {
     assert!(optimized.contains("../../node_modules/lodash-es/sortBy.js"), 
         "Used module should be preserved");
     
-    // Unused module should be removed (since we have explicit config with entry module)
+    // Unused module should be removed (reachable only set from entry module)
     assert!(!optimized.contains("../../node_modules/lodash-es/uniq.js"), 
         "Unused module should be removed when entry module is specified");
     
@@ -505,10 +530,16 @@ exports.modules = {
 
     println!("\n=== MODULE FEDERATION SHARE-USAGE FORMAT TEST ===");
     
-    // Configure using the exact format from share-usage.json
+    // Configure using chunk_characteristics as in share-usage.json
     let config = json!({
-        "entryModules": {
-            "lodash-es": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js"
+        "treeShake": {
+            "lodash-es": {
+                "chunk_characteristics": {
+                    "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+                    "is_runtime_chunk": false,
+                    "chunk_format": "require"
+                }
+            }
         }
     });
     

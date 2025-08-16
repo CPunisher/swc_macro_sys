@@ -194,21 +194,24 @@ Real-world performance improvements from the test suite:
 import { optimize } from 'swc_macro_wasm';
 
 const optimizedCode = optimize(webpackBundle, {
-  entryModules: {
-    "lodash-es": "../../node_modules/lodash-es/lodash.js"
+  treeShake: {
+    "lodash-es": {
+      chunk_characteristics: { entry_module_id: "../../node_modules/lodash-es/lodash.js" }
+    }
   }
-});
+    });
 ```
 
 ### Rust Usage
 
 ```rust
-use webpack_chunk_tree_shaker::*;
-use webpack_analyzer_v2::WebpackAnalyzer;
+use webpack_analyzer_v2::tree_shaker::TreeShaker;
+use webpack_analyzer_v2::{WebpackAnalyzer, chunk::ChunkCharacteristics};
 
 let analyzer = WebpackAnalyzer::new();
-let chunk = analyzer.analyze_chunk(webpack_source)?;
-let shaker = WebpackTreeShaker::new();
-let result = shaker.shake_tree(&chunk, &["entry-module"])?;
+let characteristics = ChunkCharacteristics { chunk_format: "require".into(), entry_module_id: Some("../../node_modules/lodash-es/lodash.js".into()), ..Default::default() };
+let mut chunk = analyzer.analyze_chunk(&webpack_source, characteristics)?;
+let shaker = TreeShaker::new();
+let optimized_source = shaker.prune_source(&chunk.source, chunk.characteristics.clone())?;
 ```
 

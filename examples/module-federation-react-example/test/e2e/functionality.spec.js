@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
 
 test.describe('Basic App Functionality', () => {
   test('should navigate in host app', async ({ page }) => {

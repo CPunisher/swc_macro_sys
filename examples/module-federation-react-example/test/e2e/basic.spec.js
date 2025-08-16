@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './setup.js';
 
 test.describe('Basic Module Federation React App', () => {
   test('should load host app and navigate', async ({ page }) => {

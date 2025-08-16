@@ -7,6 +7,72 @@ use crate::module::{ModuleId, WebpackModule};
 pub struct ShareUsageConfig {
     /// Explicit entry module IDs - no inference or filename pattern matching
     pub entry_module_ids: Vec<ModuleId>,
+    /// Tree shake configuration with library-specific settings
+    #[serde(rename = "treeShake", default)]
+    pub tree_shake: std::collections::HashMap<String, LibraryConfig>,
+}
+
+/// Configuration for a specific library in the tree shake process
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LibraryConfig {
+    /// Export usage flags - true means used, false means unused
+    #[serde(flatten)]
+    pub exports: std::collections::HashMap<String, bool>,
+    /// Chunk characteristics for this library
+    pub chunk_characteristics: ChunkCharacteristics,
+}
+
+impl ShareUsageConfig {
+    /// Load configuration from a JSON file
+    pub fn load_from_file(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let content = std::fs::read_to_string(path)?;
+        let config: ShareUsageConfig = serde_json::from_str(&content)?;
+        Ok(config)
+    }
+    
+    /// Load configuration from JSON string
+    pub fn from_json(json: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let config: ShareUsageConfig = serde_json::from_str(json)?;
+        Ok(config)
+    }
+    
+    /// Get used exports for a specific library
+    pub fn get_used_exports(&self, library_name: &str) -> Vec<String> {
+        if let Some(lib_config) = self.tree_shake.get(library_name) {
+            lib_config.exports.iter()
+                .filter_map(|(export, &used)| if used { Some(export.clone()) } else { None })
+                .collect()
+        } else {
+            Vec::new()
+        }
+    }
+    
+    /// Get unused exports for a specific library
+    pub fn get_unused_exports(&self, library_name: &str) -> Vec<String> {
+        if let Some(lib_config) = self.tree_shake.get(library_name) {
+            lib_config.exports.iter()
+                .filter_map(|(export, &used)| if !used { Some(export.clone()) } else { None })
+                .collect()
+        } else {
+            Vec::new()
+        }
+    }
+    
+    /// Check if a chunk should be processed based on configuration
+    pub fn should_process_chunk(&self, chunk_files: &[String]) -> Option<&LibraryConfig> {
+        for (_, lib_config) in &self.tree_shake {
+            // Check if any of the chunk files match the configured chunk files
+            for chunk_file in chunk_files {
+                if lib_config.chunk_characteristics.chunk_files.contains(chunk_file) {
+                    // Skip runtime chunks
+                    if !lib_config.chunk_characteristics.is_runtime_chunk {
+                        return Some(lib_config);
+                    }
+                }
+            }
+        }
+        None
+    }
 }
 
 /// Represents chunk characteristics from webpack/rspack build metadata

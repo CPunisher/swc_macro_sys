@@ -324,7 +324,7 @@
       "zipObjectDeep": false,
       "zipWith": false,
       "chunk_characteristics": {
-        "entry_module_id": "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
+        "entry_module_id": "../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
         "is_runtime_chunk": false,
         "has_runtime": false,
         "is_entrypoint": false,

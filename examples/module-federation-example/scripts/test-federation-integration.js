@@ -1,17 +1,13 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { execSync } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
 console.log('🧪 Running federation integration tests...\n');
 
 // Change to the swc_macro_wasm crate directory
-const crateDir = path.join(__dirname, '../../crates/swc_macro_wasm');
+const crateDir = path.join(__dirname, '../../../crates/swc_macro_wasm');
 process.chdir(crateDir);
 
 // Ensure the test fixtures exist

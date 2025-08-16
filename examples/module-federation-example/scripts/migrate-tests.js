@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const path = require('path');
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 
 console.log('🔄 Migrating legacy tests to Vitest...\n');
@@ -24,11 +22,8 @@ const testMigrationMap = {
 // Helper to convert old test to Vitest format
 function convertToVitest(oldContent, testName) {
   const vitestTemplate = `import { describe, it, expect, beforeAll } from 'vitest';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const fs = require('fs');
+const path = require('path');
 
 describe('${testName}', () => {
   // Migrated from legacy test
@@ -129,8 +124,8 @@ This directory contains the original test files before migration to Vitest.
 ${new Date().toISOString()}
 
 ## Files Migrated
-${Object.entries(testMigrationMap).map(([old, new]) => 
-  `- \`${old}\` → \`${new}\``
+${Object.entries(testMigrationMap).map(([old, newPath]) => 
+  `- \`${old}\` → \`${newPath}\``
 ).join('\n')}
 
 ## Next Steps

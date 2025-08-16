@@ -4,6 +4,30 @@ import { test as base, expect } from '@playwright/test';
 
 // Extend base test with custom fixtures
 export const test = base.extend({
+  // Automatically watch for critical console/page errors that indicate removed modules
+  consoleErrorWatcher: [
+    async ({ page }, use) => {
+      const messages = [];
+      const isCritical = (text) => /is not a function|Cannot read (?:properties|property) of undefined|undefined is not a function/i.test(text);
+
+      page.on('console', (msg) => {
+        const text = msg.text?.() ?? String(msg);
+        if (msg.type?.() === 'error' && isCritical(text)) {
+          messages.push(`[console.${msg.type?.()}] ${text}`);
+        }
+      });
+
+      page.on('pageerror', (error) => {
+        const text = error?.message || String(error);
+        if (isCritical(text)) {
+          messages.push(`[pageerror] ${text}`);
+        }
+      });
+
+      await use({ messages });
+    },
+    { auto: true }
+  ],
   // Custom fixture for Module Federation testing
   moduleFederation: async ({ page }, use) => {
     // Reduce UI flakiness by disabling animations/transitions
@@ -145,3 +169,9 @@ export const E2E_CONFIG = {
     MAX_CHUNK_SIZE: 1024 * 1024 // 1MB
   }
 };
+
+// After each test, fail fast if critical runtime errors were seen
+test.afterEach(async ({ consoleErrorWatcher }) => {
+  const errs = consoleErrorWatcher?.messages ?? [];
+  expect.soft(errs, 'Critical console/page errors detected (possible removed module usage)').toEqual([]);
+});
