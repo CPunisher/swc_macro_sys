@@ -333,7 +333,7 @@ fn test_quoted_attributes_only() {
     // Only quoted attributes should be parsed
     assert_eq!(macro_node.attrs.len(), 1);
     assert_eq!(macro_node.attrs.get("quoted").unwrap(), "value");
-    assert!(macro_node.attrs.get("unquoted").is_none());
+    assert!(!macro_node.attrs.contains_key("unquoted"));
 }
 
 #[test]
@@ -381,7 +381,7 @@ fn test_macro_node_debug_format() {
     let (_, macro_node) = &macros[0];
     
     // Test that MacroNode can be debug formatted (this tests the Debug derive)
-    let debug_str = format!("{:?}", macro_node);
+    let debug_str = format!("{macro_node:?}");
     assert!(debug_str.contains("MacroNode"));
     assert!(debug_str.contains("test"));
     assert!(debug_str.contains("common"));

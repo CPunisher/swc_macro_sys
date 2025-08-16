@@ -1,0 +1,41 @@
+{
+  "name": "module-federation-react-example",
+  "version": "1.0.0",
+  "description": "Module Federation React example with shared UI components and libraries",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "host",
+    "remote"
+  ],
+  "scripts": {
+    "dev": "bash -c \"pnpm -C host dev & pnpm -C remote dev & wait\"",
+    "build": "pnpm -C host build && pnpm -C remote build",
+    "optimize": "node --experimental-wasm-modules scripts/optimize-shared-chunks.js",
+    "test": "pnpm run build && pnpm run optimize && vitest run",
+    "test:watch": "pnpm run build && pnpm run optimize && vitest --watch",
+    "test:ui": "pnpm run build && pnpm run optimize && vitest --ui",
+    "test:coverage": "pnpm run build && pnpm run optimize && vitest run --coverage",
+    "test:e2e": "pnpm run build && pnpm run optimize && npx playwright test",
+    "clean": "rimraf dist coverage host/dist remote/dist node_modules/.cache",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@rspack/cli": "^1.0.0",
+    "@rspack/core": "^1.0.0",
+    "@rspack/plugin-react-refresh": "^1.0.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "@vitest/ui": "^1.2.0",
+    "css-loader": "^7.1.2",
+    "jsdom": "^24.0.0",
+    "less-loader": "^12.3.0",
+    "playwright": "^1.48.2",
+    "puppeteer": "^22.0.0",
+    "style-loader": "^4.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-top-level-await": "^1.5.0",
+    "vite-plugin-wasm": "^3.4.1",
+    "vitest": "^1.2.0"
+  }
+}

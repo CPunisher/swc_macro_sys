@@ -16,10 +16,12 @@ swc_ecma_parser = "14.0.1"
 swc_ecma_transforms_base = "15.1.0"
 wasm-bindgen = "0.2.100"
 serde_json = { workspace = true }
+serde = { version = "1.0", features = ["derive"] }
+regex = "1.0"
+thiserror = "1.0"
 
 swc_macro_condition_transform = { workspace = true }
 swc_macro_parser = { workspace = true }
-webpack_graph = { workspace = true }
 indexmap = "2.9.0"
 petgraph = "0.8.2"
 swc_atoms = "5.0.0"

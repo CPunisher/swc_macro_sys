@@ -2,3 +2,11 @@
 .idea
 node_modules
 test-results
+.DS_Store
+dist/**
+**/dist/**
+# Vitest generated timestamped config files
+**/vitest.config.*.timestamp-*.mjs
+
+# Playwright reports
+**/playwright-report/**
