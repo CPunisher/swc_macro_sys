@@ -244,13 +244,14 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
                         .get("treeShake")
                         .and_then(|ts| ts.as_object())
                         .and_then(|obj| {
-                            // Get the first (and should be only) library config
-                            obj.values().next()
+                            // TODO: I think we should pass the library name to the function.
+                            obj.get(library_name)
                         })
                         .map(|lib_config| {
                             let mut lib = lib_config.clone();
                             let lib=lib.as_object_mut().unwrap();
                             lib.remove("chunk_characteristics"); // Remove chunk characteristics
+                            web_sys::console::log_1(&format!("DEBUG: Dropped exports: {:?}", lib).into());
                            
                             lib.iter().filter_map(|(k,v)|{ 
                                 match v.as_bool() {
@@ -261,11 +262,12 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
                                             None
                                         }
                                     }
-                                    None => {None}
+                                    None => Some(k.to_string())
                                 }
                             }).collect::<HashSet<_>>()
                         });
 
+                web_sys::console::log_1(&format!("DEBUG: Dropped exports: {:?}", dropped_exports).into());
                 if let Some(dropped_exports) = dropped_exports {    
                     let mut pruner = PruneExportsVisitor { dropped: dropped_exports };
                     program.visit_mut_with(&mut pruner);
