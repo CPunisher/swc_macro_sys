@@ -142,19 +142,18 @@ async function optimizeChunk(chunkPath, library, treeShakeConfig, optimizer, chu
 
     const sourceCode = fs.readFileSync(chunkPath, 'utf8');
     
-    // Create optimization config for the library - only include exports marked as true
+    // Create optimization config for the library - include ALL exports (both true and false)
     const libraryKeepFlags = {};
     if (treeShakeConfig[library]) {
       const exports = Object.entries(treeShakeConfig[library]).filter(([key]) => key !== 'chunk_characteristics');
       exports.forEach(([exportName, shouldKeep]) => {
-        if (shouldKeep === true) {
-          libraryKeepFlags[exportName] = true;
-        }
+        // Pass both true and false values so macros can evaluate correctly
+        libraryKeepFlags[exportName] = Boolean(shouldKeep);
       });
     }
-    // Conservative skip: if there are no explicit export flags, do not attempt optimization
+    // Conservative skip: if there are no export flags at all, do not attempt optimization
     if (Object.keys(libraryKeepFlags).length === 0) {
-      console.log(`Skipping ${path.basename(chunkPath)} for '${library}' - no explicit export flags to keep`);
+      console.log(`Skipping ${path.basename(chunkPath)} for '${library}' - no export flags defined`);
       return null;
     }
     
@@ -167,8 +166,12 @@ async function optimizeChunk(chunkPath, library, treeShakeConfig, optimizer, chu
     const config = { treeShake: { [library]: treeShakeLib } };
     
     const configJson = JSON.stringify(config);
-    console.log(`Tree-shake config for ${library}:`, Object.keys(libraryKeepFlags).length, 'exports to keep');
-    console.log('Exports to keep:', Object.keys(libraryKeepFlags).join(', '));
+    const keptExports = Object.entries(libraryKeepFlags).filter(([, keep]) => keep).map(([name]) => name);
+    const removedExports = Object.entries(libraryKeepFlags).filter(([, keep]) => !keep).map(([name]) => name);
+    console.log(`Tree-shake config for ${library}:`, keptExports.length, 'exports to keep,', removedExports.length, 'to remove');
+    if (keptExports.length > 0) {
+      console.log('Exports to keep:', keptExports.join(', '));
+    }
     
     // Run SWC macro optimization with prune info output
     if (process.env.DEBUG_OPTIMIZER) {

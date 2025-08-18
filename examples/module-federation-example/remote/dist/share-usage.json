@@ -1,27 +1,5 @@
 {
   "treeShake": {
-    "ramda": {
-      "chunk_characteristics": {
-        "entry_module_id": "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js",
-        "is_runtime_chunk": false,
-        "has_runtime": false,
-        "is_entrypoint": false,
-        "can_be_initial": false,
-        "is_only_initial": false,
-        "chunk_format": "async-node",
-        "chunk_loading_type": null,
-        "runtime_names": [
-          "main",
-          "remote"
-        ],
-        "entry_name": null,
-        "has_async_chunks": false,
-        "chunk_files": [
-          "node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js-_696a1.js"
-        ],
-        "shared_modules": []
-      }
-    },
     "lodash-es": {
       "chunk_characteristics": {
         "entry_module_id": "../../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/lodash.js",
@@ -40,6 +18,28 @@
         "has_async_chunks": false,
         "chunk_files": [
           "node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js-_46ec0.js"
+        ],
+        "shared_modules": []
+      }
+    },
+    "ramda": {
+      "chunk_characteristics": {
+        "entry_module_id": "../../../node_modules/.pnpm/ramda@0.31.3/node_modules/ramda/es/index.js",
+        "is_runtime_chunk": false,
+        "has_runtime": false,
+        "is_entrypoint": false,
+        "can_be_initial": false,
+        "is_only_initial": false,
+        "chunk_format": "async-node",
+        "chunk_loading_type": null,
+        "runtime_names": [
+          "main",
+          "remote"
+        ],
+        "entry_name": null,
+        "has_async_chunks": false,
+        "chunk_files": [
+          "node_modules_pnpm_ramda_0_31_3_node_modules_ramda_es_index_js-_696a1.js"
         ],
         "shared_modules": []
       }

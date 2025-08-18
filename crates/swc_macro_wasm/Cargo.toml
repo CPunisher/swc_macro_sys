@@ -15,6 +15,7 @@ swc_ecma_codegen = "13.2.0"
 swc_ecma_parser = "14.0.1"
 swc_ecma_transforms_base = "15.1.0"
 wasm-bindgen = "0.2.100"
+web-sys = { version = "0.3", features = ["console"] }
 serde_json = { workspace = true }
 serde = { version = "1.0", features = ["derive"] }
 regex = "1.0"

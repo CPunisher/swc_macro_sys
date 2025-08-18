@@ -3,8 +3,8 @@ use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_core::ecma::codegen;
-use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Expr, Program, Prop, PropName};
+use swc_core::ecma::visit::{Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::WriteJs;
 use swc_ecma_codegen::{Emitter, text_writer};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
@@ -12,7 +12,6 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_base::resolver;
 use swc_macro_condition_transform::condition_transform;
 use swc_macro_parser::MacroParser;
-use crate::webpack_parser::WebpackChunkParser;
 use std::collections::{HashMap, HashSet};
 
 #[derive(Debug, Clone)]
@@ -47,160 +46,369 @@ impl PruneResult {
     }
 }
 
-pub fn optimize(source: String, config: serde_json::Value) -> String {
-    let cm: Lrc<SourceMap> = Default::default();
-    let (mut program, comments) = {
-        let fm = cm.new_source_file(FileName::Custom("test.js".to_string()).into(), source.clone());
-        let comments = SingleThreadedComments::default();
-        
-        // Handle parsing errors gracefully without panicking
-        let program = match Parser::new(
-            Syntax::Es(EsSyntax::default()),
-            StringInput::from(&*fm),
-            Some(&comments),
-        )
-        .parse_program() {
-            Ok(program) => program,
-            Err(e) => {
-                eprintln!("SWC parsing failed: {:?}", e);
-                eprintln!("Returning original source due to parsing error");
-                // Return the original source if parsing fails
-                return source;
+// Extract literal-ish key from an Object property
+fn prop_key(k: &PropName) -> Option<String> {
+    match k {
+        PropName::Ident(i) => Some(i.sym.to_string()),
+        PropName::Str(s) => Some(s.value.to_string()),
+        PropName::Num(n) => Some(n.value.to_string()),
+        PropName::Computed(ComputedPropName { expr, .. }) => {
+            match &**expr {
+                Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+                Expr::Lit(Lit::Num(n)) => Some(n.value.to_string()),
+                _ => None, // unknown => keep
             }
-        };
-        (program, comments)
-    };
+        }
+        _ => None,
+    }
+}
 
-    let macros = {
-        let parser = MacroParser::new("common");
+// Collect __webpack_require__(...) literal arguments within a factory function
+struct RequireCollector {
+    out: HashSet<String>,
+}
 
-        parser.parse(&comments)
-    };
+impl RequireCollector {
+    fn new() -> Self { 
+        Self { out: HashSet::new() } 
+    }
+}
 
-    // Clone config so we can still access it after passing into the transformer
-    let config_clone = config.clone();
-
-    let program = {
-        let mut transformer = condition_transform(config, macros);
-        program.visit_mut_with(&mut transformer);
-
-        // Apply resolver and optimization
-        swc_common::GLOBALS.set(&Default::default(), || {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            program.mutate(resolver(unresolved_mark, top_level_mark, false));
-
-            perform_dce(&mut program, comments.clone(), unresolved_mark);
-
-            program.mutate(fixer(Some(&comments)));
-
-            // After DCE, run webpack parser to build dependency graph for pruning
-            // Emit current program (post-DCE) to string and analyze
-            let mut intermediate_buf = vec![];
-            {
-                let wr = Box::new(text_writer::JsWriter::new(cm.clone(), "\n", &mut intermediate_buf, None))
-                    as Box<dyn WriteJs>;
-                let mut emitter = Emitter {
-                    cfg: codegen::Config::default().with_minify(false),
-                    comments: Some(&comments),
-                    cm: cm.clone(),
-                    wr,
-                };
-                // If emit fails here, continue with original flow without analysis
-                if emitter.emit_program(&program).is_err() {
-                    return program;
-                }
-            }
-            let dce_output = match String::from_utf8(intermediate_buf) {
-                Ok(s) => s,
-                Err(_) => return program,
-            };
-
-            // Parse webpack chunk and compute reachable set from entry
-            if let Ok(parser) = WebpackChunkParser::new() {
-                if let Ok(chunk) = parser.parse_chunk_file(&dce_output) {
-                    let graph = parser.build_dependency_graph(&chunk);
-                    eprintln!("DEBUG: Config passed to optimize: {:?}", config_clone.to_string());
-                    
-                    // Extract entry_module_id from the SINGLE library config passed
-                    // The config has structure: { treeShake: { "library_name": { ...exports, chunk_characteristics: { entry_module_id: "..." } } } }
-                    let entry_module_id = config_clone
-                        .get("treeShake")
-                        .and_then(|ts| ts.as_object())
-                        .and_then(|obj| {
-                            // Get the first (and should be only) library config
-                            obj.values().next()
-                        })
-                        .and_then(|lib_config| lib_config.get("chunk_characteristics"))
-                        .and_then(|cc| cc.get("entry_module_id"))
-                        .and_then(|v| v.as_str())
-                        .map(|s| s.to_string());
-
-                    if let Some(entry) = entry_module_id {
-                        eprintln!("DEBUG: Looking for entry module: {}", entry);
-                        eprintln!("DEBUG: First 5 module IDs in chunk: {:?}", 
-                            chunk.modules.keys().take(5).collect::<Vec<_>>());
-                        // Only prune if entry exists in this chunk to avoid removing everything
-                        if chunk.modules.contains_key(&entry) {
-                            let reachable = compute_reachable(&graph, &entry);
-                            let keep: HashSet<String> = reachable
-                                .into_iter()
-                                .filter(|id| chunk.modules.contains_key(id))
-                                .collect();
-
-                            if !keep.is_empty() {
-                                // Mutate AST to remove unreachable module entries in the modules object
-                                let mut pruner = PruneModulesVisitor { keep };
-                                let mut program_mut = program;
-                                program_mut.visit_mut_with(&mut pruner);
-                                return program_mut;
+impl Visit for RequireCollector {
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        if let Callee::Expr(callee) = &n.callee {
+            if let Expr::Ident(id) = &**callee {
+                if &*id.sym == "__webpack_require__" {
+                    if let Some(a0) = n.args.get(0) {
+                        match a0.expr.as_ref() {
+                            Expr::Lit(Lit::Str(s)) => { self.out.insert(s.value.to_string()); }
+                            Expr::Lit(Lit::Num(n)) => { self.out.insert(n.value.to_string()); }
+                            Expr::Tpl(tpl) if tpl.exprs.is_empty() && tpl.quasis.len() == 1 => {
+                                let q = &tpl.quasis[0];
+                                let s = q.cooked
+                                    .as_ref()
+                                    .map(|a| a.to_string())
+                                    .unwrap_or_else(|| q.raw.to_string());
+                                self.out.insert(s);
                             }
+                            _ => {}
                         }
                     }
                 }
             }
- 
-            program
-        })
-    };
-
-    let ret = {
-        let mut buf = vec![];
-        let wr = Box::new(text_writer::JsWriter::new(cm.clone(), "\n", &mut buf, None))
-            as Box<dyn WriteJs>;
-        let mut emitter = Emitter {
-            cfg: codegen::Config::default().with_minify(false),
-            comments: Some(&comments),
-            cm: cm.clone(),
-            wr,
-        };
-        if let Err(e) = emitter.emit_program(&program) {
-            eprintln!("Failed to emit program: {:?}", e);
-            return source;
         }
-        drop(emitter);
-
-        match String::from_utf8(buf) {
-            Ok(s) => s,
-            Err(e) => {
-                eprintln!("Failed to convert to UTF-8: {:?}", e);
-                return source;
-            }
-        }
-    };
-
-    ret
+        n.visit_children_with(self);
+    }
 }
 
-/// Wrapper around optimize that also returns detailed pruning information
+// Compute reachability within a single modules object
+fn reachable_from(entry: &str, graph: &HashMap<String, Vec<String>>) -> HashSet<String> {
+    let mut seen = HashSet::new();
+    let mut stack = vec![entry.to_string()];
+    seen.insert(entry.to_string());
+    
+    while let Some(cur) = stack.pop() {
+        if let Some(neighbors) = graph.get(&cur) {
+            for n in neighbors {
+                if seen.insert(n.clone()) {
+                    stack.push(n.clone());
+                }
+            }
+        }
+    }
+    seen
+}
+
+// Prunes only the object at payload[1] or payload[2] in *.push([chunkIds, modulesObj, ...])
+pub struct ModulesObjectPruner<'a> {
+    // config JSON root
+    pub config: &'a serde_json::Value,
+    // Statistics
+    pub total_pruned: usize,
+    pub total_kept: usize,
+    pub pushes_processed: usize,
+    // Track actual module names
+    pub kept_module_names: Vec<String>,
+    pub removed_module_names: Vec<String>,
+}
+
+impl<'a> ModulesObjectPruner<'a> {
+    pub fn new(config: &'a serde_json::Value) -> Self {
+        Self {
+            config,
+            total_pruned: 0,
+            total_kept: 0,
+            pushes_processed: 0,
+            kept_module_names: Vec::new(),
+            removed_module_names: Vec::new(),
+        }
+    }
+
+    // Pick the entry id that is actually present as a key in this modules object
+    fn pick_entry_for_modules(&self, present: &HashSet<String>) -> Option<String> {
+        let tree = self.config.get("treeShake")?.as_object()?;
+        for lib in tree.values() {
+            if let Some(id) = lib
+                .get("chunk_characteristics")
+                .and_then(|cc| cc.get("entry_module_id"))
+                .and_then(|v| v.as_str())
+            {
+                if present.contains(id) {
+                    eprintln!("Found matching entry '{}' in modules object", id);
+                    return Some(id.to_string());
+                }
+            }
+        }
+        None
+    }
+
+    // Build intra-object graph: id -> deps where deps are limited to keys present in this object
+    fn build_graph_for_modules(&self, obj: &ObjectLit) -> (HashMap<String, Vec<String>>, HashSet<String>) {
+        let mut graph: HashMap<String, Vec<String>> = HashMap::new();
+        let mut present: HashSet<String> = HashSet::new();
+
+        // First pass: collect keys
+        for p in &obj.props {
+            if let PropOrSpread::Prop(pp) = p {
+                if let Prop::KeyValue(kv) = &**pp {
+                    if let Some(k) = prop_key(&kv.key) {
+                        present.insert(k);
+                    }
+                }
+            }
+        }
+
+        // Second pass: collect __webpack_require__ deps per key if value is a function
+        for p in &obj.props {
+            if let PropOrSpread::Prop(pp) = p {
+                if let Prop::KeyValue(kv) = &**pp {
+                    if let Some(id) = prop_key(&kv.key) {
+                        let mut deps = Vec::new();
+                        
+                        // Check if the value is a function and collect requires
+                        match kv.value.as_ref() {
+                            Expr::Fn(FnExpr { function, .. }) => {
+                                let mut rc = RequireCollector::new();
+                                function.visit_with(&mut rc);
+                                for d in rc.out {
+                                    if present.contains(&d) {
+                                        deps.push(d);
+                                    }
+                                }
+                            }
+                            Expr::Arrow(arrow) => {
+                                let mut rc = RequireCollector::new();
+                                arrow.visit_with(&mut rc);
+                                for d in rc.out {
+                                    if present.contains(&d) {
+                                        deps.push(d);
+                                    }
+                                }
+                            }
+                            _ => {
+                                // Not a function - no dependencies to extract
+                            }
+                        }
+                        graph.insert(id, deps);
+                    }
+                }
+            }
+        }
+
+        // Ensure all nodes exist in graph
+        for id in &present {
+            graph.entry(id.clone()).or_default();
+        }
+
+        (graph, present)
+    }
+
+    fn prune_object(&mut self, obj: &mut ObjectLit) {
+        let (graph, present) = self.build_graph_for_modules(obj);
+        let original_count = present.len();
+        
+        #[cfg(target_arch = "wasm32")]
+        web_sys::console::log_1(&format!("Analyzing modules object with {} modules", original_count).into());
+        
+        let Some(entry) = self.pick_entry_for_modules(&present) else {
+            #[cfg(target_arch = "wasm32")]
+            {
+                web_sys::console::log_1(&format!("No matching entry found in modules object with {} keys", original_count).into());
+                web_sys::console::log_1(&"  Available entries in config:".into());
+                if let Some(tree) = self.config.get("treeShake").and_then(|t| t.as_object()) {
+                    for (lib_name, lib_config) in tree {
+                        if let Some(id) = lib_config
+                            .get("chunk_characteristics")
+                            .and_then(|cc| cc.get("entry_module_id"))
+                            .and_then(|v| v.as_str())
+                        {
+                            web_sys::console::log_1(&format!("    {} -> {}", lib_name, id).into());
+                        }
+                    }
+                }
+            }
+            return; // entry not in this push => do not touch
+        };
+        
+        #[cfg(target_arch = "wasm32")]
+        {
+            web_sys::console::log_1(&format!("Using entry module: {}", entry).into());
+            
+            // Log some sample dependencies
+            let mut sample_count = 0;
+            for (module_id, deps) in &graph {
+                if sample_count >= 3 { break; }
+                if !deps.is_empty() {
+                    web_sys::console::log_1(&format!("  Module {} requires: {:?}", module_id, deps).into());
+                    sample_count += 1;
+                }
+            }
+        }
+        
+        let keep = reachable_from(&entry, &graph);
+        
+        #[cfg(target_arch = "wasm32")]
+        web_sys::console::log_1(&format!("Reachability analysis: {} modules reachable from entry", keep.len()).into());
+        
+        if keep.len() == present.len() {
+            #[cfg(target_arch = "wasm32")]
+            web_sys::console::log_1(&format!("All {} modules are reachable from entry", present.len()).into());
+            self.total_kept += present.len();
+            // Track all modules as kept
+            for module_name in &present {
+                self.kept_module_names.push(module_name.clone());
+            }
+            return; // nothing to remove
+        }
+
+        let to_prune = present.len() - keep.len();
+        eprintln!("Pruning {} unreachable modules from {} total (keeping {})", 
+            to_prune, present.len(), keep.len());
+
+        obj.props.retain(|p| {
+            match p {
+                PropOrSpread::Prop(pp) => match &**pp {
+                    Prop::KeyValue(kv) => {
+                        if let Some(k) = prop_key(&kv.key) {
+                            let should_keep = keep.contains(&k);
+                            if should_keep {
+                                self.total_kept += 1;
+                                self.kept_module_names.push(k.clone());
+                            } else {
+                                self.total_pruned += 1;
+                                self.removed_module_names.push(k.clone());
+                            }
+                            should_keep
+                        } else {
+                            self.total_kept += 1;
+                            true // unknown/computed key: keep
+                        }
+                    }
+                    _ => {
+                        self.total_kept += 1;
+                        true // not a KV prop: keep
+                    }
+                },
+                PropOrSpread::Spread(_) => {
+                    self.total_kept += 1;
+                    true // keep spreads
+                }
+            }
+        });
+    }
+}
+
+impl<'a> VisitMut for ModulesObjectPruner<'a> {
+    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        // Match *.push(...)
+        let is_push = if let Callee::Expr(callee_expr) = &call.callee {
+            if let Expr::Member(member) = &**callee_expr {
+                if let MemberProp::Ident(ident) = &member.prop {
+                    ident.sym == "push"
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        } else {
+            false
+        };
+        
+        if !is_push {
+            call.visit_mut_children_with(self);
+            return;
+        }
+
+        if call.args.len() != 1 {
+            call.visit_mut_children_with(self);
+            return;
+        }
+        
+        let Some(arg) = call.args.get_mut(0) else {
+            call.visit_mut_children_with(self);
+            return;
+        };
+        
+        let Some(arr) = arg.expr.as_mut_array() else {
+            call.visit_mut_children_with(self);
+            return;
+        };
+
+        // Webpack push payload: [chunkIds, modulesObj, runtime?]
+        let mut target_idx = None;
+        
+        // Check index 1 for modules object
+        if arr.elems.len() > 1 {
+            if let Some(Some(elem)) = arr.elems.get(1) {
+                if matches!(&*elem.expr, Expr::Object(_)) {
+                    target_idx = Some(1);
+                }
+            }
+        }
+        
+        // Check index 2 if not found at 1
+        if target_idx.is_none() && arr.elems.len() > 2 {
+            if let Some(Some(elem)) = arr.elems.get(2) {
+                if matches!(&*elem.expr, Expr::Object(_)) {
+                    target_idx = Some(2);
+                }
+            }
+        }
+        
+        let Some(idx) = target_idx else {
+            call.visit_mut_children_with(self);
+            return;
+        };
+
+        let Some(Some(elem)) = arr.elems.get_mut(idx) else {
+            call.visit_mut_children_with(self);
+            return;
+        };
+        
+        let Some(obj) = elem.expr.as_mut_object() else {
+            call.visit_mut_children_with(self);
+            return;
+        };
+
+        self.pushes_processed += 1;
+        self.prune_object(obj);
+
+        call.visit_mut_children_with(self);
+    }
+}
+
+pub fn optimize(source: String, config: serde_json::Value) -> String {
+    let (optimized, _) = optimize_with_prune_result(source, config);
+    optimized
+}
+
 pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> (String, PruneResult) {
     let cm: Lrc<SourceMap> = Default::default();
     let (mut program, comments) = {
         let fm = cm.new_source_file(FileName::Custom("test.js".to_string()).into(), source.clone());
         let comments = SingleThreadedComments::default();
         
-        // Handle parsing errors gracefully without panicking
         let program = match Parser::new(
             Syntax::Es(EsSyntax::default()),
             StringInput::from(&*fm),
@@ -210,8 +418,6 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
             Ok(program) => program,
             Err(e) => {
                 eprintln!("SWC parsing failed: {:?}", e);
-                eprintln!("Returning original source due to parsing error");
-                // Return the original source if parsing fails
                 return (source, PruneResult::new_skipped("Parsing failed".to_string(), 0));
             }
         };
@@ -223,120 +429,65 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
         parser.parse(&comments)
     };
 
-    // Clone config so we can still access it after passing into the transformer
     let config_clone = config.clone();
-    let mut prune_result: Option<PruneResult> = None;
 
-    let program = {
-        let mut transformer = condition_transform(config, macros);
-        program.visit_mut_with(&mut transformer);
+    // 1) Macro evaluation
+    let mut transformer = condition_transform(config, macros);
+    program.visit_mut_with(&mut transformer);
 
-        // Apply resolver and optimization
-        swc_common::GLOBALS.set(&Default::default(), || {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
+    // 2) DCE
+    let program = swc_common::GLOBALS.set(&Default::default(), || {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        
+        program.mutate(resolver(unresolved_mark, top_level_mark, false));
+        perform_dce(&mut program, comments.clone(), unresolved_mark);
+        program.mutate(fixer(Some(&comments)));
+        
+        program
+    });
 
-            program.mutate(resolver(unresolved_mark, top_level_mark, false));
-
-            perform_dce(&mut program, comments.clone(), unresolved_mark);
-
-            program.mutate(fixer(Some(&comments)));
-
-            // After DCE, run webpack parser to build dependency graph for pruning
-            // Emit current program (post-DCE) to string and analyze
-            let mut intermediate_buf = vec![];
-            {
-                let wr = Box::new(text_writer::JsWriter::new(cm.clone(), "\n", &mut intermediate_buf, None))
-                    as Box<dyn WriteJs>;
-                let mut emitter = Emitter {
-                    cfg: codegen::Config::default().with_minify(false),
-                    comments: Some(&comments),
-                    cm: cm.clone(),
-                    wr,
-                };
-                // If emit fails here, continue with original flow without analysis
-                if emitter.emit_program(&program).is_err() {
-                    prune_result = Some(PruneResult::new_skipped("Emit failed".to_string(), 0));
-                    return program;
-                }
-            }
-            let dce_output = match String::from_utf8(intermediate_buf) {
-                Ok(s) => s,
-                Err(_) => {
-                    prune_result = Some(PruneResult::new_skipped("UTF-8 conversion failed".to_string(), 0));
-                    return program;
-                }
-            };
-
-            // Parse webpack chunk and compute reachable set from entry
-            if let Ok(parser) = WebpackChunkParser::new() {
-                if let Ok(chunk) = parser.parse_chunk_file(&dce_output) {
-                    let original_count = chunk.modules.len();
-                    let graph = parser.build_dependency_graph(&chunk);
-                    
-                    // Extract entry_module_id from the SINGLE library config passed
-                    // The config has structure: { treeShake: { "library_name": { ...exports, chunk_characteristics: { entry_module_id: "..." } } } }
-                    let entry_module_id = config_clone
-                        .get("treeShake")
-                        .and_then(|ts| ts.as_object())
-                        .and_then(|obj| {
-                            // Get the first (and should be only) library config
-                            obj.values().next()
-                        })
-                        .and_then(|lib_config| lib_config.get("chunk_characteristics"))
-                        .and_then(|cc| cc.get("entry_module_id"))
-                        .and_then(|v| v.as_str())
-                        .map(|s| s.to_string());
-
-                    if let Some(entry) = entry_module_id {
-                        eprintln!("DEBUG: Looking for entry module: {}", entry);
-                        eprintln!("DEBUG: First 5 module IDs in chunk: {:?}", 
-                            chunk.modules.keys().take(5).collect::<Vec<_>>());
-                        // Only prune if entry exists in this chunk to avoid removing everything
-                        if chunk.modules.contains_key(&entry) {
-                            let reachable = compute_reachable(&graph, &entry);
-                            let keep: HashSet<String> = reachable
-                                .into_iter()
-                                .filter(|id| chunk.modules.contains_key(id))
-                                .collect();
-
-                            if !keep.is_empty() {
-                                let all_modules: HashSet<String> = chunk.modules.keys().cloned().collect();
-                                let removed: Vec<String> = all_modules.difference(&keep).cloned().collect();
-                                let kept: Vec<String> = keep.into_iter().collect();
-                                
-                                prune_result = Some(PruneResult::new_pruned(kept, removed, original_count));
-                                
-                                // Mutate AST to remove unreachable module entries in the modules object
-                                let mut pruner = PruneModulesVisitor { keep: prune_result.as_ref().unwrap().kept_modules.iter().cloned().collect() };
-                                let mut program_mut = program;
-                                program_mut.visit_mut_with(&mut pruner);
-                                return program_mut;
-                            } else {
-                                prune_result = Some(PruneResult::new_skipped("No reachable modules found".to_string(), original_count));
-                            }
-                        } else {
-                            // Log what modules ARE in the chunk to debug
-                            let module_ids: Vec<String> = chunk.modules.keys().take(5).cloned().collect();
-                            prune_result = Some(PruneResult::new_skipped(
-                                format!("Entry module '{}' not found in chunk. Sample module IDs: {:?}", entry, module_ids), 
-                                original_count
-                            ));
-                        }
-                    } else {
-                        prune_result = Some(PruneResult::new_skipped("No entry module ID configured".to_string(), original_count));
-                    }
-                } else {
-                    prune_result = Some(PruneResult::new_skipped("Failed to parse webpack chunk".to_string(), 0));
-                }
-            } else {
-                prune_result = Some(PruneResult::new_skipped("Failed to create webpack parser".to_string(), 0));
-            }
- 
-            program
-        })
+    // 3) Prune modules objects now (first analysis pass happens here)
+    let mut pruner = ModulesObjectPruner::new(&config_clone);
+    let mut program_mut = program;
+    
+    // Use web_sys to log to console since eprintln might not work in WASM
+    #[cfg(target_arch = "wasm32")]
+    web_sys::console::log_1(&format!("Starting module pruning with config").into());
+    
+    program_mut.visit_mut_with(&mut pruner);
+    
+    #[cfg(target_arch = "wasm32")]
+    web_sys::console::log_1(&format!("Module pruning complete: {} pushes processed, {} modules pruned, {} modules kept",
+        pruner.pushes_processed, pruner.total_pruned, pruner.total_kept).into());
+    
+    #[cfg(not(target_arch = "wasm32"))]
+    eprintln!("Module pruning complete: {} pushes processed, {} modules pruned, {} modules kept",
+        pruner.pushes_processed, pruner.total_pruned, pruner.total_kept);
+    
+    // Build prune result
+    let prune_result = if pruner.total_pruned > 0 {
+        PruneResult::new_pruned(
+            pruner.kept_module_names,
+            pruner.removed_module_names,
+            pruner.total_kept + pruner.total_pruned
+        )
+    } else if pruner.pushes_processed > 0 {
+        // No pruning happened, but we still have kept modules
+        let mut result = PruneResult::new_skipped(
+            format!("No modules pruned from {} pushes", pruner.pushes_processed),
+            pruner.total_kept
+        );
+        result.kept_modules = pruner.kept_module_names;
+        result
+    } else {
+        PruneResult::new_skipped(
+            "No webpack push calls found".to_string(),
+            0
+        )
     };
 
+    // Emit final program
     let ret = {
         let mut buf = vec![];
         let wr = Box::new(text_writer::JsWriter::new(cm.clone(), "\n", &mut buf, None))
@@ -347,9 +498,9 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
             cm: cm.clone(),
             wr,
         };
-        if let Err(e) = emitter.emit_program(&program) {
+        if let Err(e) = emitter.emit_program(&program_mut) {
             eprintln!("Failed to emit program: {:?}", e);
-            return (source, prune_result.unwrap_or_else(|| PruneResult::new_skipped("Emit failed".to_string(), 0)));
+            return (source, prune_result);
         }
         drop(emitter);
 
@@ -357,12 +508,12 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
             Ok(s) => s,
             Err(e) => {
                 eprintln!("Failed to convert to UTF-8: {:?}", e);
-                return (source, prune_result.unwrap_or_else(|| PruneResult::new_skipped("UTF-8 conversion failed".to_string(), 0)));
+                return (source, prune_result);
             }
         }
     };
 
-    (ret, prune_result.unwrap_or_else(|| PruneResult::new_skipped("No pruning performed".to_string(), 0)))
+    (ret, prune_result)
 }
 
 fn perform_dce(m: &mut Program, comments: SingleThreadedComments, unresolved_mark: Mark) {
@@ -379,93 +530,9 @@ fn perform_dce(m: &mut Program, comments: SingleThreadedComments, unresolved_mar
 
     loop {
         m.visit_mut_with(&mut visitor);
-
         if !visitor.changed() {
             break;
         }
-
         visitor.reset();
-    }
-}
-
-fn compute_reachable(graph: &HashMap<String, Vec<String>>, start: &str) -> HashSet<String> {
-    let mut visited: HashSet<String> = HashSet::new();
-    let mut stack: Vec<String> = vec![start.to_string()];
-    
-    // Debug: Log first few iterations
-    let mut iteration_count = 0;
-    
-    while let Some(node) = stack.pop() {
-        if visited.insert(node.clone()) {
-            if iteration_count < 5 {
-                eprintln!("DEBUG compute_reachable: Processing node: {}", node);
-            }
-            
-            if let Some(deps) = graph.get(&node) {
-                if iteration_count < 5 {
-                    eprintln!("DEBUG compute_reachable: Node has {} dependencies", deps.len());
-                    if deps.len() > 0 && deps.len() < 10 {
-                        eprintln!("DEBUG compute_reachable: Dependencies: {:?}", deps);
-                    }
-                }
-                
-                for dep in deps {
-                    // Push dependency even if it's not present in the graph yet (graph ensures key exists)
-                    stack.push(dep.clone());
-                }
-            }
-            
-            iteration_count += 1;
-        }
-    }
-    
-    eprintln!("DEBUG compute_reachable: Total visited nodes: {}", visited.len());
-    visited
-}
-
-struct PruneModulesVisitor {
-    keep: HashSet<String>,
-}
-
-impl VisitMut for PruneModulesVisitor {
-    fn visit_mut_call_expr(&mut self, call: &mut swc_ecma_ast::CallExpr) {
-        // Look for something.push([...])
-        if let swc_ecma_ast::Callee::Expr(callee_expr) = &call.callee {
-            if let Expr::Member(member) = &**callee_expr {
-                if let swc_ecma_ast::MemberProp::Ident(ident) = &member.prop {
-                    if ident.sym.as_ref() == "push" {
-                        // Expect first argument to be an array like [ [chunkName], { modules }, ... ]
-                        if let Some(first_arg) = call.args.get_mut(0) {
-                            let swc_ecma_ast::ExprOrSpread { expr, .. } = first_arg;
-                            if let Expr::Array(arr) = expr.as_mut() {
-                                if let Some(Some(second)) = arr.elems.get_mut(1) {
-                                        if let Expr::Object(obj) = second.expr.as_mut() {
-                                            // Filter module properties based on keep set
-                                            obj.props.retain(|prop_or_spread| {
-                                                if let swc_ecma_ast::PropOrSpread::Prop(p) = prop_or_spread {
-                                                    if let Prop::KeyValue(kv) = &**p {
-                                                        // Accept string or numeric keys only
-                                                        match &kv.key {
-                                                            PropName::Str(s) => self.keep.contains(&s.value.to_string()),
-                                                            PropName::Num(n) => self.keep.contains(&n.value.to_string()),
-                                                            _ => true, // Keep unknown patterns to be safe
-                                                        }
-                                                    } else {
-                                                        true
-                                                    }
-                                                } else {
-                                                    true
-                                                }
-                                            });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        }
-
-        call.visit_mut_children_with(self);
     }
 }

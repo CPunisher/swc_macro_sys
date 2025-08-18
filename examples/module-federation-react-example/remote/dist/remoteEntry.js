@@ -5141,7 +5141,7 @@ __webpack_require__.u = (chunkId) => {
   // return url for filenames not based on template
   
   // return url for filenames based on template
-  return "" + chunkId + "." + {"node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e0": "3db0018e57efedc9","node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e1": "20e4ee5bd267f4e4","src_components_ChartWidget_jsx": "42535b5047145211","src_components_DataTable_jsx": "58a0f168924d26fd","src_components_FormBuilder_jsx": "3091e54ab3aac203","src_components_UserCard_jsx": "b16748c7ad9f42ba","src_store_slices_js": "e3e60297bdaaebae","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-8d3b95": "65be1c85ef69ef7f","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28": "1c7615bc2a101bec","vendors-node_modules_pnpm_antd_5_27_0_react-dom_18_3_1_react_18_3_1_node_modules_antd_es_index_js": "216b0c71612199d5","vendors-node_modules_pnpm_chart_js_4_5_0_node_modules_chart_js_dist_chart_js": "36d3ee2ca889dd63","vendors-node_modules_pnpm_dayjs_1_11_13_node_modules_dayjs_dayjs_min_js": "376dd385a4efc4d8","vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js": "109c234c81309e95","vendors-node_modules_pnpm_react-dom_18_3_1_react_18_3_1_node_modules_react-dom_index_js": "48dbc16582969103","vendors-node_modules_pnpm_react_18_3_1_node_modules_react_index_js": "1a04e81ff105870e","vendors-node_modules_pnpm_reduxjs_toolkit_2_8_2_react-redux_9_2_0_react_18_3_1_node_modules_r-327980": "8304811f6bfb5234",}[chunkId] + ".js"
+  return "" + chunkId + "." + {"node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e0": "3db0018e57efedc9","node_modules_pnpm_react-chartjs-2_5_3_0_chart_js_4_5_0_react_18_3_1_node_modules_react-chartj-c8072e1": "20e4ee5bd267f4e4","src_components_ChartWidget_jsx": "42535b5047145211","src_components_DataTable_jsx": "58a0f168924d26fd","src_components_FormBuilder_jsx": "3091e54ab3aac203","src_components_UserCard_jsx": "b16748c7ad9f42ba","src_store_slices_js": "e3e60297bdaaebae","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-8d3b95": "a1bece31a03c7407","vendors-node_modules_pnpm_ant-design_icons_5_6_1_react-dom_18_3_1_react_18_3_1_node_modules_a-d8fd28": "d9731833c56868ba","vendors-node_modules_pnpm_antd_5_27_0_react-dom_18_3_1_react_18_3_1_node_modules_antd_es_index_js": "8afd0e56145cbf04","vendors-node_modules_pnpm_chart_js_4_5_0_node_modules_chart_js_dist_chart_js": "36d3ee2ca889dd63","vendors-node_modules_pnpm_dayjs_1_11_13_node_modules_dayjs_dayjs_min_js": "376dd385a4efc4d8","vendors-node_modules_pnpm_lodash-es_4_17_21_node_modules_lodash-es_lodash_js": "109c234c81309e95","vendors-node_modules_pnpm_react-dom_18_3_1_react_18_3_1_node_modules_react-dom_index_js": "48dbc16582969103","vendors-node_modules_pnpm_react_18_3_1_node_modules_react_index_js": "1a04e81ff105870e","vendors-node_modules_pnpm_reduxjs_toolkit_2_8_2_react-redux_9_2_0_react_18_3_1_node_modules_r-327980": "8304811f6bfb5234",}[chunkId] + ".js"
 }
 })();
 // webpack/runtime/global
@@ -5247,7 +5247,7 @@ __webpack_require__.p = "http://localhost:3002/";
 })();
 // webpack/runtime/rspack_version
 (() => {
-__webpack_require__.rv = () => ("1.4.12-canary-ed187241-20250817101254")
+__webpack_require__.rv = () => ("1.4.11")
 })();
 // webpack/runtime/sharing
 (() => {
@@ -5382,7 +5382,7 @@ chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.pus
 })();
 // webpack/runtime/rspack_unique_id
 (() => {
-__webpack_require__.ruid = "bundler=rspack@1.4.12-canary-ed187241-20250817101254";
+__webpack_require__.ruid = "bundler=rspack@1.4.11";
 
 })();
 /************************************************************************/
