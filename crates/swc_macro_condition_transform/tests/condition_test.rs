@@ -64,10 +64,10 @@ fn test_export_removal_with_false_condition() {
 
     println!("Result:\n{}", result);
 
-    // Check that add export should have null
-    assert!(result.contains("add: ()=>null"), "add export should be null but was not. Result: {}", result);
+    // Check that add export should have null (may be wrapped in parentheses)
+    assert!(result.contains("add: ()=>(null)") || result.contains("add: ()=>null"), "add export should be null but was not. Result: {}", result);
     
     // Check that delay export should still have the module reference
-    assert!(result.contains("delay: ()=>_delay_js__WEBPACK_IMPORTED_MODULE_1__"), 
+    assert!(result.contains("delay: ()=>(_delay_js__WEBPACK_IMPORTED_MODULE_1__") || result.contains("delay: ()=>_delay_js__WEBPACK_IMPORTED_MODULE_1__"), 
         "delay export should have module reference. Result: {}", result);
 }

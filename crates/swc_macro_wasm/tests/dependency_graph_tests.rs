@@ -1,7 +1,6 @@
 //! Comprehensive tests for webpack dependency graph functionality
 
-use swc_macro_wasm::webpack_parser::{WebpackChunkParser, WebpackParseError};
-use std::collections::HashMap;
+use swc_macro_wasm::webpack_parser::WebpackChunkParser;
 
 #[test]
 fn test_complex_dependency_graph_construction() {

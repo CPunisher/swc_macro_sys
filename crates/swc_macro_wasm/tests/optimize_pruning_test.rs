@@ -1,4 +1,4 @@
-use swc_macro_wasm::optimize::{optimize_with_prune_result, PruneResult};
+use swc_macro_wasm::optimize::optimize_with_prune_result;
 use serde_json::json;
 
 fn create_test_webpack_chunk(modules: Vec<(&str, Vec<&str>)>) -> String {

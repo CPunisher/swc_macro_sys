@@ -25,15 +25,34 @@ fn generate_pruning_report(chunk_name: &str, total_modules: usize) -> String {
 fn compute_reachable(graph: &HashMap<String, Vec<String>>, start: &str) -> HashSet<String> {
     let mut visited: HashSet<String> = HashSet::new();
     let mut stack: Vec<String> = vec![start.to_string()];
+    
+    // Debug first few iterations
+    let mut iteration_count = 0;
+    
     while let Some(node) = stack.pop() {
         if visited.insert(node.clone()) {
+            if iteration_count < 5 {
+                eprintln!("EXTRACTOR compute_reachable: Processing node: {}", node);
+            }
+            
             if let Some(deps) = graph.get(&node) {
+                if iteration_count < 5 {
+                    eprintln!("EXTRACTOR compute_reachable: Node has {} dependencies", deps.len());
+                    if deps.len() > 0 && deps.len() < 10 {
+                        eprintln!("EXTRACTOR compute_reachable: Dependencies: {:?}", deps);
+                    }
+                }
+                
                 for dep in deps {
                     stack.push(dep.clone());
                 }
             }
+            
+            iteration_count += 1;
         }
     }
+    
+    eprintln!("EXTRACTOR compute_reachable: Total visited nodes: {}", visited.len());
     visited
 }
 
@@ -286,11 +305,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                                     let entry_ids_clone = entry_ids.clone();
 
                                     for entry in entry_ids_clone {
+                                        eprintln!("Checking entry: {} in chunk", entry);
                                         if chunk_info.modules.contains_key(&entry) {
+                                            eprintln!("Entry found in chunk!");
                                             let kept = compute_reachable(&graph, &entry)
                                                 .into_iter()
                                                 .filter(|id| chunk_info.modules.contains_key(id))
                                                 .collect::<HashSet<_>>();
+                                            eprintln!("Reachable modules from entry: {}", kept.len());
                                             kept_union.extend(kept.iter().cloned());
 
                                             if let Some(tree) = parser.build_dependency_tree(&chunk_info, &entry) {
@@ -298,6 +320,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                                                 render_tree_ascii(&tree, "", true, true, &mut ascii);
                                                 trees.push((entry.clone(), ascii));
                                             }
+                                        } else {
+                                            eprintln!("Entry NOT found in chunk!");
                                         }
                                     }
 

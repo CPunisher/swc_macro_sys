@@ -65,7 +65,6 @@ struct WebpackChunkVisitor {
     pub chunk_name: String,
     pub modules: HashMap<String, ModuleInfo>,
     in_webpack_push: bool,
-    current_object_depth: usize,
 }
 
 impl WebpackChunkVisitor {
@@ -74,7 +73,6 @@ impl WebpackChunkVisitor {
             chunk_name: String::new(),
             modules: HashMap::new(),
             in_webpack_push: false,
-            current_object_depth: 0,
         }
     }
     
@@ -99,11 +97,7 @@ impl WebpackChunkVisitor {
         visitor.dependencies
     }
     
-    fn extract_dependencies_from_call_expr(&self, call: &CallExpr) -> Vec<String> {
-        let mut visitor = DependencyVisitor::new();
-        call.visit_with(&mut visitor);
-        visitor.dependencies
-    }
+
 }
 
 impl Visit for WebpackChunkVisitor {

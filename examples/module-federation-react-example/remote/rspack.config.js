@@ -12,7 +12,6 @@ export default defineConfig({
   context: __dirname,
   mode: 'development',
   devtool: false,
-  clean: true,
   entry: './src/index.js',
   target: 'web',
   resolve: {

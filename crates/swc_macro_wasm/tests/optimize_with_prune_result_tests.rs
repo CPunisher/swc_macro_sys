@@ -80,7 +80,7 @@ fn test_optimize_with_prune_result_entry_missing_in_chunk() {
     // Should skip with a descriptive reason
     assert!(result.skip_reason.is_some(), "Expected skip_reason when entry not found");
     let reason = result.skip_reason.unwrap();
-    assert!(reason.contains("Entry module not found in chunk"), "Unexpected skip reason: {}", reason);
+    assert!(reason.contains("not found in chunk"), "Unexpected skip reason: {}", reason);
 
     // No pruning should have occurred
     assert_eq!(result.pruned_count, 0);

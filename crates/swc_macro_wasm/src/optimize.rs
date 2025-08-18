@@ -4,7 +4,7 @@ use swc_common::sync::Lrc;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_core::ecma::codegen;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Expr, ExprOrSpread, Program, Prop, PropName};
+use swc_ecma_ast::{Expr, Program, Prop, PropName};
 use swc_ecma_codegen::text_writer::WriteJs;
 use swc_ecma_codegen::{Emitter, text_writer};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
@@ -391,16 +391,35 @@ fn perform_dce(m: &mut Program, comments: SingleThreadedComments, unresolved_mar
 fn compute_reachable(graph: &HashMap<String, Vec<String>>, start: &str) -> HashSet<String> {
     let mut visited: HashSet<String> = HashSet::new();
     let mut stack: Vec<String> = vec![start.to_string()];
+    
+    // Debug: Log first few iterations
+    let mut iteration_count = 0;
+    
     while let Some(node) = stack.pop() {
         if visited.insert(node.clone()) {
+            if iteration_count < 5 {
+                eprintln!("DEBUG compute_reachable: Processing node: {}", node);
+            }
+            
             if let Some(deps) = graph.get(&node) {
+                if iteration_count < 5 {
+                    eprintln!("DEBUG compute_reachable: Node has {} dependencies", deps.len());
+                    if deps.len() > 0 && deps.len() < 10 {
+                        eprintln!("DEBUG compute_reachable: Dependencies: {:?}", deps);
+                    }
+                }
+                
                 for dep in deps {
                     // Push dependency even if it's not present in the graph yet (graph ensures key exists)
                     stack.push(dep.clone());
                 }
             }
+            
+            iteration_count += 1;
         }
     }
+    
+    eprintln!("DEBUG compute_reachable: Total visited nodes: {}", visited.len());
     visited
 }
 
@@ -417,9 +436,9 @@ impl VisitMut for PruneModulesVisitor {
                     if ident.sym.as_ref() == "push" {
                         // Expect first argument to be an array like [ [chunkName], { modules }, ... ]
                         if let Some(first_arg) = call.args.get_mut(0) {
-                            if let swc_ecma_ast::ExprOrSpread { expr, .. } = first_arg {
-                                if let Expr::Array(arr) = expr.as_mut() {
-                                    if let Some(Some(second)) = arr.elems.get_mut(1) {
+                            let swc_ecma_ast::ExprOrSpread { expr, .. } = first_arg;
+                            if let Expr::Array(arr) = expr.as_mut() {
+                                if let Some(Some(second)) = arr.elems.get_mut(1) {
                                         if let Expr::Object(obj) = second.expr.as_mut() {
                                             // Filter module properties based on keep set
                                             obj.props.retain(|prop_or_spread| {
@@ -438,14 +457,13 @@ impl VisitMut for PruneModulesVisitor {
                                                     true
                                                 }
                                             });
-                                        }
-                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        }
         }
 
         call.visit_mut_children_with(self);
