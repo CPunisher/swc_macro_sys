@@ -176,10 +176,14 @@ impl Data {
                 }
             }
             None => {
-                self.graph.add_edge(from, to, VarInfo {
-                    usage: u32::from(!assign),
-                    assign: u32::from(assign),
-                });
+                self.graph.add_edge(
+                    from,
+                    to,
+                    VarInfo {
+                        usage: u32::from(!assign),
+                        assign: u32::from(assign),
+                    },
+                );
             }
         };
     }
@@ -888,12 +892,15 @@ impl VisitMut for TreeShaker {
                     Expr::Fn(FnExpr {
                         ident: None,
                         function: f,
-                    }) if matches!(&**f, Function {
-                        is_async: false,
-                        is_generator: false,
-                        body: Some(..),
-                        ..
-                    }) =>
+                    }) if matches!(
+                        &**f,
+                        Function {
+                            is_async: false,
+                            is_generator: false,
+                            body: Some(..),
+                            ..
+                        }
+                    ) =>
                     {
                         if f.params.is_empty() && f.body.as_ref().unwrap().stmts.len() == 1 {
                             if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) =
@@ -1165,7 +1172,20 @@ impl VisitMut for TreeShaker {
 
         if let Pat::Ident(i) = &v.name {
             let can_drop = if let Some(init) = &v.init {
-                !may_have_side_effects(&self.comments, init, self.expr_ctx)
+                (!may_have_side_effects(&self.comments, init, self.expr_ctx))
+                    || (
+                        // We can drop webpack require calls.
+                        match &**init {
+                            Expr::Call(CallExpr {
+                                callee: Callee::Expr(callee),
+                                ..
+                            }) => match &**callee {
+                                Expr::Ident(callee) => callee.sym == "__webpack_require__",
+                                _ => false,
+                            },
+                            _ => false,
+                        }
+                    )
             } else {
                 true
             };
