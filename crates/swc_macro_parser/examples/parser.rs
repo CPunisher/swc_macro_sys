@@ -26,5 +26,5 @@ pub fn main() {
 
     let parser = MacroParser::new("common");
     let macros = parser.parse(&comments);
-    println!("{:?}", macros);
+    println!("{macros:?}");
 }
