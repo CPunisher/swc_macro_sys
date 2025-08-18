@@ -6,10 +6,11 @@
 
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
-use thiserror::Error;
 use swc_core::ecma::ast::*;
-use swc_core::ecma::parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_core::ecma::parser::{Parser, StringInput, Syntax, lexer::Lexer};
 use swc_core::ecma::visit::{Visit, VisitWith};
+use thiserror::Error;
+
 // Removed unused imports: SourceMap, sync::Lrc
 
 /// Errors that can occur during webpack parsing
@@ -17,19 +18,19 @@ use swc_core::ecma::visit::{Visit, VisitWith};
 pub enum WebpackParseError {
     #[error("Failed to parse JavaScript: {0}")]
     ParseError(String),
-    
+
     #[error("Invalid webpack chunk format: {0}")]
     InvalidChunkFormat(String),
-    
+
     #[error("Module not found: {0}")]
     ModuleNotFound(String),
-    
+
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
-    
+
     #[error("JSON parsing error: {0}")]
     JsonError(#[from] serde_json::Error),
-    
+
     #[error("SWC parsing error: {0}")]
     SwcError(String),
 }
@@ -77,14 +78,14 @@ impl WebpackChunkVisitor {
             current_object_depth: 0,
         }
     }
-    
+
     fn extract_string_value(&self, expr: &Expr) -> Option<String> {
         match expr {
             Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
             _ => None,
         }
     }
-    
+
     fn extract_dependencies_from_function(&self, func: &Function) -> Vec<String> {
         let mut visitor = DependencyVisitor::new();
         if let Some(body) = &func.body {
@@ -92,13 +93,13 @@ impl WebpackChunkVisitor {
         }
         visitor.dependencies
     }
-    
+
     fn extract_dependencies_from_arrow_function(&self, arrow: &ArrowExpr) -> Vec<String> {
         let mut visitor = DependencyVisitor::new();
         arrow.body.visit_with(&mut visitor);
         visitor.dependencies
     }
-    
+
     fn extract_dependencies_from_call_expr(&self, call: &CallExpr) -> Vec<String> {
         let mut visitor = DependencyVisitor::new();
         call.visit_with(&mut visitor);
@@ -120,10 +121,10 @@ impl Visit for WebpackChunkVisitor {
                 }
             }
         }
-        
+
         call.visit_children_with(self);
     }
-    
+
     fn visit_object_lit(&mut self, obj: &ObjectLit) {
         // Do not attempt to extract module keys from arbitrary object literals.
         // We only extract module entries from the explicit modules object handled in extract_chunk_info.
@@ -132,12 +133,10 @@ impl Visit for WebpackChunkVisitor {
 }
 
 impl WebpackChunkVisitor {
-
-    
     fn extract_chunk_info(&mut self, args: &[ExprOrSpread]) {
         // Extract chunk information from push arguments
         // Expected format: push([chunk_names, {modules}]) - single array with two elements
-        
+
         if let Some(first_arg) = args.first() {
             if let Expr::Array(arr) = &*first_arg.expr {
                 // First element should be chunk names array
@@ -147,7 +146,9 @@ impl WebpackChunkVisitor {
                             // Extract chunk name from first array
                             if let Some(first_name) = chunk_names.elems.first() {
                                 if let Some(name_elem) = first_name {
-                                    if let Some(name) = self.extract_string_value(name_elem.expr.as_ref()) {
+                                    if let Some(name) =
+                                        self.extract_string_value(name_elem.expr.as_ref())
+                                    {
                                         self.chunk_name = name;
                                     }
                                 }
@@ -155,7 +156,7 @@ impl WebpackChunkVisitor {
                         }
                     }
                 }
-                
+
                 // Second element should be modules object
                 if arr.elems.len() >= 2 {
                     if let Some(second_elem) = arr.elems.get(1) {
@@ -174,7 +175,7 @@ impl WebpackChunkVisitor {
             }
         }
     }
-    
+
     fn extract_module_from_prop(&mut self, prop: &Prop) {
         if let Prop::KeyValue(kv) = prop {
             // Accept string or numeric module IDs only
@@ -199,7 +200,8 @@ impl WebpackChunkVisitor {
                     }
                     Expr::Paren(paren) => match paren.expr.as_ref() {
                         Expr::Fn(fn_expr) => {
-                            dependencies = self.extract_dependencies_from_function(&fn_expr.function);
+                            dependencies =
+                                self.extract_dependencies_from_function(&fn_expr.function);
                             true
                         }
                         Expr::Arrow(arrow) => {
@@ -250,11 +252,11 @@ impl Visit for DependencyVisitor {
                             // Handle string literals
                             Expr::Lit(Lit::Str(s)) => {
                                 self.dependencies.push(s.value.to_string());
-                            },
+                            }
                             // Handle numeric literals
                             Expr::Lit(Lit::Num(n)) => {
                                 self.dependencies.push(n.value.to_string());
-                            },
+                            }
                             // Handle other potential cases
                             _ => {}
                         }
@@ -262,7 +264,7 @@ impl Visit for DependencyVisitor {
                 }
             }
         }
-        
+
         call.visit_children_with(self);
     }
 }
@@ -272,32 +274,37 @@ impl WebpackChunkParser {
     pub fn new() -> Result<Self> {
         Ok(Self {})
     }
-    
+
     /// Parse a webpack chunk file and extract all module keys
     pub fn parse_chunk_file(&self, content: &str) -> Result<ChunkInfo> {
         // Parse the JavaScript using SWC
-        let input = StringInput::new(content, swc_core::common::BytePos(0), swc_core::common::BytePos(content.len() as u32));
+        let input = StringInput::new(
+            content,
+            swc_core::common::BytePos(0),
+            swc_core::common::BytePos(content.len() as u32),
+        );
         let lexer = Lexer::new(
             Syntax::Es(Default::default()),
             Default::default(),
             input,
             None,
         );
-        
+
         let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module()
-            .map_err(|e| WebpackParseError::SwcError(format!("Failed to parse JavaScript: {:?}", e)))?;
-        
+        let module = parser.parse_module().map_err(|e| {
+            WebpackParseError::SwcError(format!("Failed to parse JavaScript: {:?}", e))
+        })?;
+
         // Create a visitor to extract webpack chunk information
         let mut visitor = WebpackChunkVisitor::new();
         module.visit_with(&mut visitor);
-        
+
         if visitor.chunk_name.is_empty() {
             return Err(WebpackParseError::InvalidChunkFormat(
-                "Could not find webpack chunk structure".to_string()
+                "Could not find webpack chunk structure".to_string(),
             ));
         }
-        
+
         Ok(ChunkInfo {
             name: visitor.chunk_name,
             modules: visitor.modules,
@@ -331,28 +338,33 @@ impl WebpackChunkParser {
             )),
         }
     }
-    
+
     /// Get all module keys from a chunk
     pub fn get_module_keys(&self, chunk: &ChunkInfo) -> Vec<String> {
         chunk.modules.keys().cloned().collect()
     }
-    
+
     /// Get module by key
     pub fn get_module<'a>(&self, chunk: &'a ChunkInfo, key: &str) -> Option<&'a ModuleInfo> {
         chunk.modules.get(key)
     }
-    
+
     /// Get all modules with their dependencies
-    pub fn get_modules_with_dependencies(&self, chunk_info: &ChunkInfo) -> Vec<(String, Vec<String>)> {
-        chunk_info.modules.iter()
+    pub fn get_modules_with_dependencies(
+        &self,
+        chunk_info: &ChunkInfo,
+    ) -> Vec<(String, Vec<String>)> {
+        chunk_info
+            .modules
+            .iter()
             .map(|(key, module)| (key.clone(), module.dependencies.clone()))
             .collect()
     }
-    
+
     /// Parse multiple chunk files
     pub fn parse_multiple_chunks(&self, files: &[(String, String)]) -> Result<Vec<ChunkInfo>> {
         let mut chunks = Vec::new();
-        
+
         for (filename, content) in files {
             match self.parse_chunk_file(content) {
                 Ok(mut chunk) => {
@@ -367,7 +379,7 @@ impl WebpackChunkParser {
                 }
             }
         }
-        
+
         Ok(chunks)
     }
 
@@ -387,7 +399,11 @@ impl WebpackChunkParser {
 
     /// Build a full dependency tree starting from a module id.
     /// Cycles are represented by nodes with `cycle: true` and empty `dependencies`.
-    pub fn build_dependency_tree(&self, chunk: &ChunkInfo, start_id: &str) -> Option<DependencyNode> {
+    pub fn build_dependency_tree(
+        &self,
+        chunk: &ChunkInfo,
+        start_id: &str,
+    ) -> Option<DependencyNode> {
         if !chunk.modules.contains_key(start_id) {
             // If the start module isn't present, return None per API expectation
             return None;
@@ -406,7 +422,11 @@ impl WebpackChunkParser {
     ) -> DependencyNode {
         if !visiting.insert(id.to_string()) {
             // cycle detected
-            return DependencyNode { id: id.to_string(), cycle: Some(true), dependencies: vec![] };
+            return DependencyNode {
+                id: id.to_string(),
+                cycle: Some(true),
+                dependencies: vec![],
+            };
         }
 
         let deps = graph.get(id).cloned().unwrap_or_default();
@@ -416,13 +436,21 @@ impl WebpackChunkParser {
             let child_node = if chunk.modules.contains_key(&dep) {
                 self.build_node_rec(&dep, graph, chunk, visiting)
             } else {
-                DependencyNode { id: dep.clone(), cycle: None, dependencies: vec![] }
+                DependencyNode {
+                    id: dep.clone(),
+                    cycle: None,
+                    dependencies: vec![],
+                }
             };
             children.push(child_node);
         }
 
         visiting.remove(id);
-        DependencyNode { id: id.to_string(), cycle: None, dependencies: children }
+        DependencyNode {
+            id: id.to_string(),
+            cycle: None,
+            dependencies: children,
+        }
     }
 }
 

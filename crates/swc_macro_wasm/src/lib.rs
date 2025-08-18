@@ -1,10 +1,14 @@
+#![feature(box_patterns)]
+
 use wasm_bindgen::prelude::*;
 
+pub mod cjs_tree_shaker;
 mod dce;
+mod import_map;
 pub mod optimize;
 pub mod webpack_parser;
 
-pub use optimize::{optimize_with_prune_result, PruneResult};
+pub use optimize::{PruneResult, optimize_with_prune_result};
 use webpack_parser::WebpackChunkParser;
 
 #[wasm_bindgen]
@@ -20,7 +24,7 @@ pub fn parse_webpack_chunk(content: &str) -> String {
         Ok(parser) => parser,
         Err(e) => return format!("{{\"error\": \"{}\"}}", e),
     };
-    
+
     match parser.parse_chunk_file(content) {
         Ok(chunk) => {
             let module_keys = parser.get_module_keys(&chunk);
@@ -43,7 +47,7 @@ pub fn get_webpack_module_info(content: &str, module_key: &str) -> String {
         Ok(parser) => parser,
         Err(e) => return format!("{{\"error\": \"{}\"}}", e),
     };
-    
+
     match parser.parse_chunk_file(content) {
         Ok(chunk) => {
             if let Some(module) = parser.get_module(&chunk, module_key) {
@@ -65,7 +69,7 @@ pub fn get_webpack_dependency_graph(content: &str) -> String {
         Ok(parser) => parser,
         Err(e) => return format!("{{\"error\": \"{}\"}}", e),
     };
-    
+
     match parser.parse_chunk_file(content) {
         Ok(chunk) => {
             let graph = parser.build_dependency_graph(&chunk);
@@ -84,19 +88,18 @@ pub fn get_webpack_dependency_tree(content: &str, start_module_id: &str) -> Stri
         Ok(parser) => parser,
         Err(e) => return format!("{{\"error\": \"{}\"}}", e),
     };
-    
+
     match parser.parse_chunk_file(content) {
-        Ok(chunk) => {
-            match parser.build_dependency_tree(&chunk, start_module_id) {
-                Some(tree) => {
-                    match serde_json::to_string(&tree) {
-                        Ok(json) => json,
-                        Err(e) => format!("{{\"error\": \"{}\"}}", e),
-                    }
-                }
-                None => format!("{{\"error\": \"Failed to build dependency tree for module '{}'\"}}", start_module_id),
-            }
-        }
+        Ok(chunk) => match parser.build_dependency_tree(&chunk, start_module_id) {
+            Some(tree) => match serde_json::to_string(&tree) {
+                Ok(json) => json,
+                Err(e) => format!("{{\"error\": \"{}\"}}", e),
+            },
+            None => format!(
+                "{{\"error\": \"Failed to build dependency tree for module '{}'\"}}",
+                start_module_id
+            ),
+        },
         Err(e) => format!("{{\"error\": \"{}\"}}", e),
     }
 }
@@ -109,7 +112,8 @@ pub fn optimize_with_prune_result_json(source: &str, config: &str) -> String {
         Err(e) => return format!("{{\"error\": \"Invalid config: {}\"}}", e),
     };
 
-    let (optimized_source, prune) = optimize::optimize_with_prune_result(source.to_string(), config_value);
+    let (optimized_source, prune) =
+        optimize::optimize_with_prune_result(source.to_string(), config_value);
 
     // Build a JSON object manually to avoid requiring Serialize on PruneResult
     let prune_json = serde_json::json!({
@@ -128,5 +132,3 @@ pub fn optimize_with_prune_result_json(source: &str, config: &str) -> String {
         Err(e) => format!("{{\"error\": \"Failed to serialize result: {}\"}}", e),
     }
 }
-
-
