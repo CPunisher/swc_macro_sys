@@ -4,7 +4,7 @@ use swc_common::sync::Lrc;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_core::ecma::codegen;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Callee, Expr, MemberExpr, MemberProp, Program, Prop, PropName, PropOrSpread};
+use swc_ecma_ast::{Callee, Expr, ExprOrSpread, MemberExpr, MemberProp, Program, Prop, PropName, PropOrSpread};
 use swc_ecma_codegen::text_writer::WriteJs;
 use swc_ecma_codegen::{Emitter, text_writer};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
@@ -238,9 +238,39 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
 
             program.mutate(resolver(unresolved_mark, top_level_mark, false));
 
-            // Prune exports. We need to do this first, because this operation will give DCE a better chance to remove unused code.
-            let mut pruner = PruneExportsVisitor { dropped: HashSet::new() };
-            program.visit_mut_with(&mut pruner);
+            {
+                // Prune exports. We need to do this first, because this operation will give DCE a better chance to remove unused code.
+                let dropped_exports = config_clone
+                        .get("treeShake")
+                        .and_then(|ts| ts.as_object())
+                        .and_then(|obj| {
+                            // Get the first (and should be only) library config
+                            obj.values().next()
+                        })
+                        .map(|lib_config| {
+                            let mut lib = lib_config.clone();
+                            let lib=lib.as_object_mut().unwrap();
+                            lib.remove("chunk_characteristics"); // Remove chunk characteristics
+                           
+                            lib.iter().filter_map(|(k,v)|{ 
+                                match v.as_bool() {
+                                    Some(b) => {
+                                        if !b {
+                                            Some(k.to_string())
+                                        } else {
+                                            None
+                                        }
+                                    }
+                                    None => {None}
+                                }
+                            }).collect::<HashSet<_>>()
+                        });
+
+                if let Some(dropped_exports) = dropped_exports {    
+                    let mut pruner = PruneExportsVisitor { dropped: dropped_exports };
+                    program.visit_mut_with(&mut pruner);
+                }
+            }
 
             perform_dce(&mut program, comments.clone(), unresolved_mark);
 
