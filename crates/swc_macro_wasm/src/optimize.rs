@@ -449,32 +449,33 @@ impl VisitMut for PruneExportsVisitor {
     fn visit_mut_call_expr(&mut self, call: &mut swc_ecma_ast::CallExpr) {
         // We drop properties in the object of `__webpack_require__.d(__webpack_exports__, {})`
     
-        if let Callee::Expr(box Expr::Member(MemberExpr { obj: box Expr::Ident(obj), prop: MemberProp::Ident(prop),..})) = &call.callee {
-            if obj.sym.as_ref() == "__webpack_require__" && prop.sym.as_ref() == "d" {
-                if let Some(second) = call.args.get_mut(1) {
-                    if let Expr::Object(obj) = second.expr.as_mut() {
-                        obj.props.retain(|prop_or_spread| {
-                            if let PropOrSpread::Prop(p) = prop_or_spread {
-                                if let Prop::KeyValue(kv) = &**p {
-                                    match &kv.key {
-                                        PropName::Str(s) => {
-                                            if self.dropped.contains(&s.value.to_string()) {
-                                                return false;
+        if let Callee::Expr(callee) = &call.callee {
+            if let Expr::Member(MemberExpr { obj, prop: MemberProp::Ident(prop),..}) = &**callee {
+                if obj.is_ident_ref_to("__webpack_require__") && prop.sym.as_ref() == "d" {
+                    if let Some(second) = call.args.get_mut(1) {
+                        if let Expr::Object(obj) = second.expr.as_mut() {
+                            obj.props.retain(|prop_or_spread| {
+                                if let PropOrSpread::Prop(p) = prop_or_spread {
+                                    if let Prop::KeyValue(kv) = &**p {
+                                        match &kv.key {
+                                            PropName::Str(s) => {
+                                                if self.dropped.contains(&s.value.to_string()) {
+                                                    return false;
+                                                }
                                             }
-                                        }
-
-                                        PropName::Num(n) => {
-                                            if self.dropped.contains(&n.value.to_string()) {
-                                                return false;
+                                            PropName::Num(n) => {
+                                                if self.dropped.contains(&n.value.to_string()) {
+                                                    return false;
+                                                }
                                             }
-                                        }
 
-                                        _ => (),
+                                            _ => (),
+                                        }
                                     }
                                 }
-                            }
                             true
-                        });
+                            });
+                        }
                     }
                 }
             }
