@@ -6,17 +6,17 @@
   "main": "example_wasm_usage.js",
   "scripts": {
     "start": "node --experimental-wasm-modules example_wasm_usage.js",
-    "build": "pnpm run build:rust && pnpm run build:wasm && pnpm run build:js",
+    "build": "pnpm build:rust && pnpm build:wasm && pnpm run build:js",
     "build:rust": "cargo build --release --workspace",
     "build:wasm": "cd crates/swc_macro_wasm && wasm-pack build --release",
-    "build:js": "pnpm -r --filter=!examples/module-federation-example --filter=!examples/module-federation-web-example build",
+    "build:js": "cd examples/module-federation-react-example; pnpm build",
     "test": "pnpm run build && pnpm install && cargo test --workspace && pnpm -r test",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
     "test:coverage": "cargo tarpaulin --workspace --out Html --output-dir coverage/rust && vitest run --coverage",
     "lint": "cargo clippy --workspace -- -D warnings && pnpm -r lint",
     "clean": "cargo clean && pnpm -r clean && rimraf coverage",
-    "optimize": "pnpm -C examples/module-federation-example optimize && pnpm -C examples/module-federation-web-example optimize",
+    "optimize": "cd examples/module-federation-react-example; pnpm optimize",
     "postinstall": "pnpm run build:wasm"
   },
   "dependencies": {
