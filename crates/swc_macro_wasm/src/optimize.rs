@@ -4,7 +4,7 @@ use swc_common::sync::Lrc;
 use swc_common::{FileName, Mark, SourceMap};
 use swc_core::ecma::codegen;
 use swc_core::ecma::visit::{VisitMut, VisitMutWith};
-use swc_ecma_ast::{Expr, ExprOrSpread, Program, Prop, PropName};
+use swc_ecma_ast::{Callee, Expr, MemberExpr, MemberProp, Program, Prop, PropName, PropOrSpread};
 use swc_ecma_codegen::text_writer::WriteJs;
 use swc_ecma_codegen::{Emitter, text_writer};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
@@ -238,6 +238,10 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
 
             program.mutate(resolver(unresolved_mark, top_level_mark, false));
 
+            // Prune exports. We need to do this first, because this operation will give DCE a better chance to remove unused code.
+            let mut pruner = PruneExportsVisitor { dropped: HashSet::new() };
+            program.visit_mut_with(&mut pruner);
+
             perform_dce(&mut program, comments.clone(), unresolved_mark);
 
             program.mutate(fixer(Some(&comments)));
@@ -304,7 +308,7 @@ pub fn optimize_with_prune_result(source: String, config: serde_json::Value) -> 
                                 let all_modules: HashSet<String> = chunk.modules.keys().cloned().collect();
                                 let removed: Vec<String> = all_modules.difference(&keep).cloned().collect();
                                 let kept: Vec<String> = keep.into_iter().collect();
-                                
+
                                 prune_result = Some(PruneResult::new_pruned(kept, removed, original_count));
                                 
                                 // Mutate AST to remove unreachable module entries in the modules object
@@ -403,6 +407,52 @@ fn compute_reachable(graph: &HashMap<String, Vec<String>>, start: &str) -> HashS
     }
     visited
 }
+
+struct PruneExportsVisitor {
+    dropped: HashSet<String>,
+}
+
+impl VisitMut for PruneExportsVisitor {
+
+    fn visit_mut_call_expr(&mut self, call: &mut swc_ecma_ast::CallExpr) {
+        // We drop properties in the object of `__webpack_require__.d(__webpack_exports__, {})`
+    
+        if let Callee::Expr(box Expr::Member(MemberExpr { obj: box Expr::Ident(obj), prop: MemberProp::Ident(prop),..})) = &call.callee {
+            if obj.sym.as_ref() == "__webpack_require__" && prop.sym.as_ref() == "d" {
+                if let Some(second) = call.args.get_mut(1) {
+                    if let Expr::Object(obj) = second.expr.as_mut() {
+                        obj.props.retain(|prop_or_spread| {
+                            if let PropOrSpread::Prop(p) = prop_or_spread {
+                                if let Prop::KeyValue(kv) = &**p {
+                                    match &kv.key {
+                                        PropName::Str(s) => {
+                                            if self.dropped.contains(&s.value.to_string()) {
+                                                return false;
+                                            }
+                                        }
+
+                                        PropName::Num(n) => {
+                                            if self.dropped.contains(&n.value.to_string()) {
+                                                return false;
+                                            }
+                                        }
+
+                                        _ => (),
+                                    }
+                                }
+                            }
+                            true
+                        });
+                    }
+                }
+            }
+        }
+
+        call.visit_mut_children_with(self);
+    }
+}
+
+
 
 struct PruneModulesVisitor {
     keep: HashSet<String>,

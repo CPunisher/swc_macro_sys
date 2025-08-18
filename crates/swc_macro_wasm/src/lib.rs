@@ -1,3 +1,5 @@
+#![feature(box_patterns)]
+
 use wasm_bindgen::prelude::*;
 
 mod dce;
