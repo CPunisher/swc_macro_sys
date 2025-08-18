@@ -28,14 +28,15 @@ impl Metadata for Value {
     }
 
     fn evaluate_bool(&self, path: &str) -> bool {
+        // Conservative default: if the condition is not provided in metadata,
+        // treat it as "keep" (true) so we do not remove code implicitly.
         let Some(value) = self.query(path) else {
-            return false;
+            return true;
         };
 
-        // For simplification, we only evaluate values of bool type.
-        // We may evaluate other types like javascript
-        if let Some(bool) = value.as_bool() {
-            return bool;
+        // Only boolean values are considered. Non-boolean -> treat as false.
+        if let Some(boolean_value) = value.as_bool() {
+            return boolean_value;
         }
 
         false
