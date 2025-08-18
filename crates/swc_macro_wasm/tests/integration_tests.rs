@@ -6,7 +6,7 @@ use std::path::PathBuf;
 use serde_json::Value;
 
 fn read_jsonp_dir() -> PathBuf {
-    PathBuf::from("/Users/bytedance/dev/swc_macro_sys/tests/jsonp")
+    PathBuf::from("./tests/jsonp")
 }
 
 fn load_share_usage() -> Value {

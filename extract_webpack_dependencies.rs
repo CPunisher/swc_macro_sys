@@ -170,7 +170,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Default hardcoded example path if no CLI arg provided or not found
     if share_usage_paths.is_empty() {
-        let default_path = Path::new("/Users/bytedance/dev/swc_macro_sys/examples/module-federation-react-example/host/dist/share-usage.json");
+        let default_path = Path::new("./examples/module-federation-react-example/host/dist/share-usage.json");
         if default_path.exists() {
             share_usage_paths.push(default_path.to_path_buf());
         }
@@ -192,7 +192,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Fallback to the previous test jsonp dir if nothing found
     if js_files.is_empty() {
-        let jsonp_dir = "/Users/bytedance/dev/swc_macro_sys/tests/jsonp";
+        let jsonp_dir = "./tests/jsonp";
         println!("No chunk files found via share-usage.json, falling back to: {}", jsonp_dir);
         let entries = fs::read_dir(jsonp_dir)?;
         for entry in entries {
